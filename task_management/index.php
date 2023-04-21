@@ -81,9 +81,9 @@ if (isset($_POST['login'])) {
 
         </marquee>
     </div>
-
+    <div class="all-wrapper menu-side with-pattern">
         <div class="auth-box-w">
-            <div class="logo-w"><a href="">
+            <div class="logo-w"><a href="#">
       
                <img style="width: 100%;height: auto;" alt="" src="img/download"> 
             </a></div>

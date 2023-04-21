@@ -2,7 +2,7 @@
 
                             <div class="row">
                                  <div class="col-md-12">
-                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add New Employee</h5>                                   
+                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add New Compound</h5>                                   
                                 </div>  
                             </div>
                                   <form class="container" action="#" method="post" enctype="multipart/form-data">
@@ -17,47 +17,34 @@
                                 </fieldset>-->
 
                                 <div class="col-sm-3">
-                                    <div class="form-group"><label for="">Employee Code</label>
-                                        <input class="form-control" name="emp_code" placeholder="Employee Code" type="text">
+                                    <div class="form-group"><label for="">Pid</label>
+                                        <input class="form-control" name="id" placeholder="" type="text">
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <div class="form-group"><label for="">Name</label>
-                                        <input class="form-control" name="Name" placeholder="Name" type="text">
+                                    <div class="form-group"><label for="">Tire Description</label>
+                                        <input class="form-control" name="des" placeholder="" type="text">
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <div class="form-group"><label for="">Email ID</label>
-                                        <input class="form-control" name="emailid" placeholder="Email ID" type="email">
+                                    <div class="form-group"><label for="">Requirment</label>
+                                        <input class="form-control" name="req" placeholder="" type="text">
                                     </div>
                                 </div>
  <div class="col-sm-3">
-                                    <div class="form-group"><label for="">Mobile No.</label>
-                                        <input class="form-control" name="mobile" placeholder="Mobile No." type="text">
+                                    <div class="form-group"><label for="">Stocks</label>
+                                        <input class="form-control" name="stock" placeholder="" type="text">
                                     </div>
                                 </div>
+ 
  <div class="col-sm-3">
-                                    <div class="form-group"><label for="">Profile</label>
-                                        <input name="profile" type="file">
+                                    <div class="form-group"><label for="">To Be Produced</label>
+                                        <input class="form-control" name="tobe" placeholder="" type="text">
                                     </div>
                                 </div>
- <div class="col-sm-3">
-                                    <div class="form-group"><label for="">User ID</label>
-                                        <input class="form-control" name="userid" placeholder="User ID" type="text">
-                                    </div>
-                                </div>
-
- <div class="col-sm-3">
-                                    <div class="form-group"><label for="">Password</label>
-                                        <input class="form-control" name="pswd" placeholder="password" type="text">
-                                    </div>
-                                </div>
-
-
-
 
                                 <div class="form-buttons-w text-right">
-                                    <input class="btn btn-primary" type="submit" value="Add Employee" name="submit">
+                                    <input class="btn btn-primary" type="submit" value="Add Compund" name="submit">
                                 </div>
                             </div>
                         </form>
