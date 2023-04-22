@@ -46,10 +46,11 @@ class databaseSave {
     }
 
     function alert($tableNM) {
-        $news = $_POST['news'];
-        $Remark = $_POST['Remark'];
+        $date = $_POST['date'];
+        $pid = $_POST['pid'];
+        $Description = $_POST['Description'];
         $this->table_name = $tableNM;
-        $query = "INSERT INTO `news_and_update`(`news_title`, `remark`,created,news_type) VALUES ('$news','$Remark',now(),'alert')";
+        $query = "INSERT INTO compound_planning(date, pid, Description) VALUES ('$date','$pid','$Description')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {

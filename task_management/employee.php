@@ -141,7 +141,7 @@ END - Breadcrumbs
             switch ($source) {
 
                 case 'add_emp';
-                    include "includes/add_emp.php";
+                    include "includes/add_compund.php";
                     break;
 
                 case 'update_emp';
@@ -149,7 +149,7 @@ END - Breadcrumbs
                     break;
 
                 default:
-                    include "includes/emp_list.php";
+                    include "includes/compund_list.php";
                     break;
             }
             ?>

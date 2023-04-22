@@ -5,19 +5,19 @@
                 <div class="element-wrapper">
                     <div class="element-actions">
 <?php 
-$retailer_account = "SELECT id FROM emp_login where user_role='employee' ";
+$retailer_account = "SELECT id FROM emp_login where user_role='admin' ";
 $Total_emp = 0;
 if ($result = mysqli_query($connection, $retailer_account)) {
     $Total_emp = mysqli_num_rows($result);
 }
 
-$retailer_account = "SELECT id FROM emp_login where user_role='employee' and status='1' ";
+$retailer_account = "SELECT id FROM emp_login where user_role='admin' and status='1' ";
 $Active_emp = 0;
 if ($result = mysqli_query($connection, $retailer_account)) {
     $Active_emp = mysqli_num_rows($result);
 }
 
-$retailer_account = "SELECT id FROM emp_login where user_role='employee' and status='0' ";
+$retailer_account = "SELECT id FROM emp_login where user_role='admin' and status='0' ";
 $Deactive_emp = 0;
 if ($result = mysqli_query($connection, $retailer_account)) {
     $Deactive_emp = mysqli_num_rows($result);
