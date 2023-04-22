@@ -184,6 +184,8 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                       <!--------------------
     START - Sidebar
     -------------------->
+
+     <!--------------------
     <div class="content-panel">
         <div class="content-panel-close"><i class="os-icon os-icon-close"></i></div>
         <div class="element-wrapper">
@@ -209,6 +211,7 @@ if ($result = mysqli_query($connection, $retailer_account)) {
         </div>
 
     </div>
+       -------------------->
     <!--------------------
     END - Sidebar
     -------------------->

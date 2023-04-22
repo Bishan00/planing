@@ -28,7 +28,7 @@
                             <a href="Dashboard.php">
                                 <div class="icon-w">
                                     <div class="os-icon os-icon-layout"></div>
-                                </div><span>Dashboard</span></a>
+                                </div><span>Dhboard</span></a>
 
                         </li>
                         <li class="sub-header"><span>Settings</span></li>

@@ -5,7 +5,7 @@ include 'includes/db.php';
 <html>
 
     <head>
-        <title>Task Management Dashboard</title>
+        <title>ATIRE Planning department</title>
         <meta charset="utf-8">
         <meta content="ie=edge" http-equiv="x-ua-compatible">
         <meta content="template language" name="keywords">

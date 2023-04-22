@@ -2,7 +2,7 @@
                 START - Mobile Menu
                 -------------------->
                 <div class="menu-mobile menu-activated-on-click color-scheme-dark">
-                    <div class="mm-logo-buttons-w"><a class="mm-logo" href="#"><span>Task Management</span></a>
+                    <div class="mm-logo-buttons-w"><a class="mm-logo" href="#"><span>Atire Planing epartment</span></a>
                         <div class="mm-buttons">
                             <div class="content-panel-open">
                                 <div class="os-icon os-icon-grid-circles"></div>
@@ -185,7 +185,7 @@
                     <div class="logo-w">
                         <a class="logo" href="#">
                             <div class="logo-element"></div>
-                            <div class="logo-label">Task Mmanagement</div>
+                            <div class="logo-label"> Atire Planning department</div>
                         </a>
                     </div>
 <!--                      <div class="logged-user-w">
@@ -241,6 +241,61 @@
                                 </div><span>Dashboard</span></a>
 
                         </li>
+                       
+                        <li class="sub-header"><span>User Manager</span></li>
+                        <li class=" has-sub-menu">
+                            <a href="#">
+                                <div class="icon-w">
+                                    <div class="os-icon os-icon-users"></div>
+                                </div><span>Compound Planning</span></a>
+                            <div class="sub-menu-w">
+                                <div class="sub-menu-header">Compound Planning</div>
+                                <div class="sub-menu-icon"><i class="os-icon os-icon-users"></i></div>
+                                <div class="sub-menu-i">
+                                    <ul class="sub-menu">
+                                        <li><a href="add_compound.php">Add comopund</a></li>
+                                       
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                   
+                         <li class=" has-sub-menu">
+                            <a href="#">
+                                <div class="icon-w">
+                                    <div class="os-icon os-icon-wallet-loaded"></div>
+                                </div><span>Stocks</span></a>
+                            <div class="sub-menu-w">
+                                <div class="sub-menu-header">stock</div>
+                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
+                                <div class="sub-menu-i">
+                                    
+                                    <ul class="sub-menu">
+                                        <li><a href="assign_task.php">Add Stock</a></li>
+                                        
+                                    </ul>
+                                  
+                                </div>
+                            </div>
+                        </li>
+                                   <li class=" has-sub-menu">
+                            <a href="#">
+                                <div class="icon-w">
+                                    <div class="os-icon os-icon-wallet-loaded"></div>
+                                </div><span>Orders</span></a>
+                            <div class="sub-menu-w">
+                                <div class="sub-menu-header">Orders</div>
+                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
+                                <div class="sub-menu-i">
+                                    <ul class="sub-menu">
+                                            <li><a href="add_assets.php">Add Order</a></li>
+                                          
+                                           
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
                         <li class="sub-header"><span>Settings</span></li>
                         <li class=" has-sub-menu">
                             <a href="#">
@@ -252,69 +307,8 @@
                                 <div class="sub-menu-icon"><i class="os-icon os-icon-users"></i></div>
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
-                                        <li><a href="bank_details.php">Bank Details</a></li>
-                                        <li><a href="download.php">Document Upload</a></li>
+                                     
                                         <li><a href="add_alert.php">Alert</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="sub-header"><span>User Manager</span></li>
-                        <li class=" has-sub-menu">
-                            <a href="#">
-                                <div class="icon-w">
-                                    <div class="os-icon os-icon-users"></div>
-                                </div><span>Employee User</span></a>
-                            <div class="sub-menu-w">
-                                <div class="sub-menu-header">Employee User</div>
-                                <div class="sub-menu-icon"><i class="os-icon os-icon-users"></i></div>
-                                <div class="sub-menu-i">
-                                    <ul class="sub-menu">
-                                        <li><a href="employee.php?source=add_emp">Create Employee Account</a></li>
-                                        <li><a href="employee.php">Employee Account List</a></li>
-                                        <li><a href="employee_active.php">Employee Account Activate</a></li>
-                                        <li><a href="employee_deactive.php">Deactivate Employee Account</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                   
-                         <li class=" has-sub-menu">
-                            <a href="#">
-                                <div class="icon-w">
-                                    <div class="os-icon os-icon-wallet-loaded"></div>
-                                </div><span>Task Management</span></a>
-                            <div class="sub-menu-w">
-                                <div class="sub-menu-header">Task Management</div>
-                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
-                                <div class="sub-menu-i">
-                                    <ul class="sub-menu">
-                                        <li><a href="assign_task.php">Assign Task</a></li>
-                                        <li><a href="assign_task_list.php">Task List</a></li>  
-                                        <li><a href="assign_task_open_list.php">Open Task</a></li>  
-                                        <li><a href="assign_task_list_close.php">Close Task</a></li>  
-                                        <li><a href="assign_task_list_wip.php">WIP(Work In Process) Task</a></li>  
-                                        <li><a href="assign_task_list_cancel.php">Cancel Task</a></li>  
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                                   <li class=" has-sub-menu">
-                            <a href="#">
-                                <div class="icon-w">
-                                    <div class="os-icon os-icon-wallet-loaded"></div>
-                                </div><span>Assets Management System</span></a>
-                            <div class="sub-menu-w">
-                                <div class="sub-menu-header">Assets Management</div>
-                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
-                                <div class="sub-menu-i">
-                                    <ul class="sub-menu">
-                                            <li><a href="add_assets.php">Add Asset</a></li>
-                                         <li><a href="assets_list.php">Asset List</a></li>
-                                           <li><a href="emp_assign_assets.php">Assign Employee Asset</a></li>  
-                                            <li><a href="emp_assign_assets_list.php">Assign Employee Asset List</a></li>  
-                                            <li><a href="emp_assign_assets.php">Assign Employee Asset</a></li>  
-                                           
                                     </ul>
                                 </div>
                             </div>
