@@ -1,10 +1,11 @@
+
 <?php
 include './includes/admin_header.php';
 include './includes/data_base_save_update.php';
 $msg = '';
 $AppCodeObj = new databaseSave();
 if (isset($_POST['submit'])) {
-    $msg = $AppCodeObj->addstock("stock");
+    $msg = $AppCodeObj->addorder("torder");
 }
 
 
@@ -50,8 +51,8 @@ END - Breadcrumbs
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">count stock</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    <div class="form-group"><label for="">cound order</label>
+                                        <input class="form-control" name="corder" placeholder="" type="varchar">
                                     </div>
                                 </div>
                            

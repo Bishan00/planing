@@ -4,7 +4,7 @@ include './includes/data_base_save_update.php';
 $msg = '';
 $AppCodeObj = new databaseSave();
 if (isset($_POST['submit'])) {
-    $msg = $AppCodeObj->alert("compund_planning");
+    $msg = $AppCodeObj->addcom("compound_planning");
 }
 
 
@@ -39,7 +39,7 @@ END - Breadcrumbs
                     
                             <div class="row">
                                  <div class="col-md-12">
-                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add Compund plan</h5>                                   
+                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add Compound plan</h5>                                   
                                 </div>  
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Date</label>

@@ -82,22 +82,8 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                     
                         </div>
                            <div class="element-box">
-<table class="dataTable table table-responsive">
-                    <tr>
-                        <th>S No.</th>
-                        <!--<th>Emp Code</th>-->
-                        <th>Emp Name</th>
-                         <th>Mobile No</th>
-                        <th>Total</th>    
-                        <th>Open</th>                          
-                            <th>WIP</th>                            
-                            <th>Close</th>
-                             <th>Cancel</th>
-                              <!--<th>Date</th>-->
-                              <!--<th>Status</th>-->
-                               <!--<th>Edit</th>-->
-                          <!--<th>Delete</th>-->
-                    </tr>
+
+                    
                                                                <?php
                  $qry = mysqli_query($connection, "SELECT * FROM emp_login where user_role='employee'") or die("select query fail" . mysqli_error());
 $count = 0;

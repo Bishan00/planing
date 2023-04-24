@@ -132,18 +132,10 @@ END - Breadcrumbs
               <div class="element-box">
 <table class="dataTable table table-responsive">
                     <tr>
-                        <th>S No.</th>
-                        <th>Emp Code</th>
-                        <th>Name</th>
-                         <th>Mobile No</th>
-                          <th>Email ID</th>
-                           <th>User ID</th>
-                            <th>PSWD</th>
-                             <th>Profile</th>
-                              <th>Date</th>
-                              <th>Status</th>
-                               <th>Edit</th>
-                          <th>Delete</th>
+                        <th>null</th>
+                        <th>null2</th>
+                        
+                   
                     </tr>
                                                                <?php
                  $qry = mysqli_query($connection, "SELECT * FROM emp_login where status='1' and user_role='employee'") or die("select query fail" . mysqli_error());
