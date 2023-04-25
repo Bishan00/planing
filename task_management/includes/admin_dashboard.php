@@ -84,7 +84,12 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                        
                                 </a>
                             </div>
-                         
+                            <div class="col-sm-4 col-xxxl-3">
+                                <a class="element-box el-tablo" href="bom_all.php">
+                                    <div class="label">Curing Plan</div>
+                       
+                                </a>
+                            </div>
                     
                         </div>
                            <div class="element-box">

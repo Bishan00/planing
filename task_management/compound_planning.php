@@ -27,11 +27,11 @@ END - Breadcrumbs
 <tr>
 
             <th>To be produced</th>
-			<th>date</th>
-			<th>pid</th>
-			<th>Description</th>
-            <th>Orders</th>
-			<th>Stock</th>
+			<th>Compound Type</th>
+	        <th>Week1 Day1</th>
+            <th>Week2 Day2</th>
+            <th>day3</th>
+
 			
 		</tr>
                                                                <?php
