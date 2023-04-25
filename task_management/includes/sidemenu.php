@@ -296,6 +296,25 @@
                             </div>
                         </li>
 
+                        
+                        <li class=" has-sub-menu">
+                            <a href="#">
+                                <div class="icon-w">
+                                    <div class="os-icon os-icon-wallet-loaded"></div>
+                                </div><span>BOM</span></a>
+                            <div class="sub-menu-w">
+                                <div class="sub-menu-header">Bom</div>
+                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
+                                <div class="sub-menu-i">
+                                    <ul class="sub-menu">
+                                            <li><a href="add_order.php">add BOM</a></li>
+                                          
+                                           
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
                         <li class="sub-header"><span>Settings</span></li>
                         <li class=" has-sub-menu">
                             <a href="#">

@@ -25,30 +25,44 @@ END - Breadcrumbs
               <div class="element-box">
 <table class="dataTable table table-responsive">
 <tr>
-			<th>date</th>
-			<th>pid</th>
+			<th>PID</th>
 			<th>Description</th>
-            <th>Orders</th>
-			<th>Stock</th>
-			<th>To be produced</th>
+            <th>Tire Size</th>
+            <th>Brand</th>
+            <th>Colour</th>
+            <th>Rim Width</th>
+            <th>Compound Weight</th>
+            <th>Total Weigth</th>
+			<th>Finished tire weight</th>
+            <th>Steel band type</th>
+            <th>Steel band weight</th>
+            <th>Bead type</th>
+            <th>Noof Bead</th>
+            <th>Profile Type</th>
+            <th>Profile weight</th>
+            <th>Base type</th>
+            <th>Base weight</th>
+            <th>Bonding Type</th>
+            
+
 		</tr>
                                                                <?php
-               $qry=mysqli_query($connection, "SELECT * FROM `compound_planning` LEFT JOIN `torder` ON torder.pid = compound_planning.pid") or die(mysqli_error());
+               $qry=mysqli_query($connection, "SELECT * FROM bom");
 while ($row = mysqli_fetch_assoc($qry)) {
 
   
    
-            $date = $row['date'];
+            
             $pid = $row['pid'];
             $Description = $row['Description'];
-            $corder = $row['corder'];
+        
     
     ?>
                     <tr>
-  <td><?php echo $date;?></td>
+
   <td><?php echo $pid;?></td>
   <td><?php echo $Description;?></td>
-  <td><?php echo $corder;?></td> 
+
 
   
 

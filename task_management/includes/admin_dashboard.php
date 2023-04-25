@@ -60,25 +60,31 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="employee.php">
                                     <div class="label">Compound Planning</div>
-                                    <div class="value"><?php echo $Total_emp; ?></div>
+                                 
  </a>
                             </div>
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="employee_active.php">
                                     <div class="label">Orders</div>
-                                    <div class="value"><?php echo $Active_emp; ?></div>
-                                    <!--                                                    <div class="trending trending-down-basic"><span>9%</span><i class="os-icon os-icon-arrow-down"></i></div>-->
+                                    
+
                                 </a>
                             </div>
 
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="employee_deactive.php">
                                     <div class="label">Stocks</div>
-                                    <div class="value"><?php echo $Deactive_emp; ?></div>
+                                
                                 </a>
                             </div>
                          
-                            
+                            <div class="col-sm-4 col-xxxl-3">
+                                <a class="element-box el-tablo" href="BOM.php">
+                                    <div class="label">BOM</div>
+                       
+                                </a>
+                            </div>
+                         
                     
                         </div>
                            <div class="element-box">

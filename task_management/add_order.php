@@ -51,7 +51,7 @@ END - Breadcrumbs
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">cound order</label>
+                                    <div class="form-group"><label for="">count order</label>
                                         <input class="form-control" name="corder" placeholder="" type="varchar">
                                     </div>
                                 </div>

@@ -19,7 +19,7 @@
 	</thead>
 	<tbody>
 		<?php
-			$query=mysqli_query($conn, "SELECT * FROM `compound_planning` , 'stock' LEFT JOIN `torder` ON torder.pid = compound_planning.pid") or die(mysqli_error());
+			$query=mysqli_query($conn, "SELECT * FROM `compound_planning`  LEFT JOIN `torder` ON torder.pid = compound_planning.pid") or die(mysqli_error());
 			while($fetch=mysqli_fetch_array($query)){
 		?>
 		<tr>
