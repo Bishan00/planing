@@ -1,3 +1,6 @@
+
+
+
 <?php
 include './includes/admin_header.php';
 include './includes/data_base_save_update.php';
@@ -23,7 +26,8 @@ END - Breadcrumbs
     <div class="content-box">
         <div class="element-wrapper">
               <div class="element-box">
-<table class="dataTable table table-responsive">
+              <table id="dtHorizontalVerticalExample" class="table table-striped table-bordered table-sm " cellspacing="0"
+  width="100%">
 <tr>
 			<th>PID</th>
 			<th>Description</th>
@@ -43,6 +47,11 @@ END - Breadcrumbs
             <th>Base type</th>
             <th>Base weight</th>
             <th>Bonding Type</th>
+            <th>Bonding weight</th>
+            <th>Cushion type</th>
+            <th>Cushion weight</th>
+            <th>threat</th>
+
             
 
 		</tr>
