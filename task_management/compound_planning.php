@@ -25,12 +25,14 @@ END - Breadcrumbs
               <div class="element-box">
 <table class="dataTable table table-responsive">
 <tr>
+
+            <th>To be produced</th>
 			<th>date</th>
 			<th>pid</th>
 			<th>Description</th>
             <th>Orders</th>
 			<th>Stock</th>
-			<th>To be produced</th>
+			
 		</tr>
                                                                <?php
                $qry=mysqli_query($connection, "SELECT * FROM `compound_planning` LEFT JOIN `torder` ON torder.pid = compound_planning.pid") or die(mysqli_error());

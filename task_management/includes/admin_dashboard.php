@@ -58,7 +58,7 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                     <div class="element-content">
                         <div class="row">
                             <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="employee.php">
+                                <a class="element-box el-tablo" href="compound_planning.php">
                                     <div class="label">Compound Planning</div>
                                  
  </a>
@@ -79,7 +79,7 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                             </div>
                          
                             <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="BOM.php">
+                                <a class="element-box el-tablo" href="bom_all.php">
                                     <div class="label">BOM</div>
                        
                                 </a>
