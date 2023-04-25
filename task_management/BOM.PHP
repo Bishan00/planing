@@ -1,42 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Funda Of Web IT</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h4>BOM</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-7">
+
+                                <form action="" method="GET">
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="search" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search data">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-
-<?php
-include './includes/admin_header.php';
-include './includes/data_base_save_update.php';
-$msg = '';
-$AppCodeObj = new databaseSave();
-
-
-
-
-?>
-<!--------------------
-START - Breadcrumbs
--------------------->
-<ul class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><span>Employee</span></li>
-</ul>
-<!--------------------
-END - Breadcrumbs
--------------------->
-<div class="content-panel-toggler"><i class="os-icon os-icon-grid-squares-22"></i><span>Sidebar</span></div>
-<div class="content-i">
-    <div class="content-box">
-        <div class="element-wrapper">
-              <div class="element-box">
-              <table id="dtHorizontalVerticalExample" class="table table-striped table-bordered table-sm " cellspacing="0"
-  width="100%">
-<tr>
-			<th>PID</th>
+                
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                        <tr class="header">
+                        <th>PID</th>
 			<th>Description</th>
             <th>Tire Size</th>
             <th>Brand</th>
+            <th>Type</th>
             <th>Colour</th>
             <th>Rim Width</th>
             <th>Compound Weight</th>
             <th>Total Weigth</th>
+            <th>With steel</th>
+            <th>Bead</th>
 			<th>Finished tire weight</th>
             <th>Steel band type</th>
             <th>Steel band weight</th>
@@ -53,41 +66,75 @@ END - Breadcrumbs
             <th>threat</th>
 
             
+            
 
 		</tr>
-                                                               <?php
-               $qry=mysqli_query($connection, "SELECT * FROM bom");
-while ($row = mysqli_fetch_assoc($qry)) {
+                            <tbody>
+                                <?php 
+                                    $con = mysqli_connect("localhost","root","","task_management");
 
-  
-   
-            
-            $pid = $row['pid'];
-            $Description = $row['Description'];
-        
-    
-    ?>
-                    <tr>
+                                    if(isset($_GET['search']))
+                                    {
+                                        $filtervalues = $_GET['search'];
+                                        $query = "SELECT * FROM bom WHERE CONCAT(pid) LIKE '%$filtervalues%' ";
+                                        $query_run = mysqli_query($con, $query);
 
-  <td><?php echo $pid;?></td>
-  <td><?php echo $Description;?></td>
+                                        if(mysqli_num_rows($query_run) > 0)
+                                        {
+                                            foreach($query_run as $items)
+                                            {
+                                                ?>
+                                                <tr>
+                                                    <td><?= $items['pid']; ?></td>
+                                                    <td><?= $items['Description']; ?></td>
+                                                    <td><?= $items['Tsize']; ?></td>
+                                                    <td><?= $items['brand']; ?></td>
+                                                    <td><?= $items['type']; ?></td>
+                                                    <td><?= $items['colour']; ?></td>
+                                                    <td><?= $items['rwidth']; ?></td>
+                                                    <td><?= $items['comweight']; ?></td>
+                                                    <td><?= $items['tweight']; ?></td>
+                                                    <td><?= $items['withsteel']; ?></td>
+                                                    <td><?= $items['bead']; ?></td>
+                                                    <td><?= $items['finishweight']; ?></td>
+                                                    <td><?= $items['sbtype']; ?></td>
+                                                    <td><?= $items['sbweight']; ?></td>
+                                                    <td><?= $items['beadtype']; ?></td>
+                                                    <td><?= $items['Nbead']; ?></td>
+                                                    <td><?= $items['ptype']; ?></td>
+                                                    <td><?= $items['pweight']; ?></td>
+                                                    <td><?= $items['btype']; ?></td>
+                                                    <td><?= $items['bweight']; ?></td>
+                                                    <td><?= $items['bontype']; ?></td>
+                                                    <td><?= $items['bonweight']; ?></td>
+                                                    <td><?= $items['ctype']; ?></td>
+                                                    <td><?= $items['cweight']; ?></td>
+                                                    <td><?= $items['threat']; ?></td>
+                                                  
+                                                    
 
-
-  
-
-
-    
-                    </tr>
-<?php }?>
-                </table>
-   </div>
+                                                <?php
+                                            }
+                                        }
+                                        else
+                                        {
+                                            ?>
+                                                <tr>
+                                                    <td colspan="4">No Record Found</td>
+                                                </tr>
+                                            <?php
+                                        }
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
 
-
-
-<?php include './includes/Plugin.php'; ?>
-<?php include './includes/admin_footer.php'; ?>
-                                
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
