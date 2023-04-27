@@ -247,13 +247,13 @@
                             <a href="#">
                                 <div class="icon-w">
                                     <div class="os-icon os-icon-wallet-loaded"></div>
-                                </div><span>Compound Planning</span></a>
+                                </div><span>work order</span></a>
                             <div class="sub-menu-w">
-                                <div class="sub-menu-header">Compound Planning</div>
+                                <div class="sub-menu-header">Work Order</div>
                                 <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
-                                        <li><a href="add_compound.php">Add comopund</a></li>
+                                        <li><a href="add_workorder.php">Add Work Order</a></li>
                                        
                                     </ul>
                                 </div>

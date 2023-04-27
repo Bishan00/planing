@@ -4,7 +4,7 @@ include './includes/data_base_save_update.php';
 $msg = '';
 $AppCodeObj = new databaseSave();
 if (isset($_POST['submit'])) {
-    $msg = $AppCodeObj->addcom("compound_planning");
+    $msg = $AppCodeObj->addwork("work_order");
 }
 
 
@@ -31,21 +31,32 @@ END - Breadcrumbs
                     
                             <div class="row">
                                  <div class="col-md-12">
-                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add Compound plan</h5>                                   
+                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add work order</h5>                                   
                                 </div>  
+
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Date</label>
                                         <input class="form-control" name="date" placeholder="" type="date">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Compound Type</label>
-                                        <input class="form-control" name="Ctype" placeholder="" type="varchar">
+                                    <div class="form-group"><label for="">Ref.ERP CO.No</label>
+                                        <input class="form-control" name="Rno" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Plan Compound</label>
-                                        <input class="form-control" name="plan" placeholder="" type="text">
+                                    <div class="form-group"><label for="">Customer</label>
+                                        <input class="form-control" name="Customer" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Order Ref</label>
+                                        <input class="form-control" name="ref" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">W.O. NO</label>
+                                        <input class="form-control" name="wono" placeholder="" type="varchar">
                                     </div>
                                 </div>
                            
