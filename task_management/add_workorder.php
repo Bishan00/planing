@@ -26,7 +26,7 @@ END - Breadcrumbs
             <div class="element-box">
                 <div class="row">
                     <div class="col-md-6">
-                <form action="#" method="post" enctype="multipart/form-data">
+                <form action="work_order.php" method="post" enctype="multipart/form-data">
 
                     
                             <div class="row">
@@ -61,7 +61,11 @@ END - Breadcrumbs
                                 </div>
                            
                             <div class="form-buttons-w text-right">
-                                <input class="btn btn-primary" type="submit" value="Submit Now" name="submit">
+                                <input class="btn btn-primary" type="submit" value="Submit Now" name="submit" action="work_order.php">
+                                
+
+      
+    </form>
                             </div>
                         </div>
                 </form>
