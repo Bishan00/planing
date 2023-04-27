@@ -94,48 +94,33 @@ class databaseSave {
        
         $pid = $_POST['pid'];
         $Description = $_POST['Description'];
-        $tsize = $_POST['Tsize'];
+        $Tsize = $_POST['Tsize'];
         $brand = $_POST['brand'];
-
         $type = $_POST['type'];
         $colour = $_POST['colour'];
         $rwidth = $_POST['rwidth'];
         $comweight = $_POST['comweight'];
-
-      
         $tweight = $_POST['tweight'];
         $withsteel = $_POST['withsteel'];
         $bead = $_POST['bead'];
-
         $finishweight = $_POST['finishweight'];
         $sbtype = $_POST['sbtype'];
         $sbweight = $_POST['sbweight'];
         $beadtype = $_POST['beadtype'];
-
-        $finishweight = $_POST['Nbead'];
-        $sbtype = $_POST['ptype'];
-        $sbweight = $_POST['pweight'];
-        $beadtype = $_POST['btype'];
-
+        $Nbead = $_POST['Nbead'];
+        $ptype = $_POST['ptype'];
+        $pweight = $_POST['pweight'];
+        $btype = $_POST['btype'];
         $bweight = $_POST['bweight'];
         $bontype = $_POST['bontype'];
         $bonweight = $_POST['bonweight'];
         $ctype = $_POST['ctype'];
+        $cweight = $_POST['cweight'];
+        $threat = $_POST['threat'];
 
-        $bonweight = $_POST['cweight'];
-        $ctype = $_POST['threat'];
-
-
-
-
-
-
-
-
-
-
-        $this->table_name = $tableNM;
-        $query = "INSERT INTO bom(pid, Description) VALUES ('$pid','$Description')";
+       $this->table_name = $tableNM;
+     
+        $query = "INSERT INTO bom(pid, Description,Tsize,brand,type,colour,rwidth,comweight,tweight,withsteel,bead,finishweight,sbtype,sbweight,beadtype,Nbead,ptype,pweight,btype,bweight,bontype,bonweight,ctype,cweight,threat) VALUES ('$pid','$Description','$Tsize', '$brand','$type','$colour', '$rwidth', '$comweight', '$tweight','$withsteel','$bead','$finishweight','$sbtype','$sbweight', '$beadtype', '$Nbead', '$ptype','$pweight','$btype','$bweight','$bontype','$bonweight','$ctype','$cweight','$threat')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
