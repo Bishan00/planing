@@ -288,7 +288,7 @@
                                 <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
-                                            <li><a href="add_order.php">Add Order</a></li>
+                                            <li><a href="add_order.php">Add Compound Order </a></li>
                                           
                                            
                                     </ul>
@@ -307,7 +307,7 @@
                                 <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
-                                            <li><a href="add_order.php">add BOM</a></li>
+                                            <li><a href="add_bom.php">add BOM</a></li>
                                           
                                            
                                     </ul>

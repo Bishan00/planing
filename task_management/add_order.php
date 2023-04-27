@@ -46,8 +46,8 @@ END - Breadcrumbs
                                 
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Pid</label>
-                                        <input class="form-control" name="pid" placeholder="" type="text">
+                                    <div class="form-group"><label for="">Compund Type</label>
+                                        <input class="form-control" name="Ctype" placeholder="" type="text">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">

@@ -47,10 +47,10 @@ class databaseSave {
 
     function addcom($tableNM) {
         $date = $_POST['date'];
-        $pid = $_POST['pid'];
-        $Description = $_POST['Description'];
+        $Ctype = $_POST['Ctype'];
+        $plan = $_POST['plan'];
         $this->table_name = $tableNM;
-        $query = "INSERT INTO compound_planning(date, pid, Description) VALUES ('$date','$pid','$Description')";
+        $query = "INSERT INTO compound_planning(date, Ctype, plan) VALUES ('$date','$Ctype','$plan')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
@@ -77,10 +77,10 @@ class databaseSave {
 
     function addorder($tableNM) {
        
-        $pid = $_POST['pid'];
+        $Ctype = $_POST['Ctype'];
         $corder = $_POST['corder'];
         $this->table_name = $tableNM;
-        $query = "INSERT INTO torder(pid, corder) VALUES ('$pid','$corder')";
+        $query = "INSERT INTO torder(Ctype, corder) VALUES ('$Ctype','$corder')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
@@ -90,6 +90,60 @@ class databaseSave {
         }
     }
    
+    function add_bom($tableNM) {
+       
+        $pid = $_POST['pid'];
+        $Description = $_POST['Description'];
+        $tsize = $_POST['Tsize'];
+        $brand = $_POST['brand'];
+
+        $type = $_POST['type'];
+        $colour = $_POST['colour'];
+        $rwidth = $_POST['rwidth'];
+        $comweight = $_POST['comweight'];
+
+      
+        $tweight = $_POST['tweight'];
+        $withsteel = $_POST['withsteel'];
+        $bead = $_POST['bead'];
+
+        $finishweight = $_POST['finishweight'];
+        $sbtype = $_POST['sbtype'];
+        $sbweight = $_POST['sbweight'];
+        $beadtype = $_POST['beadtype'];
+
+        $finishweight = $_POST['Nbead'];
+        $sbtype = $_POST['ptype'];
+        $sbweight = $_POST['pweight'];
+        $beadtype = $_POST['btype'];
+
+        $bweight = $_POST['bweight'];
+        $bontype = $_POST['bontype'];
+        $bonweight = $_POST['bonweight'];
+        $ctype = $_POST['ctype'];
+
+        $bonweight = $_POST['cweight'];
+        $ctype = $_POST['threat'];
+
+
+
+
+
+
+
+
+
+
+        $this->table_name = $tableNM;
+        $query = "INSERT INTO bom(pid, Description) VALUES ('$pid','$Description')";
+        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $insert_service = mysqli_query($connection, $query);
+        if (!$insert_service) {
+            die('QUERY FAILD alert' . mysqli_error($connection));
+        } else {
+            return 'pass';
+        }
+    }
    
 
     function alert($tableNM) {

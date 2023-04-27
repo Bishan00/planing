@@ -8,14 +8,6 @@ if (isset($_POST['submit'])) {
 }
 
 
-/*if(isset($_GET['delete']))
-{
-    $id=$_GET['delete'];
-    $delete= mysqli_query($connection, "delete from news_and_update where news_id='$id'");
-}
-*/
-
-
 ?>
 <!--------------------
 START - Breadcrumbs
@@ -47,13 +39,13 @@ END - Breadcrumbs
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Pid</label>
-                                        <input class="form-control" name="pid" placeholder="" type="text">
+                                    <div class="form-group"><label for="">Compound Type</label>
+                                        <input class="form-control" name="Ctype" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Decription</label>
-                                        <input class="form-control" name="Description" placeholder="" type="varchar">
+                                    <div class="form-group"><label for="">Plan Compound</label>
+                                        <input class="form-control" name="plan" placeholder="" type="text">
                                     </div>
                                 </div>
                            
