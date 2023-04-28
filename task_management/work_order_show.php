@@ -26,12 +26,20 @@ END - Breadcrumbs
 <table class="dataTable table table-responsive">
 <tr>
 
-            <th>To be produced</th>
-			<th>Compound Type</th>
-	        <th>Week1 Day1</th>
-            <th>Week2 Day2</th>
-            <th>day3</th>
+<th>Item Code</th>
+    <th>Tire Size</th>
+    <th>Brand</th>
+    <th>Colour</th>
+    <th>Item Code</th>
+    <th>Tire Size</th>
 
+    <th>Construction</th>
+    <th>Average Finish
+    Tyre weight - kgs</th>
+    <th>Per Voloume/cbm</th>
+    <th>Qty New pcs</th>
+    <th>Total Volume cbm</th>
+    <th>Total Tones kgs</th>
 			
 		</tr>
                                                                <?php

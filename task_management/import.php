@@ -13,16 +13,27 @@ if(move_uploaded_file($_FILES['excel_file']['tmp_name'],$_FILES['excel_file']['n
     $foo = $excel->parser->getField(); 
 
     $count = 1;
-    $db = mysqli_connect('localhost','root','','import_excel_php');
+    $db = mysqli_connect('localhost','root','','task_management');
 
     while(count($foo)>$count){
-        $roll = $foo[$count][0];
-        $name = $foo[$count][1];
-        $email = $foo[$count][2];
-        $mobile = $foo[$count][3];
+        $icode = $foo[$count][0];
+        $t_size = $foo[$count][1];
+        $brand = $foo[$count][2];
+        $col = $foo[$count][3];
+        $fit= $foo[$count][4];
+        $rim = $foo[$count][5];
+        $cons = $foo[$count][6];
+        $fweight= $foo[$count][7];
+        $ptv= $foo[$count][8];
+         $new= $foo[$count][9];
+         $cbm= $foo[$count][10];
+         $kgs= $foo[$count][11];
 
-        $query = "INSERT INTO students (roll_no,name,mobile,email) ";
-        $query.="VALUES ('$roll','$name','$mobile','$email')";
+     
+
+
+        $query = "INSERT INTO worder (icode,t_size,brand,col,fit,rim,cons,fweight,ptv,new,cbm,kgs) ";
+        $query.="VALUES ('$icode','$t_size','$brand','$col','$fit','$rim','$cons','$fweight','$ptv','$new','$cbm','$kgs')";
         mysqli_query($db,$query);
         $count++;
     }

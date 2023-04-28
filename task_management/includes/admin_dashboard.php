@@ -58,8 +58,8 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                     <div class="element-content">
                         <div class="row">
                             <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="compound_planning.php">
-                                    <div class="label">Compound Planning</div>
+                                <a class="element-box el-tablo" href="work_order_show.php">
+                                    <div class="label">Work Order</div>
                                  
  </a>
                             </div>

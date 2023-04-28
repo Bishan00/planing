@@ -76,7 +76,11 @@ class databaseSave {
             return 'pass';
         }
     }
-
+    function addw($tableNM) {
+        $db = mysqli_connect('localhost','root','','task_management');
+        $query="SELECT * FROM worder";
+        $row = mysqli_query($db,$query);
+    }
     function addstock($tableNM) {
         
         $pid = $_POST['pid'];
