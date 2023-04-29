@@ -1,56 +1,40 @@
 <?php
+// connect to MySQL database
+$host = 'localhost';
+$username = 'your_username';
+$password = 'your_password';
+$database = 'your_database';
 
-// Define database connection parameters
-$host = "localhost";
-$username = "your_username";
-$password = "your_password";
-$dbname = "your_database_name";
+$conn = mysqli_connect($host, $username, $password, $database);
 
-// Connect to database
-$conn = mysqli_connect($host, $username, $password, $dbname);
-
-// Check connection
 if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
+  die('Failed to connect to database: ' . mysqli_connect_error());
 }
 
-// Get the ID from the search box
-$id = $_GET['id'];
+// retrieve data from a form and insert into first table
+$name = $_POST['name'];
+$email = $_POST['email'];
+// add more fields as needed
 
-// Query to retrieve data from the first table based on the ID
-$sql = "SELECT * FROM table1 WHERE id = '$id'";
+$insert_query = "INSERT INTO first_table (name, email) VALUES ('$name', '$email')";
+$insert_result = mysqli_query($conn, $insert_query);
 
-// Perform the query and store the result in a variable
-$result = mysqli_query($conn, $sql);
+if ($insert_result) {
+  // if the insert was successful, retrieve data from second table
+  $select_query = "SELECT * FROM second_table WHERE name = '$name'";
+  $select_result = mysqli_query($conn, $select_query);
 
-// Check if any rows were returned
-if (mysqli_num_rows($result) > 0) {
-
-  // Retrieve the row data
-  $row = mysqli_fetch_assoc($result);
-
-  // Get additional data from another table using a JOIN statement
-  $sql2 = "SELECT * FROM table2 JOIN table1 ON table2.id = table1.id WHERE table2.id = '$id'";
-  $result2 = mysqli_query($conn, $sql2);
-
-  // Display the data from both tables
-  echo "Data from Table 1:<br>";
-  echo "ID: " . $row['id'] . "<br>";
-  echo "Name: " . $row['name'] . "<br>";
-  echo "<br>";
-  echo "Data from Table 2:<br>";
-  while ($row2 = mysqli_fetch_assoc($result2)) {
-    echo "ID: " . $row2['id'] . "<br>";
-    echo "Field 1: " . $row2['field1'] . "<br>";
-    echo "Field 2: " . $row2['field2'] . "<br>";
-    echo "<br>";
+  // loop through the results and display the data
+  while ($row = mysqli_fetch_assoc($select_result)) {
+    echo "Name: " . $row['name'] . "<br>";
+    echo "Email: " . $row['email'] . "<br>";
+    // add more fields as needed
   }
-
 } else {
-  echo "No results found.";
+  // handle the case where the insert failed
+  echo "Failed to insert data";
 }
 
-// Close the database connection
+// close database connection
 mysqli_close($conn);
-
 ?>

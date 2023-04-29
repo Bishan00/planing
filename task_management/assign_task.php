@@ -39,18 +39,55 @@ END - Breadcrumbs
                     
                             <div class="row">
                                  <div class="col-md-12">
-                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add order</h5>                                   
+                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add Stock</h5>                                   
                                 </div>  
                              
                                 
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Pid</label>
-                                        <input class="form-control" name="pid" placeholder="" type="text">
+                                    <div class="form-group"><label for="">Item Code</label>
+                                        <input class="form-control" name="icode" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">count stock</label>
+                                    <div class="form-group"><label for="">Tyre Size</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Brand</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Colour</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">FIT</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">RIM</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Construction</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Construction</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Construction</label>
                                         <input class="form-control" name="cstock" placeholder="" type="varchar">
                                     </div>
                                 </div>
