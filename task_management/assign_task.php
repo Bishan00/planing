@@ -40,7 +40,6 @@ END - Breadcrumbs
                             <div class="row">
                                  <div class="col-md-12">
                                     <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add Stock</h5>                                   
-                                </div>  
                              
                                 
                                 </div>
@@ -82,29 +81,37 @@ END - Breadcrumbs
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Construction</label>
+                                    <div class="form-group"><label for="">Average Finish Tyre Weight - kgs</label>
                                         <input class="form-control" name="cstock" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Construction</label>
+                                    <div class="form-group"><label for="">Per Tyre Volume / cbm</label>
                                         <input class="form-control" name="cstock" placeholder="" type="varchar">
                                     </div>
                                 </div>
-                           
-                            <div class="form-buttons-w text-right">
+                               
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Total Volume - cbm</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Total Tonage - kgs</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Qty stock</label>
+                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                  
+</div>
+                            <div class=" text-right">
                                 <input class="btn btn-primary" type="submit" value="Submit Now" name="submit">
-                            </div>
-                        </div>
-                </form>
-                    </div>
-                      <div class="col-md-6">
-                          <br>
-               
-                                                               
-                </table>
-                      </div>
-            </div>
-        </div></div>
+</div>
+            
+                 
+            
+        
 <?php include './includes/Plugin.php'; ?>
         <?php include './includes/admin_footer.php'; ?>
