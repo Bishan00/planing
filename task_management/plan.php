@@ -25,6 +25,8 @@
                                     <div class="input-group mb-3">
                                         <input type="text" name="search" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Enter pid">
                                         <button type="submit" class="btn btn-primary">Search</button>
+
+                                        
                                     </div>
                                 </form>
 
@@ -34,16 +36,18 @@
                 </div>
             </div>
 
+            
+
 
                 
                     <div class="card-body">
                         <table class="table table-bordered">
                         <tr class="header">
-                        <th>Item Code</th>
+                        <th>Item code</th>
                         <th>Tire Size</th>
     <th>Brand</th>
     <th>Colour</th>
-    <th>FIT</th>
+    <th>Fit</th>
     <th>Rim</th>
 
     <th>Construction</th>
@@ -65,7 +69,7 @@
                                     if(isset($_GET['search']))
                                     {
                                         $filtervalues = $_GET['search'];
-                                        $query = "SELECT * FROM worder WHERE CONCAT(erp,Customer) LIKE '%$filtervalues%' ";
+                                        $query = "SELECT * FROM worder WHERE CONCAT(Customer,erp) LIKE '%$filtervalues%' ";
                                         $query_run = mysqli_query($con, $query);
 
                                         if(mysqli_num_rows($query_run) > 0)
@@ -75,7 +79,6 @@
                                                 ?>
                                                 <tr>
                                                     <td><?= $items['icode']; ?></td>
-                        
                                                     <td><?= $items['t_size']; ?></td>
                                                     <td><?= $items['brand']; ?></td>
                                                     <td><?= $items['col']; ?></td>
@@ -104,6 +107,7 @@
                                         }
                                     }
                                 ?>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -111,6 +115,8 @@
             </div>
         </div>
     </div>
+
+         
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>

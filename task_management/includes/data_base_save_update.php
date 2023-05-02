@@ -67,7 +67,7 @@ class databaseSave {
         $ref = $_POST['ref'];
         $wono = $_POST['wono'];
         $this->table_name = $tableNM;
-        $query = "INSERT INTO work_order(Rno, date,Customer,ref,wono) VALUES ('$Rno','$date','$Customer','$ref','$wono')";
+        $query = "INSERT INTO work_order(Rno,date,Customer,ref,wono) VALUES ('$Rno','$date','$Customer','$ref','$wono')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
@@ -86,7 +86,7 @@ class databaseSave {
         $pid = $_POST['pid'];
         $cstock = $_POST['cstock'];
         $this->table_name = $tableNM;
-        $query = "INSERT INTO stock(pid, cstock) VALUES ('$pid','$cstock')";
+        $query = "INSERT INTO stock(pid,cstock) VALUES ('$pid','$cstock')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {

@@ -74,6 +74,7 @@ END - Breadcrumbs
                                     <div class="form-group"><label for="">Colour</label>
                                         <input class="form-control" name="colour" placeholder="" type="varchar">
                                     </div>
+
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Rim width</label>
@@ -149,7 +150,8 @@ END - Breadcrumbs
                                     <div class="form-group"><label for="">Base type</label>
                                         <input class="form-control" name="btype" placeholder="" type="varchar">
                                     </div>
-
+                                        </div>
+                                        
                                     <div class="col-sm-6">
                                     <div class="form-group"><label for="">Base weight</label>
                                         <input class="form-control" name="bweight" placeholder="" type="varchar">

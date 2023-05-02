@@ -63,17 +63,18 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                                  
  </a>
                             </div>
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="order.php">
-                                    <div class="label">Orders</div>
-                                    
-
-                                </a>
-                            </div>
+                           
 
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="stock.php">
                                     <div class="label">Stocks</div>
+                                
+                                </a>
+                            </div>
+
+                            <div class="col-sm-4 col-xxxl-3">
+                                <a class="element-box el-tablo" href="planning.php">
+                                    <div class="label">Plan</div>
                                 
                                 </a>
                             </div>
@@ -84,12 +85,7 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                        
                                 </a>
                             </div>
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="">
-                                    <div class="label">Curing Plan</div>
-                       
-                                </a>
-                            </div>
+                            
                     
                         </div>
                            <div class="element-box">

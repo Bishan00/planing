@@ -247,13 +247,13 @@
                             <a href="#">
                                 <div class="icon-w">
                                     <div class="os-icon os-icon-wallet-loaded"></div>
-                                </div><span>work order</span></a>
+                                </div><span>Work order</span></a>
                             <div class="sub-menu-w">
                                 <div class="sub-menu-header">Work Order</div>
                                 <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
-                                        <li><a href="add_workorder.php">Add Work Order</a></li>
+                                        <li><a href="work_order.php">Add Work Order</a></li>
                                        
                                     </ul>
                                 </div>
@@ -278,25 +278,8 @@
                                 </div>
                             </div>
                         </li>
-                                   <li class=" has-sub-menu">
-                            <a href="#">
-                                <div class="icon-w">
-                                    <div class="os-icon os-icon-wallet-loaded"></div>
-                                </div><span>Orders</span></a>
-                            <div class="sub-menu-w">
-                                <div class="sub-menu-header">Orders</div>
-                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
-                                <div class="sub-menu-i">
-                                    <ul class="sub-menu">
-                                            <li><a href="add_order.php">Add Compound Order </a></li>
-                                          
-                                           
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-
-                        
+                                
+                              
                         <li class=" has-sub-menu">
                             <a href="#">
                                 <div class="icon-w">
@@ -315,22 +298,26 @@
                             </div>
                         </li>
 
+                        
                         <li class=" has-sub-menu">
                             <a href="#">
                                 <div class="icon-w">
                                     <div class="os-icon os-icon-wallet-loaded"></div>
-                                </div><span>Curing plan</span></a>
+                                </div><span>Plan</span></a>
                             <div class="sub-menu-w">
-                                <div class="sub-menu-header">Curing Plan</div>
+                                <div class="sub-menu-header">Add plan</div>
                                 <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
-                                            <li><a href="add_curing.php">add curing plan</a></li>
+                                            <li><a href="plan.php">Add Plan</a></li>
                                           
+                                           
                                     </ul>
                                 </div>
                             </div>
                         </li>
+
+                      
 
                         <li class="sub-header"><span>Settings</span></li>
                         <li class=" has-sub-menu">
