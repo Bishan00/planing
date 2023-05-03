@@ -2062,7 +2062,7 @@ pre code {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 25%;
         flex: 0 0 25%;
-        max-width: 25%
+        max-width: 50%
     }
     .col-xxxl-4 {
         -webkit-box-flex: 0;
@@ -16644,7 +16644,10 @@ a.el-tablo:hover .label {
     display: inline-block;
     vertical-align: middle
 }
+.la{
 
+    color:#4238ca; font-weight:bold;
+}
 .el-legend .legend-value span {
     display: block;
     line-height: 1

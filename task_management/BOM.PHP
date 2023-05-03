@@ -47,9 +47,11 @@
             <th>Colour</th>
             <th>Rim Width</th>
             <th>Compound Weight</th>
-            <th>Total Weigth</th>
-            <th>With steel</th>
-            <th>Bead</th>
+
+            <th>With steel weight</th>
+            <th>Bead weight</th>
+            <th>Total Weigth (with steel + Bead)</th>
+           
 
 			<th>Finished tire weight</th>
             <th>Steel band type</th>
@@ -65,6 +67,10 @@
             <th>Cushion type</th>
             <th>Cushion weight</th>
             <th>threat</th>
+            <th>threat weight</th>
+
+            
+            
 
             
             
@@ -111,6 +117,7 @@
                                                     <td><?= $items['ctype']; ?></td>
                                                     <td><?= $items['cweight']; ?></td>
                                                     <td><?= $items['threat']; ?></td>
+                                                    <td><?= $items['thweight']; ?></td>
                                                   
                                                     
 

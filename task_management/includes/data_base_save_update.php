@@ -138,10 +138,11 @@ class databaseSave {
         $ctype = $_POST['ctype'];
         $cweight = $_POST['cweight'];
         $threat = $_POST['threat'];
+        $thweight = $_POST['thweight'];
 
        $this->table_name = $tableNM;
      
-        $query = "INSERT INTO bom(pid, Description,Tsize,brand,type,colour,rwidth,comweight,tweight,withsteel,bead,finishweight,sbtype,sbweight,beadtype,Nbead,ptype,pweight,btype,bweight,bontype,bonweight,ctype,cweight,threat) VALUES ('$pid','$Description','$Tsize', '$brand','$type','$colour', '$rwidth', '$comweight', '$tweight','$withsteel','$bead','$finishweight','$sbtype','$sbweight', '$beadtype', '$Nbead', '$ptype','$pweight','$btype','$bweight','$bontype','$bonweight','$ctype','$cweight','$threat')";
+        $query = "INSERT INTO bom(pid, Description,Tsize,brand,type,colour,rwidth,comweight,tweight,withsteel,bead,finishweight,sbtype,sbweight,beadtype,Nbead,ptype,pweight,btype,bweight,bontype,bonweight,ctype,cweight,threat,thweight) VALUES ('$pid','$Description','$Tsize', '$brand','$type','$colour', '$rwidth', '$comweight', '$tweight','$withsteel','$bead','$finishweight','$sbtype','$sbweight', '$beadtype', '$Nbead', '$ptype','$pweight','$btype','$bweight','$bontype','$bonweight','$ctype','$cweight','$threat','$thweight')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {

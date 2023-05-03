@@ -88,24 +88,26 @@ END - Breadcrumbs
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Total Weigth</label>
-                                        <input class="form-control" name="tweight" placeholder="" type="varchar">
-                                    </div>
-                                </div>
-
-
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">withsteel</label>
+                                    <div class="form-group"><label for="">with steel weight</label>
                                         <input class="form-control" name="withsteel" placeholder="" type="varchar">
                                     </div>
                                 </div>
 
 
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">bead</label>
+                                    <div class="form-group"><label for="">Bead weight</label>
                                         <input class="form-control" name="bead" placeholder="" type="varchar">
                                     </div>
                                 </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Total Weigth(with steel+bead)</label>
+                                        <input class="form-control" name="tweight" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+
+
+                               
 
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Finish tire weight</label>
@@ -182,8 +184,13 @@ END - Breadcrumbs
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">threat</label>
+                                    <div class="form-group"><label for="">Thread</label>
                                         <input class="form-control" name="threat" placeholder="" type="varchar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group"><label for="">Thread weight</label>
+                                        <input class="form-control" name="thweight" placeholder="" type="varchar">
                                     </div>
                                 </div>
                            

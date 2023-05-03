@@ -75,7 +75,7 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="planning.php">
                                     <div class="label">Plan</div>
-                                
+                            
                                 </a>
                             </div>
                          
