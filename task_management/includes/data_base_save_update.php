@@ -83,10 +83,22 @@ class databaseSave {
     }
     function addstock($tableNM) {
         
-        $pid = $_POST['pid'];
+        $icode = $_POST['icode'];
+        $t_size = $_POST['t_size'];
+        $brand = $_POST['brand'];
+        $col = $_POST['col'];
+        $fit = $_POST['fit'];
+        $rim = $_POST['rim'];
+        $cons = $_POST['cons'];
+        $fweight = $_POST['fweight'];
+        $ptv = $_POST['ptv'];
+        $cbm = $_POST['cbm'];
+        $kgs = $_POST['kgs'];
         $cstock = $_POST['cstock'];
+
         $this->table_name = $tableNM;
-        $query = "INSERT INTO stock(pid,cstock) VALUES ('$pid','$cstock')";
+        $query = "INSERT INTO stock(icode,t_size,brand,col,fit,rim,cons,fweight,ptv,cbm,kgs,cstock)
+         VALUES ('$icode','$t_size','$brand','$col','$fit','$rim','$cons','$fweight','$ptv','$cbm','$kgs','$cstock')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {

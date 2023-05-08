@@ -50,55 +50,55 @@ END - Breadcrumbs
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Tyre Size</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="t_size" placeholder="" type="varchar">
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Brand</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="brand" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Colour</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="col" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">FIT</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="fit" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">RIM</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="rim" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Construction</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="cons" placeholder="" type="varchar">
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Average Finish Tyre Weight - kgs</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="fweight" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Per Tyre Volume / cbm</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="ptv" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Total Volume - cbm</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="cbm" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Total Tonage - kgs</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
+                                        <input class="form-control" name="kgs" placeholder="" type="varchar">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
