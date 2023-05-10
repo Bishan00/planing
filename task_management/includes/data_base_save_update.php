@@ -89,11 +89,7 @@ class databaseSave {
         $col = $_POST['col'];
         $fit = $_POST['fit'];
         $rim = $_POST['rim'];
-        $cons = $_POST['cons'];
-        $fweight = $_POST['fweight'];
-        $ptv = $_POST['ptv'];
-        $cbm = $_POST['cbm'];
-        $kgs = $_POST['kgs'];
+
         $cstock = $_POST['cstock'];
 
         $this->table_name = $tableNM;

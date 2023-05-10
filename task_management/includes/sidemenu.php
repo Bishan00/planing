@@ -254,6 +254,7 @@
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
                                         <li><a href="work_order.php">Add Work Order</a></li>
+                                        <li><a href="check.php">Check Work Order</a></li>
                                        
                                     </ul>
                                 </div>
@@ -272,6 +273,7 @@
                                     
                                     <ul class="sub-menu">
                                         <li><a href="assign_task.php">Add Stock</a></li>
+                                       
                                         
                                     </ul>
                                   

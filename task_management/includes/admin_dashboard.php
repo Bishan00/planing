@@ -85,7 +85,13 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                        
                                 </a>
                             </div>
-                            
+
+                            <div class="col-sm-4 col-xxxl-3">
+                                <a class="element-box el-tablo" href="press_list.php">
+                                    <div class="label">Press list</div>
+                       
+                                </a>
+                            </div>
                     
                         </div>
                            <div class="element-box">

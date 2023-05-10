@@ -17,17 +17,12 @@
             <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-header">
-                       
+                        <h4>Check work Order</h4>
 
-                        <h3>PLAN </h3>
-		<hr style="border-top:1px dotted #ccc;"/>
-		<div class="col-md-6">
-	
-			<br> <form action="subtract.php" method="post" >
-         <input type="submit" value="Perform subtraction">
-      </form>
-			<br />
- 
+                        <form method="post" action="check_match.php">
+    <button type="submit">Check for matches</button>
+</form>
+
 </a>
 
 
@@ -67,8 +62,7 @@
     <th>Total Tones kgs</th>
 
 
-            
-            
+                        
 
 		</tr>
                             <tbody>
@@ -78,7 +72,7 @@
                                  
                                     
                                        
-                                        $query = "SELECT * FROM worder";
+                                    $query = "SELECT * FROM worder";
                                         $query_run = mysqli_query($con, $query);
 
                                         if(mysqli_num_rows($query_run) > 0)
@@ -116,13 +110,7 @@
         </div>
     </div>
 
-    
-
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
