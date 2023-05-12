@@ -4,7 +4,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "tire_production";
+$dbname = "tire_productionn";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -35,7 +35,7 @@ while ($tire_type_row = mysqli_fetch_assoc($tire_types_query)) {
   
   // Calculate the time it takes to produce all the tires of this type
   $total_time = ceil($total_tires / ($total_production_rate * $total_molds));
-  
+   for 
   // Store the production time in the database
   mysqli_query($conn, "INSERT INTO production_times (tire_type, production_time) VALUES ('$tire_type', $total_time)");
 }
@@ -44,3 +44,5 @@ while ($tire_type_row = mysqli_fetch_assoc($tire_types_query)) {
 mysqli_close($conn);
 
 ?>
+ 
+ coonnnection for multi porpose details comes to this system for cklkjjndgvb
