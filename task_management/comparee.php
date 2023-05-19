@@ -22,20 +22,13 @@ if (!$conn) {
 if (isset($_POST['compare'])) {
     // Query the order table and data table to fetch the relevant data
    // Fetch the data from the order table
-   $orderQuery = "SELECT * FROM worder";
-   $orderResult = mysqli_query($conn, $orderQuery);
+   // Fetch the data from the order table
+$orderQuery = "SELECT * FROM worder";
+$orderResult = mysqli_query($conn, $orderQuery);
 
-   if (!$orderResult) {
-       die("Error executing order query: " . mysqli_error($conn));
-   }
-
-   // Fetch the data from the data table
-   $dataQuery = "SELECT * FROM selectpress";
-   $dataResult = mysqli_query($conn, $dataQuery);
-
-   if (!$dataResult) {
-       die("Error executing data query: " . mysqli_error($conn));
-   }
+if (!$orderResult) {
+    die("Error executing order query: " . mysqli_error($conn));
+}
     // Display the data in a table
     echo '<table>';
     echo '<tr>';
@@ -45,20 +38,26 @@ if (isset($_POST['compare'])) {
     echo '<th>Fit</th>';
     echo '<th>Colour</th>';
     echo '<th>Rim</th>';
-   
-    
-    while (($orderRow = mysqli_fetch_assoc($orderResult)) && ($dataRow = mysqli_fetch_assoc($dataResult))) {
 
+    
+    while ($orderRow = mysqli_fetch_assoc($orderResult)) {
+        // Fetch the corresponding row from the data table based on Tireid
+        $dataQuery = "SELECT * FROM selectpress WHERE icode = " . $orderRow['icode'];
+        $dataResult = mysqli_query($conn, $dataQuery);
+    
+        if (!$dataResult) {
+            die("Error executing data query: " . mysqli_error($conn));
+        }
+    
+        $dataRow = mysqli_fetch_assoc($dataResult);
+    
         // Compare each column and highlight mismatches
         $mismatch = false;
         if (
-           
             $orderRow['t_size'] !== $dataRow['t_size'] ||
-            $orderRow['brand'] !== $dataRow['brand'] ||
             $orderRow['fit'] !== $dataRow['fit'] ||
             $orderRow['col'] !== $dataRow['col'] ||
             $orderRow['rim'] !== $dataRow['rim'] 
-           
         ) {
             $mismatch = true;
         }
@@ -71,9 +70,12 @@ if (isset($_POST['compare'])) {
         echo '<td>' . $orderRow['fit'] . '</td>';
         echo '<td>' . $orderRow['col'] . '</td>';
         echo '<td>' . $orderRow['rim'] . '</td>';
-    
+        
      
         echo '</tr>';
+
+        
+    mysqli_free_result($dataResult);
     }
 
     echo '</table>';
