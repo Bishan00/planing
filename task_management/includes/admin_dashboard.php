@@ -92,7 +92,12 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                        
                                 </a>
                             </div>
-                    
+                            <div class="col-sm-4 col-xxxl-3">
+                                <a class="element-box el-tablo" href="daily_production.php">
+                                    <div class="label">Daily Production</div>
+                       
+                                </a>
+                            </div>
                         </div>
                            <div class="element-box">
 

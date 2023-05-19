@@ -17,9 +17,9 @@
             <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-header">
-                        <h4>Press List</h4>
+                        <h4>BOM</h4>
 
-                        <a href="press_list_search.PHP">
+                        <a href="BOM.PHP">
   <button>Search</button>
 </a>
 
@@ -44,32 +44,26 @@
                     <div class="card-body">
                         <table class="table table-bordered">
                         <tr class="header">
-                        <th>icode</th>
-			<th>Tire Size</th>
-			<th>Brand</th>
-
-            <th>FIT</th>
+         
+            <th>Tire Size</th>
+            <th>Brand</th>
+            <th>Type</th>
             <th>Colour</th>
-			<th>Rim Width</th>
-            <th>green tyre weight with steel</th>
-            <th>NO OF MOULDS</th>
-            <th>AVAILABLE CAVITY PER PRESS</th>
-            <th>Curing Group</th>
-			<th>Press-01</th>
-            <th>Press-02</th>
-            <th>Press-03</th>       			
-            <th>Press-04</th>
-            <th>Press-05</th>
-            <th>Press-06</th>
-            <th>Press-07</th>
             
+
+
+            
+            
+
 		</tr>
                             <tbody>
                                 <?php 
                                     $con = mysqli_connect("localhost","root","","task_management");
 
-                                
-                                        $query = "SELECT * FROM selectpress";
+                                 
+                                    
+                                       
+                                        $query = "SELECT * FROM production";
                                         $query_run = mysqli_query($con, $query);
 
                                         if(mysqli_num_rows($query_run) > 0)
@@ -79,30 +73,15 @@
                                                 ?>
                                                 <tr>
                                                     <td><?= $items['icode']; ?></td>
-                                                    <td><?= $items['t_size']; ?></td>
+                                                   
+                                                    <td><?= $items['Tsize']; ?></td>
                                                     <td><?= $items['brand']; ?></td>
-                                                    <td><?= $items['fit']; ?></td>
-                                                    <td><?= $items['col']; ?></td>
-                                                    <td><?= $items['rim']; ?></td>
-                                              
-                                                    <td><?= $items['gweight']; ?></td>
-                                                    <td><?= $items['nmould']; ?></td>
-                                                    <td><?= $items['cpress']; ?></td>
-                                                    <td><?= $items['curing_group']; ?></td>
-                                                    <td><?= $items['Press-01']; ?></td>
-                                                    <td><?= $items['Press-02']; ?></td>
-                                                    <td><?= $items['Press-03']; ?></td>
-                                                    <td><?= $items['Press-04']; ?></td>
-                                                    <td><?= $items['Press-05']; ?></td>
-                                                    <td><?= $items['Press-06']; ?></td>
-                                                    <td><?= $items['Press-07']; ?></td>
+                                                    <td><?= $items['type']; ?></td>
+                                                    <td><?= $items['colour']; ?></td>
                                                    
                                                   
-
-                                                   
                                                     
-                        
-                                            
+
                                                 <?php
                                             }
                                         }

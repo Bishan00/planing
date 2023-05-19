@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 25, 2023 at 06:03 AM
--- Server version: 5.7.31
--- PHP Version: 7.3.21
+-- Generation Time: May 19, 2023 at 07:27 AM
+-- Server version: 8.0.31
+-- PHP Version: 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,15 +29,15 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `assign_task`;
 CREATE TABLE IF NOT EXISTS `assign_task` (
-  `task_id` int(11) NOT NULL AUTO_INCREMENT,
-  `emp_id` int(11) DEFAULT NULL,
-  `task` text CHARACTER SET utf8,
+  `task_id` int NOT NULL AUTO_INCREMENT,
+  `emp_id` int DEFAULT NULL,
+  `task` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   `assignby` varchar(255) DEFAULT NULL,
   `task_doc` varchar(255) DEFAULT NULL,
   `work_assign_date` datetime DEFAULT NULL,
   `work_com_date` datetime DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  `remark` text CHARACTER SET utf8,
+  `remark` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
@@ -58,8 +58,8 @@ INSERT INTO `assign_task` (`task_id`, `emp_id`, `task`, `assignby`, `task_doc`, 
 
 DROP TABLE IF EXISTS `bom`;
 CREATE TABLE IF NOT EXISTS `bom` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pid` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `pid` int NOT NULL,
   `Description` varchar(100) NOT NULL,
   `Tsize` varchar(100) NOT NULL,
   `brand` varchar(100) NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `bom` (
   `bonweight` varchar(100) NOT NULL,
   `ctype` varchar(100) NOT NULL,
   `cweight` varchar(100) NOT NULL,
-  `threat` int(11) NOT NULL,
+  `threat` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
@@ -103,9 +103,9 @@ INSERT INTO `bom` (`id`, `pid`, `Description`, `Tsize`, `brand`, `type`, `colour
 
 DROP TABLE IF EXISTS `cities`;
 CREATE TABLE IF NOT EXISTS `cities` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
-  `state_id` int(11) NOT NULL,
+  `state_id` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=48315 DEFAULT CHARSET=latin1;
 
@@ -48460,7 +48460,7 @@ INSERT INTO `cities` (`id`, `name`, `state_id`) VALUES
 
 DROP TABLE IF EXISTS `compound_planning`;
 CREATE TABLE IF NOT EXISTS `compound_planning` (
-  `pid` int(11) NOT NULL,
+  `pid` int NOT NULL,
   `date` date DEFAULT NULL,
   `Description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`pid`)
@@ -48485,12 +48485,12 @@ INSERT INTO `compound_planning` (`pid`, `date`, `Description`) VALUES
 
 DROP TABLE IF EXISTS `countries`;
 CREATE TABLE IF NOT EXISTS `countries` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `sortname` varchar(3) NOT NULL,
   `name` varchar(150) NOT NULL,
-  `phonecode` int(11) NOT NULL,
+  `phonecode` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=247 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=247 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `countries`
@@ -48752,12 +48752,12 @@ INSERT INTO `countries` (`id`, `sortname`, `name`, `phonecode`) VALUES
 
 DROP TABLE IF EXISTS `emp_assets`;
 CREATE TABLE IF NOT EXISTS `emp_assets` (
-  `assign_id` int(11) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(11) NOT NULL,
-  `emp_id` int(11) NOT NULL,
+  `assign_id` int NOT NULL AUTO_INCREMENT,
+  `asset_id` int NOT NULL,
+  `emp_id` int NOT NULL,
   `issue_date` datetime NOT NULL,
   `des` text NOT NULL,
-  `status` int(11) NOT NULL,
+  `status` int NOT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`assign_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -48770,12 +48770,12 @@ CREATE TABLE IF NOT EXISTS `emp_assets` (
 
 DROP TABLE IF EXISTS `emp_login`;
 CREATE TABLE IF NOT EXISTS `emp_login` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `emp_code` varchar(255) NOT NULL,
   `emp_name` varchar(255) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `pswd` varchar(255) NOT NULL,
-  `status` int(11) NOT NULL,
+  `status` int NOT NULL,
   `created` datetime NOT NULL,
   `user_role` varchar(255) NOT NULL,
   `emp_pro` varchar(255) NOT NULL,
@@ -48799,9 +48799,9 @@ INSERT INTO `emp_login` (`id`, `emp_code`, `emp_name`, `user_id`, `pswd`, `statu
 
 DROP TABLE IF EXISTS `news_and_update`;
 CREATE TABLE IF NOT EXISTS `news_and_update` (
-  `news_id` int(11) NOT NULL AUTO_INCREMENT,
-  `news_title` text CHARACTER SET utf8 NOT NULL,
-  `remark` text CHARACTER SET utf8 NOT NULL,
+  `news_id` int NOT NULL AUTO_INCREMENT,
+  `news_title` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `remark` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `created` date NOT NULL,
   `news_type` varchar(255) NOT NULL,
   PRIMARY KEY (`news_id`)
@@ -48818,23 +48818,201 @@ INSERT INTO `news_and_update` (`news_id`, `news_title`, `remark`, `created`, `ne
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `selectpress`
+--
+
+DROP TABLE IF EXISTS `selectpress`;
+CREATE TABLE IF NOT EXISTS `selectpress` (
+  `icode` varchar(100) NOT NULL,
+  `t_size` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `brand` varchar(100) NOT NULL,
+  `fit` varchar(100) NOT NULL,
+  `col` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `rim` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `gweight` varchar(100) DEFAULT NULL,
+  `nmould` varchar(100) DEFAULT NULL,
+  `cpress` varchar(100) DEFAULT NULL,
+  `curing_group` varchar(100) DEFAULT NULL,
+  `Press-01` varchar(100) DEFAULT NULL,
+  `Press-02` varchar(100) DEFAULT NULL,
+  `Press-03` varchar(100) DEFAULT NULL,
+  `Press-04` varchar(100) DEFAULT NULL,
+  `Press-05` varchar(100) DEFAULT NULL,
+  `Press-06` varchar(100) DEFAULT NULL,
+  `Press-07` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`icode`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `selectpress`
+--
+
+INSERT INTO `selectpress` (`icode`, `t_size`, `brand`, `fit`, `col`, `rim`, `gweight`, `nmould`, `cpress`, `curing_group`, `Press-01`, `Press-02`, `Press-03`, `Press-04`, `Press-05`, `Press-06`, `Press-07`) VALUES
+('120043', '23 x 9 - 10 (6.50)', 'RUNNER SOLID', 'STD', 'NM', '6.5', '44.9955', '1', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('120044', '23 x 9 - 10 (6.50)', 'RUNNER SOLID', 'CLIP', 'NM', '6.5', '45.39546', '1', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('120041', '23 x 9 - 10 (6.50)', 'RUNNER SOLID', 'STD', 'BLACK', '6.5', '44.59554', '1', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('120042', '23 x 9 - 10 (6.50)', 'RUNNER SOLID', 'CLIP', 'BLACK', '6.5', '44.6', '1', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('153112', '10.00 - 20 (7.50)', 'ACHE +', 'CLIP', 'BLACK', '7.5', '153.621', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('153001', '10.00 - 20 (7.50)', 'ACHIEVER', 'STD', 'BLACK', '7.5', '149.4', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('152011', '10.00 - 20 (7.00)', 'ACHE +', 'STD', 'BLACK', '7.5', '154.38456', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('152001', '10.00 - 20 (7.00)', 'ACHIEVER', 'STD', 'BLACK', '7.5', '151.5', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('125045', '7.00 - 12 (5.00)', 'RUNNER SOLID', 'STD', 'GRAY', '5', '47.79522', '3', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125046', '7.00 - 12 (5.00)', 'RUNNER SOLID', 'CLIP', 'GRAY', '5', '48.29517', '3', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125043', '7.00 - 12 (5.00)', 'RUNNER SOLID', 'STD', 'NM', '5', '48.29517', '3', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125044', '7.00 - 12 (5.00)', 'RUNNER SOLID', 'CLIP', 'NM', '5', '48.49515', '3', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125041', '7.00 - 12 (5.00)', 'RUNNER SOLID', 'STD', 'BLACK', '5', '46.9953', '3', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125042', '7.00 - 12 (5.00)', 'RUNNER SOLID', 'CLIP', 'BLACK', '5', '47.89521', '3', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125013', '7.00 - 12 (5.00)', 'ACHE +', 'STD', 'NM', '5', '44.39556', '6', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125014', '7.00 - 12 (5.00)', 'ACHE +', 'CLIP', 'NM', '5', '46.29537', '6', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125011', '7.00 - 12 (5.00)', 'ACHE +', 'STD', 'BLACK', '5', '45.7', '6', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125012', '7.00 - 12 (5.00)', 'ACHE +', 'CLIP', 'BLACK', '5', '46', '6', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125003', '7.00 - 12 (5.00)', 'ROCK', 'STD', 'NM', '5', '45.29547', '6', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125004', '7.00 - 12 (5.00)', 'ACHIEVER', 'CLIP', 'NM', '5', '45.29547', '6', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('158001', '12.00 - 20 (10.00)', 'ACHIEVER', 'STD', 'BLACK', '10', '237', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('155002', '12.00 - 20 (8.00)', 'ACHIEVER', 'CLIP', 'BLACK', '8', '200.77992', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('155004', '12.00 - 20 (8.00)', 'ACHIEVER', 'CLIP', 'NM', '8', '200.77992', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('155003', '12.00 - 20 (8.00)', 'ACHIEVER', 'STD', 'NM', '8', '200.77992', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('155012', '12.00 - 20 (8.00)', 'ACHE +', 'CLIP', 'BLACK', '8', '200.77992', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('155011', '12.00 - 20 (8.00)', 'ACHE +', 'STD', 'BLACK', '8', '200.77992', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('155052', '12.00 - 20 (8.00)', 'ROCK SOLID', 'CLIP', 'BLACK', '8', '200.77992', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('155051', '12.00 - 20 (8.00)', 'ROCK SOLID', 'STD', 'BLACK', '8', '200.77992', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('155054', '12.00 - 20 (8.00)', 'ROCK SOLID', 'CLIP', 'NM', '8', '200.77992', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('155053', '12.00 - 20 (8.00)', 'ROCK SOLID', 'STD', 'NM', '8', '200.77992', '1', '1', 'G', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', NULL),
+('125002', '7.00 - 12 (5.00)', 'ACHIEVER', 'CLIP', 'BLACK', '5', '45.69543', '6', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3'),
+('125001', '7.00 - 12 (5.00)', 'ACHIEVER', 'STD', 'BLACK', '5', '45.29547', '6', '4', 'F', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'A3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sheet1`
+--
+
+DROP TABLE IF EXISTS `sheet1`;
+CREATE TABLE IF NOT EXISTS `sheet1` (
+  `icode` int DEFAULT NULL,
+  `cstock` int DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `sheet1`
+--
+
+INSERT INTO `sheet1` (`icode`, `cstock`) VALUES
+(102161, 5),
+(111011, 6),
+(119011, 8),
+(125011, 9),
+(104002, 10),
+(119002, 3),
+(118002, 3),
+(102161, 5),
+(111011, 6),
+(119011, 8),
+(125011, 9),
+(104002, 10),
+(119002, 3),
+(118002, 3),
+(102161, 5),
+(111011, 6),
+(119011, 8),
+(125011, 9),
+(104002, 10),
+(119002, 3),
+(118002, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stock`
 --
 
 DROP TABLE IF EXISTS `stock`;
 CREATE TABLE IF NOT EXISTS `stock` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pid` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `icode` varchar(100) DEFAULT NULL,
+  `t_size` varchar(100) NOT NULL,
+  `brand` varchar(100) NOT NULL,
+  `col` varchar(100) NOT NULL,
+  `fit` varchar(100) NOT NULL,
+  `rim` varchar(100) NOT NULL,
   `cstock` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=103 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `stock`
 --
 
-INSERT INTO `stock` (`id`, `pid`, `cstock`) VALUES
-(1, 1, '34');
+INSERT INTO `stock` (`id`, `icode`, `t_size`, `brand`, `col`, `fit`, `rim`, `cstock`) VALUES
+(102, '120043', '23 x 9 - 10 (6.50) ATIRE RUNNER SOLID NM STD', 'RUNNER SOLID', 'NM', 'STD', '6.5', '1'),
+(101, '120044', '23 x 9 - 10 (6.50) ATIRE RUNNER SOLID NM CLIP', 'RUNNER SOLID', 'NM', 'CLIP', '6.5', '2'),
+(100, '120041', '23 x 9 - 10 (6.50) ATIRE RUNNER SOLID BLACK STD', 'RUNNER SOLID', 'BLACK', 'STD', '6.5', '3'),
+(99, '120042', '23 x 9 - 10 (6.50) ATIRE RUNNER SOLID BLACK CLIP', 'RUNNER SOLID', 'BLACK', 'CLIP', '6.5', '9'),
+(98, '153112', '10.00 - 20 (7.50) ACHIEVER PLUS SP BLACK CLIP', 'ACHE +', 'BLACK', 'CLIP', '7.5', '8'),
+(97, '153001', '10.00 - 20 (7.50) ACHIEVER BLACK STD', 'ACHIEVER', 'BLACK', 'STD', '7.5', '7'),
+(96, '152011', '10.00 - 20 (7.00) ACHIEVER PLUS BLACK STD', 'ACHE +', 'BLACK', 'STD', '7.5', '6'),
+(95, '152001', '10.00 - 20 (7.00) ACHIEVER BLACK STD', 'ACHIEVER', 'BLACK', 'STD', '7.5', '12'),
+(94, '125045', '7.00 - 12 (5.00) ATIRE RUNNER SOLID NMG STD', 'RUNNER SOLID', 'GRAY', 'STD', '5', '4'),
+(93, '125046', '7.00 - 12 (5.00) ATIRE RUNNER SOLID NMG CLIP', 'RUNNER SOLID', 'GRAY', 'CLIP', '5', '11'),
+(92, '125043', '7.00 - 12 (5.00) ATIRE RUNNER SOLID NM STD', 'RUNNER SOLID', 'NM', 'STD', '5', '10'),
+(91, '125044', '7.00 - 12 (5.00) ATIRE RUNNER SOLID NM CLIP', 'RUNNER SOLID', 'NM', 'CLIP', '5', '7'),
+(90, '125041', '7.00 - 12 (5.00) ATIRE RUNNER SOLID BLACK STD', 'RUNNER SOLID', 'BLACK', 'STD', '5', '8'),
+(89, '125042', '7.00 - 12 (5.00) ATIRE RUNNER SOLID BLACK CLIP', 'RUNNER SOLID', 'BLACK', 'CLIP', '5', '7'),
+(88, '125013', '7.00 - 12 (5.00) ACHIEVER PLUS NM STD', 'ACHE +', 'NM', 'STD', '5', '8'),
+(87, '125014', '7.00 - 12 (5.00) ACHIEVER PLUS NM CLIP', 'ACHE +', 'NM', 'CLIP', '5', '8'),
+(86, '125011', '7.00 - 12 (5.00) ACHIEVER PLUS BLACK STD', 'ACHE +', 'BLACK', 'STD', '5', '8'),
+(85, '125012', '7.00 - 12 (5.00) ACHIEVER PLUS BLACK CLIP', 'ACHE +', 'BLACK', 'CLIP', '5', '8'),
+(84, '125003', '7.00 - 12 (5.00) ACHIEVER NM STD', 'ACHIEVER', 'NM', 'STD', '5', '9'),
+(83, '125004', '7.00 - 12 (5.00) ACHIEVER NM CLIP', 'ACHIEVER', 'NM', 'CLIP', '5', '9'),
+(82, '125001', '7.00 - 12 (5.00) ACHIEVER BLACK STD', 'ACHIEVER', 'BLACK', 'STD', '5', '9'),
+(81, '125002', '7.00 - 12 (5.00) ACHIEVER BLACK CLIP', 'ACHIEVER', 'BLACK', 'CLIP', '5', '9'),
+(80, '155053', '12.00 - 20 (8.00) ATIRE ROCK SOLID NM STD', 'ROCK SOLID', 'NM', 'STD', '8', '9'),
+(79, '155054', '12.00 - 20 (8.00) ATIRE ROCK SOLID NM CLIP', 'ROCK SOLID', 'NM', 'CLIP', '8', '9'),
+(78, '155051', '12.00 - 20 (8.00) ATIRE ROCK SOLID BLACK STD', 'ROCK SOLID', 'BLACK', 'STD', '8', '10'),
+(77, '155052', '12.00 - 20 (8.00) ATIRE ROCK SOLID BLACK CLIP', 'ROCK SOLID', 'BLACK', 'CLIP', '8', '10'),
+(76, '155011', '12.00 - 20 (8.00) ACHIEVER PLUS BLACK STD', 'ACHE +', 'BLACK', 'STD', '8', '10'),
+(75, '155012', '12.00 - 20 (8.00) ACHIEVER PLUS BLACK CLIP', 'ACHE +', 'BLACK', 'CLIP', '8', '5'),
+(74, '155003', '12.00 - 20 (8.00) ACHIEVER NM STD', 'ACHIEVER', 'NM', 'STD', '8', '5'),
+(73, '155004', '12.00 - 20 (8.00) ACHIEVER NM CLIP', 'ACHIEVER', 'NM', 'CLIP', '8', '5'),
+(72, '155001', '12.00 - 20 (8.00) ACHIEVER BLACK STD', 'ACHIEVER', 'BLACK', 'STD', '8', '4'),
+(71, '155002', '12.00 - 20 (8.00) ACHIEVER BLACK CLIP', 'ACHIEVER', 'BLACK', 'CLIP', '8', '4'),
+(70, '158001', '12.00 - 20 (10.00) ACHIEVER BLACK STD', 'ACHIEVER', 'BLACK', 'STD', '10', '4'),
+(69, '158011', '12.00 - 20 (10.00) ACHIEVER PLUS BLACK STD', 'ACHE +', 'BLACK', 'STD', '10', '4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tobeplan`
+--
+
+DROP TABLE IF EXISTS `tobeplan`;
+CREATE TABLE IF NOT EXISTS `tobeplan` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `icode` varchar(100) DEFAULT NULL,
+  `tobe` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=162 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tobeplan`
+--
+
+INSERT INTO `tobeplan` (`id`, `icode`, `tobe`) VALUES
+(161, '158001', 10),
+(160, '155002', 10),
+(159, '155004', 9),
+(158, '155003', 9),
+(157, '155012', 9),
+(156, '155011', 4),
+(155, '155052', 4),
+(154, '155051', 4),
+(153, '155054', 5),
+(152, '155053', 5),
+(151, '125002', 5),
+(150, '125001', 5),
+(149, '125004', 5),
+(148, '125003', 5),
+(147, '125012', 6);
 
 -- --------------------------------------------------------
 
@@ -48844,8 +49022,8 @@ INSERT INTO `stock` (`id`, `pid`, `cstock`) VALUES
 
 DROP TABLE IF EXISTS `torder`;
 CREATE TABLE IF NOT EXISTS `torder` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pid` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `pid` int NOT NULL,
   `corder` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -48856,6 +49034,55 @@ CREATE TABLE IF NOT EXISTS `torder` (
 
 INSERT INTO `torder` (`id`, `pid`, `corder`) VALUES
 (2, 1, '233');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `worder`
+--
+
+DROP TABLE IF EXISTS `worder`;
+CREATE TABLE IF NOT EXISTS `worder` (
+  `date` int DEFAULT NULL,
+  `Customer` varchar(100) DEFAULT NULL,
+  `wono` varchar(100) DEFAULT NULL,
+  `ref` varchar(100) DEFAULT NULL,
+  `erp` varchar(100) DEFAULT NULL,
+  `icode` varchar(100) NOT NULL,
+  `t_size` varchar(100) DEFAULT NULL,
+  `brand` varchar(100) DEFAULT NULL,
+  `fit` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `col` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `rim` varchar(100) DEFAULT NULL,
+  `cons` varchar(100) DEFAULT NULL,
+  `fweight` varchar(100) DEFAULT NULL,
+  `ptv` varchar(100) DEFAULT NULL,
+  `new` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `cbm` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `kgs` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`icode`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `worder`
+--
+
+INSERT INTO `worder` (`date`, `Customer`, `wono`, `ref`, `erp`, `icode`, `t_size`, `brand`, `fit`, `col`, `rim`, `cons`, `fweight`, `ptv`, `new`, `cbm`, `kgs`) VALUES
+(13, 'russia', '88', 'Poland - dir ', '585', '125003', '7.00 - 12 (5.00) ', 'ACHIEVER', 'STD', 'NM', '5', '16 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '125012', '7.00 - 12 (5.00)', 'ACHE +', 'CLIP', 'BLACK', '5', '17 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '125004', '7.00 - 12 (5.00)', 'ACHIEVER', 'CLIP', 'NM', '5', '15 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '125001', '7.00 - 12 (5.00)', 'ACHIEVER', 'STD', 'BLACK', '5', '14 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '125002', '7.00 - 12 (5.00)', 'ACHIEVER', 'CLIP', 'BLACK', '5', '13 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '158001', '12.00 - 20 (10.00)', 'ACHIEVER', 'STD', 'BLACK', '10', '3 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '155002', '12.00 - 20 (8.00)', 'ACHIEVER', 'CLIP', 'BLACK', '8', '4 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '155004', '12.00 - 20 (8.00)', 'ACHIEVER', 'CLIP', 'NM', '8', '5 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '155003', '12.00 - 20 (8.00)', 'ACHIEVER', 'STD', 'NM', '8', '6 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '155012', '12.00 - 20 (8.00)', 'ACHE +', 'CLIP', 'BLACK', '8', '7 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '155011', '12.00 - 20 (8.00)', 'ACHE +', 'STD', 'BLACK', '8', '8 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '155052', '12.00 - 20 (8.00)', 'ROCK SOLID', 'CLIP', 'BLACK', '8', '9 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '155051', '12.00 - 20 (8.00)', 'ROCK SOLID', 'STD', 'BLACK', '8', '10 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '155054', '12.00 - 20 (8.00)', 'ROCK SOLID', 'CLIP', 'NM', '8', '11 LAYER ', '237', '0.0232', '14', '0.325', '243.6'),
+(13, 'russia', '88', 'Poland - dir ', '585', '155053', '12.00 - 20 (8.00)', 'ROCK SOLID', 'STD', 'NM', '8', '12 LAYER ', '237', '0.0232', '14', '0.325', '243.6');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

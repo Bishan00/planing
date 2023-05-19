@@ -40,7 +40,7 @@
                         <table class="table table-bordered">
                         <tr class="header">
                         <th>icode</th>
-			<th>Description</th>
+			<th>Tire Size</th>
 			<th>Brand</th>
 
             <th>FIT</th>
@@ -83,11 +83,12 @@
                                                 ?>
                                                 <tr>
                                                 <td><?= $items['icode']; ?></td>
-                                                    <td><?= $items['Description']; ?></td>
+                                                    <td><?= $items['t_size']; ?></td>
                                                     <td><?= $items['brand']; ?></td>
                                                     <td><?= $items['fit']; ?></td>
-                                                    <td><?= $items['Colour']; ?></td>
-                                                    <td><?= $items['width']; ?></td>
+                                                    <td><?= $items['col']; ?></td>
+                                                    <td><?= $items['rim']; ?></td>
+                                              
                                                     <td><?= $items['gweight']; ?></td>
                                                     <td><?= $items['nmould']; ?></td>
                                                     <td><?= $items['cpress']; ?></td>
@@ -99,6 +100,7 @@
                                                     <td><?= $items['Press-05']; ?></td>
                                                     <td><?= $items['Press-06']; ?></td>
                                                     <td><?= $items['Press-07']; ?></td>
+                                                   
                                                    
                                                   
                                                     

@@ -57,7 +57,7 @@
     <th>Total Volume cbm</th>
     <th>Total Tones kgs</th>
     <th>Qty New pcs</th>
-    <th>To be Produce</th>
+    <th>Order quentity</th>
 		</tr>
 	</thead>
 	<tbody>
