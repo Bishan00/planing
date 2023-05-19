@@ -19,9 +19,9 @@
                     <div class="card-header">
                         <h4>Check work Order</h4>
 
-                        <form method="post" action="check_match.php">
-    <button type="submit">Check for matches</button>
-</form>
+                        <form action="comparee.php" method="POST">
+    <button type="submit" name="compare">Comparee Data</button>
+  </form>
 
 </a>
 

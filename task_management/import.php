@@ -25,8 +25,8 @@ if(move_uploaded_file($_FILES['excel_file']['tmp_name'],$_FILES['excel_file']['n
         $icode = $foo[$count][5];
         $t_size = $foo[$count][6];
         $brand = $foo[$count][7];
-        $col = $foo[$count][8];
-        $fit= $foo[$count][9];
+        $fit= $foo[$count][8];
+        $col = $foo[$count][9];
         $rim = $foo[$count][10];
         $cons = $foo[$count][11];
         $fweight= $foo[$count][12];
@@ -38,8 +38,8 @@ if(move_uploaded_file($_FILES['excel_file']['tmp_name'],$_FILES['excel_file']['n
      
 
 
-        $query = "INSERT INTO worder (date,Customer,wono,ref,erp,icode,t_size,brand,col,fit,rim,cons,fweight,ptv,new,cbm,kgs) ";
-        $query.="VALUES ('$date','$Customer','$wono','$ref','$erp','$icode','$t_size','$brand','$col','$fit','$rim','$cons','$fweight','$ptv','$new','$cbm','$kgs')";
+        $query = "INSERT INTO worder (date,Customer,wono,ref,erp,icode,t_size,brand,fit,col,rim,cons,fweight,ptv,new,cbm,kgs) ";
+        $query.="VALUES ('$date','$Customer','$wono','$ref','$erp','$icode','$t_size','$brand','$fit','$col','$rim','$cons','$fweight','$ptv','$new','$cbm','$kgs')";
         mysqli_query($db,$query);
         $count++;
     }

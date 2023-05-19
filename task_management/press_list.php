@@ -45,38 +45,30 @@
                         <table class="table table-bordered">
                         <tr class="header">
                         <th>icode</th>
-			<th>Tire Name</th>
-			<th>brand</th>
-            <th>col</th>
-			<th>Curing Time</th>
-            <th>Curing group</th>
-			<th>Presses1</th>
-            <th>Presses2</th>
-            <th>Presses3</th>
-            <th>Presses4</th>
-            <th>Presses5</th>
-            <th>Presses6</th>
-            <th>Presses7</th>
-            <th>Presses8</th>
-            <th>Presses9</th>
-            <th>Presses10</th>
-            <th>Presses11</th>
-            <th>Presses12</th>
-            <th>Presses13</th>
-            <th>mold</th>
+			<th>Description</th>
+			<th>Brand</th>
 
-
+            <th>FIT</th>
+            <th>Colour</th>
+			<th>Rim Width</th>
+            <th>green tyre weight with steel</th>
+            <th>NO OF MOULDS</th>
+            <th>AVAILABLE CAVITY PER PRESS</th>
+            <th>Curing Group</th>
+			<th>Press-01</th>
+            <th>Press-02</th>
+            <th>Press-03</th>       			
+            <th>Press-04</th>
+            <th>Press-05</th>
+            <th>Press-06</th>
+            <th>Press-07</th>
             
-            
-
 		</tr>
                             <tbody>
                                 <?php 
                                     $con = mysqli_connect("localhost","root","","task_management");
 
-                                 
-                                    
-                                       
+                                
                                         $query = "SELECT * FROM selectpress";
                                         $query_run = mysqli_query($con, $query);
 
@@ -87,29 +79,28 @@
                                                 ?>
                                                 <tr>
                                                     <td><?= $items['icode']; ?></td>
-                                                    <td><?= $items['Tire Name']; ?></td>
-        
+                                                    <td><?= $items['Description']; ?></td>
                                                     <td><?= $items['brand']; ?></td>
-                                                    <td><?= $items['col']; ?></td>
-                                                    <td><?= $items['Curing Time']; ?></td>
-                                                    <td><?= $items['Curing group']; ?></td>
-                                                    <td><?= $items['Presses1']; ?></td>
-                                                    <td><?= $items['Presses2']; ?></td>
-                                                    <td><?= $items['Presses3']; ?></td>
-                                                    <td><?= $items['Presses4']; ?></td>
-                                                    <td><?= $items['Presses5']; ?></td>
-                                                    <td><?= $items['Presses6']; ?></td>
-                                                    <td><?= $items['Presses7']; ?></td>
-                                                    <td><?= $items['Presses8']; ?></td>
-                                                    <td><?= $items['Presses9']; ?></td>
-                                                    <td><?= $items['Presses10']; ?></td>
-                                                    <td><?= $items['Presses11']; ?></td>
-                                                    <td><?= $items['Presses12']; ?></td>
-                                                    <td><?= $items['Presses13']; ?></td>
-
-                                                    <td><?= $items['mold']; ?></td>
-                                                    
+                                                    <td><?= $items['fit']; ?></td>
+                                                    <td><?= $items['Colour']; ?></td>
+                                                    <td><?= $items['width']; ?></td>
+                                                    <td><?= $items['gweight']; ?></td>
+                                                    <td><?= $items['nmould']; ?></td>
+                                                    <td><?= $items['cpress']; ?></td>
+                                                    <td><?= $items['curing_group']; ?></td>
+                                                    <td><?= $items['Press-01']; ?></td>
+                                                    <td><?= $items['Press-02']; ?></td>
+                                                    <td><?= $items['Press-03']; ?></td>
+                                                    <td><?= $items['Press-04']; ?></td>
+                                                    <td><?= $items['Press-05']; ?></td>
+                                                    <td><?= $items['Press-06']; ?></td>
+                                                    <td><?= $items['Press-07']; ?></td>
+                                                   
                                                   
+
+                                                   
+                                                    
+                        
                                             
                                                 <?php
                                             }
