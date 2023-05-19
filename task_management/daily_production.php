@@ -17,9 +17,9 @@
             <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-header">
-                        <h4>BOM</h4>
+                        <h4>Daily Production</h4>
 
-                        <a href="BOM.PHP">
+                        <a href="production_search.PHP">
   <button>Search</button>
 </a>
 
@@ -63,7 +63,7 @@
                                  
                                     
                                        
-                                        $query = "SELECT * FROM production";
+                                        $query = "SELECT * FROM daily_production";
                                         $query_run = mysqli_query($con, $query);
 
                                         if(mysqli_num_rows($query_run) > 0)

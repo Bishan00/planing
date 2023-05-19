@@ -1,6 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Table with Bootstrap styles</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h4>Check work Order</h4>
+
+                        <form action="comparee.php" method="POST">
+    <button type="submit" name="compare">Comparee Data</button>
+  </form>
+
+</a>
+</html>
+
+
 <style>
   .mismatched {
-    background-color: yellow;
+    background-color: lightblue;
   }
 </style>
 
@@ -29,8 +57,8 @@ $orderResult = mysqli_query($conn, $orderQuery);
 if (!$orderResult) {
     die("Error executing order query: " . mysqli_error($conn));
 }
-    // Display the data in a table
-    echo '<table>';
+     echo '<table class="table table-bordered">';
+     echo '<thead class="thead-light">';
     echo '<tr>';
     echo '<th>Tire ID</th>';
     echo '<th>Tire Size</th>';
