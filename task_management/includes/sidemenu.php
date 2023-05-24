@@ -319,7 +319,60 @@
                             </div>
                         </li>
 
-                      
+                        <li class=" has-sub-menu">
+                            <a href="#">
+                                <div class="icon-w">
+                                    <div class="os-icon os-icon-wallet-loaded"></div>
+                                </div><span>Daily Production</span></a>
+                            <div class="sub-menu-w">
+                                <div class="sub-menu-header">Daily Production</div>
+                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
+                                <div class="sub-menu-i">
+                                    <ul class="sub-menu">
+                                            <li><a href="add_production.php">Add Daily Production</a></li>
+                                          
+                                           
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class=" has-sub-menu">
+                            <a href="#">
+                                <div class="icon-w">
+                                    <div class="os-icon os-icon-wallet-loaded"></div>
+                                </div><span>Daily reject</span></a>
+                            <div class="sub-menu-w">
+                                <div class="sub-menu-header">Daily reject </div>
+                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
+                                <div class="sub-menu-i">
+                                    <ul class="sub-menu">
+                                            <li><a href="add_production.php">Add Daily reject</a></li>
+                                          
+                                           
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class=" has-sub-menu">
+                            <a href="#">
+                                <div class="icon-w">
+                                    <div class="os-icon os-icon-wallet-loaded"></div>
+                                </div><span>Mould Changing List</span></a>
+                            <div class="sub-menu-w">
+                                <div class="sub-menu-header">Mould Changing List</div>
+                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
+                                <div class="sub-menu-i">
+                                    <ul class="sub-menu">
+                                            <li><a href="add_mould_changing.php">Add Mould Changing List</a></li>
+                                          
+                                           
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
 
                         <li class="sub-header"><span>Settings</span></li>
                         <li class=" has-sub-menu">
