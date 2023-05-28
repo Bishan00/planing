@@ -1,16 +1,34 @@
 <form action="process_work_order.php" method="post">
+  <label for="tireid">Tire ID:</label>
+  <input type="text" id="tireid" name="tireid">
+
+  <label for="quantity">Quantity:</label>
+  <input type="number" id="quantity" name="quantity">
+
+  <label for="start_date">Start Date:</label>
+  <input type="date" id="start_date" name="start_date">
+
+  <label for="priority">Priority:</label>
+  <select id="priority" name="priority">
+    <option value="high">High</option>
+    <option value="medium">Medium</option>
+    <option value="low">Low</option>
+  </select>
+
   <input type="submit" name="submit" value="Process Work Order">
 </form>
+
+
 <?php
+
 // Connect to the database
 $connection = mysqli_connect("localhost", "root", "", "tiret");
 
 // Check if the button was clicked
 if (isset($_POST['submit'])) {
 
-  
   // Retrieve the available tire types and quantities
-  $tiresQuery = "SELECT tireid production_time FROM tires";
+  $tiresQuery = "SELECT tireid ,production_time FROM tires";
   $tiresResult = mysqli_query($connection, $tiresQuery);
   $tires = mysqli_fetch_all($tiresResult, MYSQLI_ASSOC);
 
@@ -121,11 +139,13 @@ mysqli_query($connection, $updateQuery);
 }
 
 // Retrieve the work order details from the form submission
+
+
 $tireId = $_POST['tireid'];
-$quantity = $_POST['quantity'];
+ $quantity = $_POST['quantity'];
 $startDate = $_POST['start_date'];
 $priority = $_POST['priority'];
-// Call the function to plan the work order
+//Call the function to plan the work order
 planWorkOrder($tireId, $quantity, $startDate, $molds, $presses, $capacities, $connection);
 
 // Close the database connection
