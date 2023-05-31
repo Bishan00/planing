@@ -1,22 +1,24 @@
 <?php
 include './includes/admin_header.php';
-include './includes/data_base_save_update.php';
-$msg = '';
-$AppCodeObj = new databaseSave();
-if (isset($_POST['submit'])) {
-    $msg = $AppCodeObj->addstock("stock");
+
+$hostname = "localhost";
+$username = "root";
+$password = "";
+$database = "task_management";
+
+// Create a connection
+$conn = new mysqli($hostname, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-
-
-/*if(isset($_GET['delete']))
-{
-    $id=$_GET['delete'];
-    $delete= mysqli_query($connection, "delete from news_and_update where news_id='$id'");
-}
-*/
-
 
 ?>
+
+
+
+
 <!--------------------
 START - Breadcrumbs
 -------------------->
@@ -33,61 +35,44 @@ END - Breadcrumbs
         <div class="element-wrapper">
             <div class="element-box">
                 <div class="row">
-                    <div class="col-md-6">
-                <form action="#" method="post" enctype="multipart/form-data">
+                    <div class="col-md-6" id >
+                <form action="assign_task2.php" method="post" enctype="multipart/form-data">
 
                     
                             <div class="row">
                                  <div class="col-md-12">
-                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add Stock</h5>                                   
-                             
-                                
-                                </div>
+                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add stock</h5>                                   
+                                </div>  
+                                <form method="POST" action="add_production.php">
                                 <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Item Code</label>
-                                        <input class="form-control" name="icode" placeholder="" type="varchar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Tyre Size</label>
-                                        <input class="form-control" name="t_size" placeholder="" type="varchar">
-                                    </div>
-                                </div>
+                                <div class="form-group"><label for="icode">Item Code:</label>
+        <input class="form-control" type="text" name="icode" id="icode" required> <br>
 
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Brand</label>
-                                        <input class="form-control" name="brand" placeholder="" type="varchar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Colour</label>
-                                        <input class="form-control" name="col" placeholder="" type="varchar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">FIT</label>
-                                        <input class="form-control" name="fit" placeholder="" type="varchar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">RIM</label>
-                                        <input class="form-control" name="rim" placeholder="" type="varchar">
-                                    </div>
-                        
-</div>
-                             
-            
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Qty stock</label>
-                                        <input class="form-control" name="cstock" placeholder="" type="varchar">
-                                  
-</div>
-                            <div class=" text-right">
-                                <input class="btn btn-primary" type="submit" value="Submit Now" name="submit">
-</div>
-            
-                 
-            
+  
+        <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+    </form>
+                
+                            
+
+      
+    </form>
+                            </div>
+                        </div>
+                </form>
+                    </div>
+                      <div class="col-md-6">
+                          <br>
+               
+                                                               
+                </table>
+                      </div>
+            </div>
+        </div></div>
+
+
+
+
         
 <?php include './includes/Plugin.php'; ?>
         <?php include './includes/admin_footer.php'; ?>
+

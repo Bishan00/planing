@@ -36,50 +36,23 @@ END - Breadcrumbs
             <div class="element-box">
                 <div class="row">
                     <div class="col-md-6" id >
-                <form action="#" method="post" enctype="multipart/form-data">
+                <form action="add_production2.php" method="post" enctype="multipart/form-data">
 
                     
                             <div class="row">
                                  <div class="col-md-12">
-                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add work order</h5>                                   
+                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add Daily Production</h5>                                   
                                 </div>  
                                 <form method="POST" action="add_production.php">
                                 <div class="col-sm-6">
-                                <div class="form-group"><label for="id">Enter ID:</label>
-                                <input class="form-control" type="text" name="pid" id="pid">
-                                <input class="btn btn-primary" type="submit"  value="Submit">
-                                </form>
-                                
-                                <?php
+                                <div class="form-group"><label for="icode">Item Code:</label>
+        <input class="form-control" type="text" name="icode" id="icode" required> <br>
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Retrieve the ID from the form
-    $pid = $_POST["pid"];
-
-    // Query the database for the corresponding data
-    $query = "SELECT * FROM bom WHERE pid = '$pid'";
-    $result = $conn->query($query);
-
-    // Check if any rows were returned
-    if ($result->num_rows > 0) {
-        // Fetch the data from the result set
-        $row = $result->fetch_assoc();
-
-        // Display the data in the form
-        
-        echo "Name: <input type='text' value='" . $row["Tsize"] . "'><br>";
-        echo "Email: <input type='text' value='" . $row["brand"] . "'><br>";
-        // Add more fields as needed
-    } else {
-        echo "No data found for the provided ID.";
-    }
-}
-?>
-                           
-                            <div class="form-buttons-w text-right">
-                                <input class="btn btn-primary" type="submit" value="Submit Now" name="submit">
-                                
+  
+        <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+    </form>
+                
+                            
 
       
     </form>
@@ -95,15 +68,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                       </div>
             </div>
         </div></div>
+
+
+
+
+        
 <?php include './includes/Plugin.php'; ?>
         <?php include './includes/admin_footer.php'; ?>
 
-
-
-
-
-         <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Ref.ERP CO.No</label>
-                                        <input class="form-control" name="Rno" placeholder="" type="varchar">
-                                    </div>
-                                </div>

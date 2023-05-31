@@ -16,13 +16,25 @@ if (!$conn) {
 if (isset($_POST['work_orders'])) {
     $work_orders = $_POST['work_orders'];
 
-    // Iterate through the work orders and update their priorities
+    // Iterate through the work orders and update their priorities and end dates
     foreach ($work_orders as $work_order) {
         $work_order_id = $work_order['work_order_id'];
         $priority = $work_order['priority'];
 
-        // Update the priority in the production plan
-        $sql = "UPDATE production_plan SET priority = $priority WHERE work_order_id = $work_order_id";
+        // Retrieve the time taken to make each type of tire
+        $sql = "SELECT time_taken FROM tire WHERE tire_id = (
+            SELECT tire_id FROM work_order WHERE work_order_id = $work_order_id
+        )";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $time_taken = $row['time_taken'];
+
+        // Calculate the end date for the production plan
+        $start_date = date('Y-m-d H:i:s');
+        $end_date = date('Y-m-d H:i:s', strtotime($start_date) + ($time_taken * 60));
+
+        // Update the priority and end date in the production plan
+        $sql = "UPDATE production_plan SET priority = $priority, end_date = '$end_date' WHERE work_order_id = $work_order_id";
         mysqli_query($conn, $sql);
     }
 
@@ -34,7 +46,7 @@ if (isset($_POST['work_orders'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update Work Order Priority</title>
+    <title>Forward Work Orders</title>
 </head>
 <body>
     <form method="POST" action="">
@@ -54,7 +66,7 @@ if (isset($_POST['work_orders'])) {
             </tr>
             <!-- Add more rows for additional work orders -->
         </table>
-        <button type="submit">Update Priority</button>
+        <button type="submit">Forward Work Orders</button>
     </form>
 </body>
 </html>
