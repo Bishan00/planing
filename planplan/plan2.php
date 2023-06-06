@@ -1,141 +1,110 @@
+
+
+
 <?php
-// Assuming you have established a MySQL connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bishnplan";
+// Establish database connection
+$conn = mysqli_connect("localhost", "root", "", "bishnplan");
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-// Check connection
+// Check if the connection is successful
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Function to update the priority of a work order
-function updateWorkOrderPriority($work_order_id, $priority) {
-    global $conn;
-
-    $sql = "UPDATE work_order SET priority = $priority WHERE work_order_id = $work_order_id";
-    mysqli_query($conn, $sql);
-}
-
-// Function to update the production plan based on changed work order priorities
-function updateProductionPlan() {
-    global $conn;
-
-    // Retrieve the work orders that are currently ongoing
-    $sql = "SELECT DISTINCT work_order_id FROM production_plan WHERE DATE(start_date) >= CURDATE()";
-    $result = mysqli_query($conn, $sql);
-
-    // Iterate through the ongoing work orders
-    while ($row = mysqli_fetch_assoc($result)) {
-        $work_order_id = $row['work_order_id'];
-
-        // Retrieve the details of the work order
-        $sql = "SELECT wo.work_order_id, wo.tire_id, wo.quantity, t.time_taken
-                FROM work_order wo
-                INNER JOIN tire t ON wo.tire_id = t.tire_id
-                WHERE wo.work_order_id = $work_order_id";
-        $work_order_result = mysqli_query($conn, $sql);
-        $work_order_row = mysqli_fetch_assoc($work_order_result);
-
-        $tire_id = $work_order_row['tire_id'];
-        $quantity = $work_order_row['quantity'];
-        $time_taken = $work_order_row['time_taken'];
-
-        // Retrieve the available molds that match the tire for the product and are not in use
-        $sql = "SELECT m.mold_id
-                FROM mold m
-                WHERE m.tire_id = $tire_id
-                AND m.mold_id NOT IN (
-                    SELECT p.mold_id
-                    FROM production_plan p
-                    WHERE DATE(p.start_date) >= CURDATE()
-                )";
-        $mold_result = mysqli_query($conn, $sql);
-
-        // Iterate through the molds
-        while ($mold_row = mysqli_fetch_assoc($mold_result)) {
-            $mold_id = $mold_row['mold_id'];
-
-            // Retrieve the available presses for the mold and are not in use
-            $sql = "SELECT p.press_id
-                    FROM press p
-                    WHERE p.mold_id = $mold_id
-                    AND p.press_id NOT IN (
-                        SELECT pp.press_id
-                        FROM production_plan pp
-                        WHERE DATE(pp.start_date) >= CURDATE()
-                    )";
-            $press_result = mysqli_query($conn, $sql);
-
-            // Iterate through the presses
-            while ($press_row = mysqli_fetch_assoc($press_result)) {
-                $press_id = $press_row['press_id'];
-
-                // Calculate the start date and end date for the production plan
-                $sql = "SELECT MAX(start_date) AS last_start_date
-                        FROM production_plan
-                        WHERE press_id = $press_id";
-                $date_result = mysqli_query($conn, $sql);
-                $date_row = mysqli_fetch_assoc($date_result);
-                $last_start_date = $date_row['last_start_date'];
-                $start_date = date('Y-m-d H:i:s', strtotime($last_start_date. "') + (" . $time_taken . " * 60))";
-                $end_date = calculateEndDate($start_date, $time_taken);
-
-                            // Update the ongoing production plan with the new details
-            $sql = "UPDATE production_plan
-            SET mold_id = $mold_id, press_id = $press_id, start_date = '$start_date', end_date = '$end_date'
-            WHERE work_order_id = $work_order_id";
+// Function to update the production plan based on work order priorities
+function updateProductionPlan($conn, $work_order_ids)
+{
+    // Clear existing production plan
+    $sql = "DELETE FROM production_plan";
     mysqli_query($conn, $sql);
 
-    // Update the availability of the assigned press
-    $sql = "UPDATE press
-            SET is_available = 0
-            WHERE press_id = $press_id";
-    mysqli_query($conn, $sql);
+    // Iterate over each work order ID
+    foreach ($work_order_ids as $work_order_id) {
+        // Retrieve the work order details
+        $sql = "SELECT tire_id, quantity
+                FROM work_order
+                WHERE work_order_id = $work_order_id";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $tire_id = $row['tire_id'];
+        $quantity = $row['quantity'];
 
-    // Update the availability of the assigned mold
-    $sql = "UPDATE mold
-            SET is_available = 0
-            WHERE mold_id = $mold_id";
-    mysqli_query($conn, $sql);
+        // Retrieve the time taken for the tire type
+        $sql = "SELECT time_taken
+                FROM tire
+                WHERE tire_id = $tire_id";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $time_taken = $row['time_taken'];
+
+        // Calculate the start and end dates based on the time taken
+        $start_date = date("Y-m-d H:i:s");
+        $end_date = date("Y-m-d H:i:s", strtotime("+{$time_taken} minutes"));
+
+        // Check for available press and mold
+        $sql = "SELECT press_id, mold_id
+                FROM press
+                WHERE availability_date <= '$start_date'
+                AND is_available = 1
+                LIMIT 1";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+
+        if ($row) {
+            $press_id = $row['press_id'];
+            $mold_id = $row['mold_id'];
+
+            // Insert the production plan into the database for the entire quantity
+            $sql = "INSERT INTO production_plan (work_order_id, press_id, mold_id, start_date, end_date)
+                    VALUES ($work_order_id, $press_id, $mold_id, '$start_date', '$end_date')";
+            mysqli_query($conn, $sql);
+
+            // Update the availability of the assigned press
+            $sql = "UPDATE press
+                    SET availability_date = '$end_date', is_available = 0
+                    WHERE press_id = $press_id";
+            mysqli_query($conn, $sql);
+
+            // Update the availability of the assigned mold
+            $sql = "UPDATE mold
+                    SET availability_date = '$end_date', is_available = 0
+                    WHERE mold_id = $mold_id";
+            mysqli_query($conn, $sql);
+        }
+    }
 }
-}
-}
-}
 
-// Handle the work order priority changes
-if (isset($_POST['work_order_id']) && isset($_POST['priority'])) {
-$work_order_id = $_POST['work_order_id'];
-$priority = $_POST['priority'];
+// Handle work order priority changes
+if (isset($_POST['work_order_priority'])) {
+    $work_order_priority = $_POST['work_order_priority'];
 
-// Update the priority of the work order
-updateWorkOrderPriority($work_order_id, $priority);
+    // Split the work order priorities into an array
+    $work_order_ids = explode(",", $work_order_priority);
 
-// Update the production plan based on changed work order priorities
-updateProductionPlan();
+    // Update the production plan based on the new priorities
+    updateProductionPlan($conn, $work_order_ids);
 }
 
-// Rest of the code...
+// View Planned Tires for Specific Date
+// ...
 
+// Close the database connection
+mysqli_close($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Change Work Order Priority</title>
+    <title>Update Work Order Priority</title>
 </head>
 <body>
-    <h2>Change Work Order Priority</h2>
-    <form method="POST" action="">
-        <label for="work_order_id">Work Order ID:</label>
-        <input type="text" name="work_order_id" id="work_order_id" required><br><br>
-        <label for="priority">Priority:</label>
-        <input type="text" name="priority" id="priority" required><br><br>
-        <button type="submit">Change Priority</button>
+    <h1>Update Work Order Priority</h1>
+
+    <form action="plan2.php" method="POST">
+        <label for="work_order_priority">Work Order Priority:</label>
+        <input type="text" name="work_order_priority" id="work_order_priority" placeholder="Enter work order IDs separated by commas" required>
+
+        <button type="submit">Update Priority</button>
     </form>
 </body>
 </html>
-

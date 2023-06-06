@@ -39,6 +39,8 @@ if (isset($_POST['work_order_ids'])) {
         // Iterate through the molds
         while ($row = mysqli_fetch_assoc($result)) {
             $mold_id = $row['mold_id'];
+            $mold_name = $mold_row['mold_name'];
+
 
             // Retrieve the available presses for the mold
             $sql = "SELECT press_id FROM press WHERE mold_id = $mold_id AND press_id NOT IN (SELECT press_id FROM production_plan WHERE end_date IS NULL)";
@@ -47,7 +49,9 @@ if (isset($_POST['work_order_ids'])) {
             // Iterate through the presses
             while ($press_row = mysqli_fetch_assoc($press_result)) {
                 $press_id = $press_row['press_id'];
+                $press_name = $press_row['press_name'];
 
+                
                 // Calculate the start date for the production plan
                 $sql = "SELECT MAX(end_date) AS last_end_date FROM production_plan WHERE press_id = $press_id";
                 $date_result = mysqli_query($conn, $sql);
