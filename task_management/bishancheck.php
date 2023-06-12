@@ -1,6 +1,7 @@
 <?php
 include './includes/admin_header.php';
 include './includes/data_base_save_update.php';
+//include 'includes/App_Code.php';
 include 'includes/App_Code.php';
 $AppCodeObj = new App_Code();
 
@@ -17,16 +18,16 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if (isset($_POST['submit'])) {
-    // Get the user-provided work order ID
-    $erp = $_POST['erp'];
+// Check if the work order ID is provided by the user
+if (isset($_POST['erp'])) {
+    $workOrderID = $_POST['erp'];
 
-    // Perform subtraction and insert result into result_table
+    // Perform subtraction and insert result into result_table for the specific work order ID
     $sql = "INSERT INTO tobeplan (icode, tobe)
-            SELECT t1.icode, t1.new - t2.cstock
-            FROM worder t1
-            INNER JOIN stock t2 ON t1.icode = t2.icode
-            WHERE t1.erp = '$erp'";
+           SELECT t1.icode, t1.new - t2.cstock
+           FROM worder t1
+           INNER JOIN stock t2 ON t1.icode = t2.icode
+           WHERE t1.erp = $workOrderID";
 
     if ($conn->query($sql) === TRUE) {
         echo "Subtraction performed successfully";
@@ -38,10 +39,8 @@ if (isset($_POST['submit'])) {
 $conn->close();
 ?>
 
-<form method="POST" action="subtract.php">
+<form method="POST" action="planning.php">
     <label for="erp">Work Order ID:</label>
-    <input type="text" name="erp" id="erp" required>
+    <input type="text" name="erp" id="erp">
     <button type="submit" name="submit">Click Next</button>
 </form>
-
-
