@@ -311,7 +311,7 @@
                                 <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
-                                            <li><a href="plan.php">Add Plan</a></li>
+                                            <li><a href="subtract.php">Add Plan</a></li>
                                           
                                            
                                     </ul>

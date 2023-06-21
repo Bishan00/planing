@@ -1,4 +1,6 @@
 <?php
+ob_start(); // Start output buffering
+
 include './includes/admin_header.php';
 include './includes/data_base_save_update.php';
 include 'includes/App_Code.php';
@@ -22,20 +24,23 @@ if (isset($_POST['submit'])) {
     $erp = $_POST['erp'];
 
     // Perform subtraction and insert result into result_table
-    $sql = "INSERT INTO tobeplan (icode, tobe)
-            SELECT t1.icode, t1.new - t2.cstock
+    $sql = "INSERT INTO tobeplan (icode, tobe, erp)
+            SELECT t1.icode, t1.new - t2.cstock, t1.erp
             FROM worder t1
             INNER JOIN stock t2 ON t1.icode = t2.icode
             WHERE t1.erp = '$erp'";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Subtraction performed successfully";
+        // Redirect to another page to display the relevant data
+        header("Location: display.php?erp=$erp");
+        exit;
     } else {
         echo "Error performing subtraction: " . $conn->error;
     }
 }
 
 $conn->close();
+ob_end_flush(); // Send output buffer and turn off output buffering
 ?>
 
 <form method="POST" action="subtract.php">
@@ -43,5 +48,3 @@ $conn->close();
     <input type="text" name="erp" id="erp" required>
     <button type="submit" name="submit">Click Next</button>
 </form>
-
-

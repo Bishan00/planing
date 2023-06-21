@@ -14,6 +14,9 @@ if (isset($_POST['work_order_ids'])) {
     // Split the work order IDs into an array
     $work_order_ids = explode(",", $work_order_ids);
 
+    $previous_end_date = null; // Initialize the variable
+    $available_press_ids = array(); // Initialize the array
+
     // Iterate over each work order ID
     foreach ($work_order_ids as $work_order_id) {
         // Retrieve the tire IDs and quantities for the work order
@@ -33,37 +36,41 @@ if (isset($_POST['work_order_ids'])) {
                     FROM tire
                     WHERE tire_id = $tire_id";
             $result2 = mysqli_query($conn, $sql);
-            
 
             if (!$result2) {
                 die("Query failed: " . mysqli_error($conn));
             }
-            
 
             $row2 = mysqli_fetch_assoc($result2);
-            
+
             $time_taken = $row2['time_taken'];
 
             // Calculate the total time for all tires in the work order
             $total_time = $time_taken * $quantity;
 
             // Calculate the start and end dates based on the total time
-            $start_date = date("Y-m-d H:i:s");
-            $end_date = date("Y-m-d H:i:s", strtotime("+$total_time minutes"));
+            $start_date = $previous_end_date ? $previous_end_date : date("Y-m-d H:i:s");
+            $end_date = date("Y-m-d H:i:s", strtotime("$start_date + $total_time minutes"));
 
-           
-          // Check for available press, mold, and cavity matching the tire_id
-          $sql = "SELECT p.press_id, p.press_name, m.mold_id, m.mold_name, c.cavity_id, c.cavity_name
-          FROM press p
-          INNER JOIN mold_press mp ON p.press_id = mp.press_id
-          INNER JOIN mold m ON mp.mold_id = m.mold_id
-          INNER JOIN tire_mold tm ON m.mold_id = tm.mold_id
-          INNER JOIN tire t ON tm.tire_id = t.tire_id
-          INNER JOIN press_cavity pc ON p.press_id = pc.press_id
-          INNER JOIN cavity c ON pc.cavity_id = c.cavity_id
-          WHERE p.is_available = 1 AND m.is_available = 1 AND c.is_available = 1 AND t.tire_id = $tire_id
-          LIMIT 1";
-          
+            // Check for available press, mold, and cavity matching the tire_id
+            $sql = "SELECT p.press_id, p.press_name, m.mold_id, m.mold_name, c.cavity_id, c.cavity_name
+                    FROM press p
+                    INNER JOIN mold_press mp ON p.press_id = mp.press_id
+                    INNER JOIN mold m ON mp.mold_id = m.mold_id
+                    INNER JOIN tire_mold tm ON m.mold_id = tm.mold_id
+                    INNER JOIN tire t ON tm.tire_id = t.tire_id
+                    INNER JOIN press_cavity pc ON p.press_id = pc.press_id
+                    INNER JOIN cavity c ON pc.cavity_id = c.cavity_id
+                    WHERE p.is_available = 1 AND m.is_available = 1 AND c.is_available = 1 AND t.tire_id = $tire_id";
+
+            // Add condition to match available presses at the end of previous work orders
+            if (!empty($available_press_ids)) {
+                $press_ids_str = implode(",", $available_press_ids);
+                $sql .= " AND p.press_id IN ($press_ids_str)";
+            }
+
+            $sql .= "LIMIT 1";
+
             $result3 = mysqli_query($conn, $sql);
 
             if (!$result3) {
@@ -96,21 +103,24 @@ if (isset($_POST['work_order_ids'])) {
 
                 // Update the availability of the assigned press
                 $sql = "UPDATE press
-                        SET availability_date = '$end_date', is_available = 0
+                        SET availability_date = '$end_date'
                         WHERE press_id = $press_id";
                 mysqli_query($conn, $sql);
 
                 // Update the availability of the assigned mold
                 $sql = "UPDATE mold
-                        SET availability_date = '$end_date', is_available = 0
+                        SET availability_date = '$end_date'
                         WHERE mold_id = $mold_id";
                 mysqli_query($conn, $sql);
 
                 // Update the availability of the assigned cavity
                 $sql = "UPDATE cavity
-                        SET availability_date = '$end_date', is_available = 0
+                        SET availability_date = '$end_date'
                         WHERE cavity_id = $cavity_id";
                 mysqli_query($conn, $sql);
+
+                $previous_end_date = $end_date; // Update the previous end date
+                $available_press_ids[] = $press_id; // Add press ID to the available presses array
             }
         }
     }
@@ -124,11 +134,10 @@ if (isset($_POST['work_order_ids'])) {
 </head>
 <body>
     <h2>Generate Production Plan</h2>
-    <form action="plannew4.php" method="post">
+    <form action="plannew6.php" method="post">
         <label for="work_order_ids">Work Order IDs (comma-separated):</label>
         <input type="text" name="work_order_ids" id="work_order_ids">
         <button type="submit">Generate Plan</button>
     </form>
 </body>
 </html>
-
