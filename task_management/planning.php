@@ -1,92 +1,74 @@
-<?php require't4tutorials_database_connection.php'?>
-<!doctype html>
-<html lang="en">
+
+<?php
+
+include './includes/admin_header.php';
+include './includes/data_base_save_update.php';
+include 'includes/App_Code.php';
+// Establish database connection (same as in the original file)
+$conn = mysqli_connect("localhost", "root", "", "task_management");
+
+// Check if the connection is successful (same as in the original file)
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Retrieve the ERP number from the form input
+    $erp = isset($_POST['erp']) ? $_POST['erp'] : '';
+
+    // Validate the ERP number (you can add your own validation logic here)
+    if (empty($erp)) {
+        die("Invalid ERP ID");
+    }
+
+    // Retrieve the production plan details for the ERP number
+    $sql = "SELECT * FROM production_plan WHERE erp = '$erp'";
+    $result = mysqli_query($conn, $sql);
+
+    // Check if any production plan entries exist
+    if (mysqli_num_rows($result) > 0) {
+        // Display the production plan details in a table
+        echo "<h2>Production Plan Details for ERP ID: $erp</h2>";
+        echo "<table>";
+        echo "<tr><th>Tire ID</th><th>Press Name</th><th>Mold Name</th><th>Start Date</th><th>End Date</th></tr>";
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $icode = $row['icode'];
+            $press_name = $row['press_name'];
+            $mold_name = $row['mold_name'];
+            $start_date = $row['start_date'];
+            $end_date = $row['end_date'];
+
+            echo "<tr>";
+            echo "<td>$icode</td>";
+            echo "<td>$press_name</td>";
+            echo "<td>$mold_name</td>";
+            echo "<td>$start_date</td>";
+            echo "<td>$end_date</td>";
+            echo "</tr>";
+        }
+
+        echo "</table>";
+    } else {
+        echo "No production plan details found for the provided ERP ID.";
+    }
+}
+
+// Close the database connection
+mysqli_close($conn);
+?>
+
+<!DOCTYPE html>
+<html>
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Funda Of Web IT</title>
+    <title>Production Plan Lookup</title>
 </head>
 <body>
-	
-	
-<div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mt-4">
-                    <div class="card-header">
-		<h3>PLAN </h3>
-		<hr style="border-top:1px dotted #ccc;"/>
-		<div class="col-md-6">
-			
-        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-		<div class="col-md-6">
-			<br><form method="POST" action="">
-			
-			</form>
-			<br />
-			<?php include'merge_tables.php'?>
-		</div>
-	</div>
-</body>	
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <label for="erp">Enter ERP ID:</label>
+        <input type="text" id="erp" name="erp" required>
+        <button type="submit">Search</button>
+    </form>
+</body>
 </html>
-
-<?php
-	if(ISSET($_POST['submit'])){
-?>
-<table class="table table-bordered">
-	<thead class="alert-info">
-		<tr>
-        <th>Item code</th>
-                        <th>Tire Size</th>
-    <th>Brand</th>
-    <th>Colour</th>
-    <th>Fit</th>
-    <th>Rim</th>
-    <th>Construction</th>
-    <th>Average Finish
-    Tyre weight - kgs</th>
-    <th>Per Voloume/cbm</th>
-    <th>Total Volume cbm</th>
-    <th>Total Tones kgs</th>
-    <th>Qty New pcs</th>
-    <th>Order quentity</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-			$query=mysqli_query($conn, "SELECT * FROM `worder` LEFT JOIN `tobeplan` ON worder.icode = tobeplan.icode") or die(mysqli_error());
-			while($fetch=mysqli_fetch_array($query)){
-		?>
-		<tr>
-			<td><?php echo $fetch['icode']?></td>
-			<td><?php echo $fetch['t_size']?></td>
-			<td><?php echo $fetch['brand']?></td>
-            <td><?php echo $fetch['col']?></td>
-			<td><?php echo $fetch['fit']?></td>
-			<td><?php echo $fetch['rim']?></td>
-            <td><?php echo $fetch['cons']?></td>
-			<td><?php echo $fetch['fweight']?></td>
-			<td><?php echo $fetch['ptv']?></td>
-			<td><?php echo $fetch['cbm']?></td>
-			<td><?php echo $fetch['kgs']?></td>
-            <td><?php echo $fetch['new']?></td>
-            <td><?php echo $fetch['tobe']?></td>
-
-
-		</tr>
-		<?php
-			}
-		?>
-	</tbody>
-</table>
-<?php
-	}
-?>

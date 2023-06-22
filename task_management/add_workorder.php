@@ -1,25 +1,29 @@
+
 <?php
-include './includes/admin_header.php';
 include './includes/data_base_save_update.php';
-$msg = '';
 $AppCodeObj = new databaseSave();
 if (isset($_POST['submit'])) {
-    $msg = $AppCodeObj->addwork("work_order");
+    // Retrieve form data
+    $date = $_POST['date'];
+    $erp = $_POST['erp'];
+
+    // Perform data validation and sanitization
+
+    // Save the data to the database
+    $result = $AppCodeObj->addwork("work_order", $date, $erp);
+
+    if ($result) {
+        // Data saved successfully
+        header('Location: work_order.php');
+        exit();
+    } else {
+        // Handle the error
+        $msg = "Error occurred while saving the data.";
+    }
 }
-
-
 ?>
-<!--------------------
-START - Breadcrumbs
--------------------->
-<ul class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><span>alert</span></li>
-</ul>
-<!--------------------
-END - Breadcrumbs
--------------------->
-<div class="content-panel-toggler"><i class="os-icon os-icon-grid-squares-22"></i><span>Sidebar</span></div>
+<!-- Add the necessary HTML code for displaying the success message or error message -->
+
 <div class="content-i">
     <div class="content-box">
         <div class="element-wrapper">
@@ -36,30 +40,16 @@ END - Breadcrumbs
 
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Date</label>
-                                        <input class="form-control" name="date" placeholder="" type="date">
-                                    </div>
+                                        <input class="form-control" name="date" placeholder="" type="date"><br>
+                                    </div></div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group"><label for="">Ref.ERP CO.No</label>
-                                        <input class="form-control" name="Rno" placeholder="" type="varchar">
+                                        <input class="form-control" name="erp" placeholder="" type="varchar">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Customer</label>
-                                        <input class="form-control" name="Customer" placeholder="" type="varchar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">Order Ref</label>
-                                        <input class="form-control" name="ref" placeholder="" type="varchar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group"><label for="">W.O. NO</label>
-                                        <input class="form-control" name="wono" placeholder="" type="varchar">
-                                    </div>
-                                </div>
-                           
+                             
+                            
                             <div class="form-buttons-w text-right">
                                 <input class="btn btn-primary" type="submit" value="Submit Now" name="submit">
                                 
@@ -78,5 +68,5 @@ END - Breadcrumbs
                       </div>
             </div>
         </div></div>
-<?php include './includes/Plugin.php'; ?>
-        <?php include './includes/admin_footer.php'; ?>
+
+        

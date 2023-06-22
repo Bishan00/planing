@@ -253,7 +253,7 @@
                                 <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
-                                        <li><a href="work_order.php">Add Work Order</a></li>
+                                        <li><a href="add_workorder.php">Add Work Order</a></li>
                                         <li><a href="check.php">Check Work Order</a></li>
                                        
                                     </ul>

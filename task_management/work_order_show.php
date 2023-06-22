@@ -35,78 +35,71 @@
             </div>
 
 
-                
-                    <div class="card-body">
-                        <table class="table table-bordered">
+            <div class="card mt-4">
+                <div class="card-body">
+                    <table class="table table-bordered">
                         <tr class="header">
-                        <th>Item Code</th>
-                        <th>Tire Size</th>
-    <th>Brand</th>
-    <th>Colour</th>
-    <th>FIT</th>
-    <th>Rim</th>
+                            <th>NO</th> <!-- Column number -->
+                            <th>Item Code</th>
+                            <th>Tire Size</th>
+                            <th>Brand</th>
+                            <th>Colour</th>
+                            <th>FIT</th>
+                            <th>Rim</th>
+                            <th>Construction</th>
+                            <th>Average Finish Tyre weight - kgs</th>
+                            <th>Per Volume/cbm</th>
+                            <th>Qty New pcs</th>
+                            <th>Total Volume cbm</th>
+                            <th>Total Tones kgs</th>
+                        </tr>
+                        <tbody>
+                            <?php 
+                                $con = mysqli_connect("localhost","root","","task_management");
 
-    <th>Construction</th>
-    <th>Average Finish
-    Tyre weight - kgs</th>
-    <th>Per Voloume/cbm</th>
-    <th>Qty New pcs</th>
-    <th>Total Volume cbm</th>
-    <th>Total Tones kgs</th>
+                                if(isset($_GET['search']))
+                                {
+                                    $filtervalues = $_GET['search'];
+                                    $query = "SELECT * FROM worder WHERE CONCAT(erp,Customer) LIKE '%$filtervalues%' ";
+                                    $query_run = mysqli_query($con, $query);
 
-            
-            
-
-		</tr>
-                            <tbody>
-                                <?php 
-                                    $con = mysqli_connect("localhost","root","","task_management");
-
-                                    if(isset($_GET['search']))
+                                    if(mysqli_num_rows($query_run) > 0)
                                     {
-                                        $filtervalues = $_GET['search'];
-                                        $query = "SELECT * FROM worder WHERE CONCAT(erp,Customer) LIKE '%$filtervalues%' ";
-                                        $query_run = mysqli_query($con, $query);
+                                        $columnNumber = 1; // Variable to store the column number
 
-                                        if(mysqli_num_rows($query_run) > 0)
-                                        {
-                                            foreach($query_run as $items)
-                                            {
-                                                ?>
-                                                <tr>
-                                                    <td><?= $items['icode']; ?></td>
-                        
-                                                    <td><?= $items['t_size']; ?></td>
-                                                    <td><?= $items['brand']; ?></td>
-                                                    <td><?= $items['col']; ?></td>
-                                                    <td><?= $items['fit']; ?></td>
-                                                    <td><?= $items['rim']; ?></td>
-                                                    <td><?= $items['cons']; ?></td>
-                                                    <td><?= $items['fweight']; ?></td>
-                                                    <td><?= $items['ptv']; ?></td>
-                                                    <td><?= $items['new']; ?></td>
-                                                    <td><?= $items['cbm']; ?></td>
-                                                    <td><?= $items['kgs']; ?></td>
-
-                                                    
-                                                    
-
-                                                <?php
-                                            }
-                                        }
-                                        else
+                                        foreach($query_run as $items)
                                         {
                                             ?>
-                                                <tr>
-                                                    <td colspan="4">No Record Found</td>
-                                                </tr>
+                                            <tr>
+                                                <td><?= $columnNumber++; ?></td> <!-- Display column number -->
+                                                <td><?= $items['icode']; ?></td>
+                                                <td><?= $items['t_size']; ?></td>
+                                                <td><?= $items['brand']; ?></td>
+                                                <td><?= $items['col']; ?></td>
+                                                <td><?= $items['fit']; ?></td>
+                                                <td><?= $items['rim']; ?></td>
+                                                <td><?= $items['cons']; ?></td>
+                                                <td><?= $items['fweight']; ?></td>
+                                                <td><?= $items['ptv']; ?></td>
+                                                <td><?= $items['new']; ?></td>
+                                                <td><?= $items['cbm']; ?></td>
+                                                <td><?= $items['kgs']; ?></td>
+                                            </tr>
                                             <?php
                                         }
                                     }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                    else
+                                    {
+                                        ?>
+                                        <tr>
+                                            <td colspan="4">No Record Found</td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

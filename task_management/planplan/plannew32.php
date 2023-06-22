@@ -1,6 +1,6 @@
 <?php
 // Establish database connection
-$conn = mysqli_connect("localhost", "root", "", "bisnew5");
+$conn = mysqli_connect("localhost", "root", "", "bisnew6");
 
 // Check if the connection is successful
 if (!$conn) {

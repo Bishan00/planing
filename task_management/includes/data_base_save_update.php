@@ -61,17 +61,16 @@ class databaseSave {
     }
 
     function addwork($tableNM) {
-        $Rno = $_POST['Rno'];
+      
         $date = $_POST['date'];
-        $Customer = $_POST['Customer'];
-        $ref = $_POST['ref'];
-        $wono = $_POST['wono'];
+        $erp = $_POST['erp'];
+   
         $this->table_name = $tableNM;
-        $query = "INSERT INTO work_order(Rno,date,Customer,ref,wono) VALUES ('$Rno','$date','$Customer','$ref','$wono')";
+        $query = "INSERT INTO work_order(date,erp) VALUES ('$date','$erp')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
-            die('QUERY FAILD alert' . mysqli_error($connection));
+            die('please enter correct no');
         } else {
             return 'pass';
         }

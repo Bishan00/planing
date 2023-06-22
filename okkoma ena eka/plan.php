@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize the ERP ID to prevent SQL injection
     $erp = mysqli_real_escape_string($conn, $erp);
 
-    // Generate Production Plan
+    // Generate Production Planuhuhhhhefuhu3hfohfhdhdhdhdhdhlhslshlshqlsqh
 
     // Retrieve the tire IDs and quantities for the ERP
     $sql = "SELECT wt.icode, wt.tobe, t.time_taken
@@ -78,14 +78,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $end_date = date("Y-m-d H:i:s", strtotime("$start_date + $total_time minutes"));
 
             // Check for available press and mold matching the tire_id
-            $sql = "SELECT p.press_id, p.press_name, m.mold_id, m.mold_name
+            $sql = "SELECT p.press_id, p.press_name, GROUP_CONCAT(m.mold_id) AS mold_ids, GROUP_CONCAT(m.mold_name) AS mold_names
                     FROM press p
                     INNER JOIN mold_press mp ON p.press_id = mp.press_id
                     INNER JOIN mold m ON mp.mold_id = m.mold_id
                     INNER JOIN tire_mold tm ON m.mold_id = tm.mold_id
                     INNER JOIN tire t ON tm.icode = t.icode
                     WHERE p.is_available = 1 AND m.is_available = 1 AND t.icode = '$icode'
-                    LIMIT 1"; // Limit the result to one row
+                    GROUP BY p.press_id"; // Group by press to get all available mold combinations
 
             $result3 = mysqli_query($conn, $sql);
 
@@ -93,41 +93,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 die("Query failed: " . mysqli_error($conn));
             }
 
-            $row3 = mysqli_fetch_assoc($result3);
-
-            if ($row3) {
+            // Iterate over each press
+            while ($row3 = mysqli_fetch_assoc($result3)) {
                 $press_id = $row3['press_id'];
                 $press_name = $row3['press_name'];
-                $mold_id = $row3['mold_id'];
-                $mold_name = $row3['mold_name'];
+                $mold_ids = explode(',', $row3['mold_ids']);
+                $mold_names = explode(',', $row3['mold_names']);
 
                 // Update the next start date for the next tire
                 $next_start_date = $end_date;
 
-                // Insert the production plan into the database for the entire quantity
-                $sql = "INSERT INTO production_plan (erp, icode, press_id, press_name, mold_id, mold_name, start_date, end_date)
-                        VALUES ('$erp', '$icode', '$press_id', '$press_name', '$mold_id', '$mold_name', '$start_date', '$end_date')";
-                mysqli_query($conn, $sql);
+                // Iterate over each mold combination for the press
+                for ($i = 0; $i < count($mold_ids); $i++) {
+                    $mold_id = $mold_ids[$i];
+                    $mold_name = $mold_names[$i];
 
-                // Get the ID of the inserted production plan
-                $production_plan_id = mysqli_insert_id($conn);
+                    // Insert the production plan into the database for the entire quantity
+                    $sql = "INSERT INTO production_plan (erp, icode, press_id, press_name, mold_id, mold_name, start_date, end_date)
+                            VALUES ('$erp', '$icode', '$press_id', '$press_name', '$mold_id', '$mold_name', '$start_date', '$end_date')";
+                    mysqli_query($conn, $sql);
 
-                // Update the production plan with the corresponding erp_id and tire_id
-                $sql = "UPDATE production_plan
-                        SET erp = '$erp', icode = '$icode'
-                        WHERE production_plan_id = '$production_plan_id'";
-                mysqli_query($conn, $sql);
+                    // Get the ID of the inserted production plan
+                    $production_plan_id = mysqli_insert_id($conn);
 
-                // Update the availability of the assigned press and mold
-                $sql = "UPDATE press
-                        SET availability_date = '$end_date'
-                        WHERE press_id = '$press_id'";
-                mysqli_query($conn, $sql);
+                    // Update the production plan with the corresponding erp_id and tire_id
+                    $sql = "UPDATE production_plan
+                            SET erp = '$erp', icode = '$icode'
+                            WHERE production_plan_id = '$production_plan_id'";
+                    mysqli_query($conn, $sql);
 
-                $sql = "UPDATE mold
-                        SET availability_date = '$end_date'
-                        WHERE mold_id = '$mold_id'";
-                mysqli_query($conn, $sql);
+                    // Update the availability of the assigned mold
+                    $sql = "UPDATE mold
+                            SET availability_date = '$end_date'
+                            WHERE mold_id = '$mold_id'";
+                    mysqli_query($conn, $sql);
+                }
+
+                // Update the next start date for the next tire using the maximum end date among the molds
+                $next_end_date = date("Y-m-d H:i:s", strtotime("$next_start_date + $total_time minutes"));
+                if ($next_end_date > $end_date) {
+                    $end_date = $next_end_date;
+                }
             }
         }
 

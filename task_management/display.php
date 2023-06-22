@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
     echo "</table>";
 
     // Add a button to send the ERP number to another page
-    echo "<form action='planplan/plannew34.php' method='get'>";
+    echo "<form action='plannew34.php' method='get'>";
     echo "<input type='hidden' name='erp' value='" . $erp . "'>";
     echo "<button type='submit'>Generate Plan</button>";
     echo "</form>";
