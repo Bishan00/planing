@@ -1,6 +1,6 @@
 +<?php
 // Establish database connection
-$conn = mysqli_connect("localhost", "root", "", "bisnew6");
+$conn = mysqli_connect("localhost", "root", "", "bisnew3");
 
 // Check if the connection is successful
 if (!$conn) {
@@ -91,7 +91,7 @@ if (!$result3) {
 
                 // Update the availability of the assigned mold
                 $sql = "UPDATE mold
-                        SET availability_date = '$end_date'
+                        SET availability_date = '$end_date
                         WHERE mold_id = $mold_id";
                 mysqli_query($conn, $sql);
 
@@ -129,3 +129,4 @@ if (!$result3) {
     </form>
 </body>
 </html>
+

@@ -7,6 +7,23 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+// Create the selected_production_plan table
+$sql = "CREATE TABLE IF NOT EXISTS selected_production_plan (
+    erp VARCHAR(255) NOT NULL,
+    icode VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    press_id INT(11) NOT NULL,
+    press_name VARCHAR(255) NOT NULL,
+    mold_id INT(11) NOT NULL,
+    mold_name VARCHAR(255) NOT NULL,
+    cavity_id INT(11) NOT NULL,
+    cavity_name VARCHAR(255) NOT NULL,
+    cuing_group_id INT(11) NOT NULL,
+    cuing_group_name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (erp, icode)
+)";
+mysqli_query($conn, $sql);
+
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the ERP ID from the form submission
@@ -58,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     INNER JOIN cavity c ON pc.cavity_id = c.cavity_id
                     INNER JOIN tire_mold tm ON m.mold_id = tm.mold_id
                     INNER JOIN tire t ON tm.icode = t.icode
-                    WHERE p.is_available = 1 AND m.is_available = 1 AND c.is_available = 1 AND t.icode = '$icode' AND (t.cuing_group_id = 0 OR t.cuing_group_id = (SELECT cuing_group_id FROM tire WHERE icode = '$icode'))";
+                    WHERE p.is_available = 1 AND m.is_available = 1 AND c.is_available = 1 AND t.icode = '$icode' AND (t.cuing_group_id = 0 OR t.cuing_group_id = (SELECT cuing_group_id FROM tire WHERE icode = '$icode'))
+                    ORDER BY m.availability_date, c.availability_date";
                 $result2 = mysqli_query($conn, $sql);
 
                 // Check if the query executed successfully
@@ -72,14 +90,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $cavity_id = $row2['cavity_id'];
                         $cavity_name = $row2['cavity_name'];
 
-                        $sql = "INSERT INTO production_plan (erp, icode, description, press_id, press_name, mold_id, mold_name, cavity_id, cavity_name, cuing_group_id, cuing_group_name)
+                        $sql = "INSERT INTO selected_production_plan (erp, icode, description, press_id, press_name, mold_id, mold_name, cavity_id, cavity_name, cuing_group_id, cuing_group_name)
                             VALUES ('$erp', '$icode', '$description', '$press_id', '$press_name', '$mold_id', '$mold_name', '$cavity_id', '$cavity_name', (SELECT cuing_group_id FROM tire WHERE icode = '$icode'), (SELECT cuing_group_name FROM tire WHERE icode = '$icode'))";
                         mysqli_query($conn, $sql);
+
+                        
                     }
                 } else {
                     echo "Error: " . mysqli_error($conn);
                 }
             }
+
+            // Output success message
+            echo "Production plan generated and stored in the 'selected_production_plan' table.";
         } else {
             echo "No tires found for the given ERP ID";
         }
@@ -108,4 +131,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 
 </html>
-

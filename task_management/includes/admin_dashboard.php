@@ -53,13 +53,31 @@ $cancel_task = 0;
 if ($result = mysqli_query($connection, $retailer_account)) {
     $cancel_task = mysqli_num_rows($result);
 }?>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  background-color:#E7E9EB;
+}
+#myDIV {
+  height:30px;
+  weight:5px;
+  background-color:#FFFFF1;
+  font-size: 18px;
+}
+</style>
+</head>
+<body>
+
+
                     </div>
                     <h6 class="element-header">Dashboard</h6>
                     <div class="element-content">
                         <div class="row">
-                            <div class="col-sm-4 col-xxxl-3">
+                            <div class="col-sm-4 ">
                                 <a class="element-box el-tablo" href="work_order_show.php">
-                                    <div class="label">Work Order</div>
+                                    <div id="myDIV">Work Order</div>
                                  
  </a>
                             </div>
@@ -67,60 +85,60 @@ if ($result = mysqli_query($connection, $retailer_account)) {
 
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="stock.php">
-                                    <div class="label">Stocks</div>
+                                <div id="myDIV">Stocks</div>
                                 
                                 </a>
                             </div>
 
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="planning.php">
-                                    <div class="label">Plan</div>
+                                <div id="myDIV">Plan</div>
                             
                                 </a>
                             </div>
                          
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="bom_all.php">
-                                    <div class="label">BOM</div>
+                                <div id="myDIV">BOM</div>
                        
                                 </a>
                             </div>
 
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="press_list.php">
-                                    <div class="label">Press list</div>
+                                <div id="myDIV">Press list</div>
                        
                                 </a>
                             </div>
 
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="press_list.php">
-                                    <div class="label">Daily Reject List</div>
+                                <div id="myDIV">Daily Reject List</div>
                        
                                 </a>
                             </div>
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="press_list.php">
-                                    <div class="label">  Mould Changung List</div>
+                                <div id="myDIV"> Mould Changung List</div>
                        
                                 </a>
                             </div>
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="order_quantity.php">
-                                    <div class="label">Orders Quantity</div>
+                                <div id="myDIV">Orders Quantity</div>
                        
                                 </a>
                             </div>
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="daily_production.php">
-                                    <div class="label">Daily Production</div>
+                                <div id="myDIV">Daily Production</div>
                        
                                 </a>
                             </div>
                         </div>
 
                         
-                           <div class="element-box">
+                        
 
                     
                                                                <?php

@@ -108,7 +108,7 @@ if (isset($_POST['work_order_ids'])) {
 
                 // Update the availability of the assigned cavity
                 $sql = "UPDATE cavity
-                        SET availability_date = '$end_date', is_available = 0
+                        SET availability_date = '$end_date'
                         WHERE cavity_id = $cavity_id";
                 mysqli_query($conn, $sql);
             }

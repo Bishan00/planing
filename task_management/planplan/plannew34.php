@@ -118,11 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 mysqli_query($conn, $sql);
 
                 // Update the availability of the assigned press and mold
-                $sql = "UPDATE press
-                        SET availability_date = '$end_date'
-                        WHERE press_id = '$press_id'";
-                mysqli_query($conn, $sql);
-
+              
                 $sql = "UPDATE mold
                         SET availability_date = '$end_date'
                         WHERE mold_id = '$mold_id'";
