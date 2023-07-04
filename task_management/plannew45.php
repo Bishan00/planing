@@ -1,27 +1,135 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Production Plan Editor</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 200px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            padding: 8px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
         table {
+            width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         th,
         td {
-            border: 1px solid black;
-            padding: 5px;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        select {
+            padding: 6px;
+            width: 100%;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button[name="submit"] {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Colorful design */
+        h2, button[type="submit"], button[name="submit"] {
+            background-color: #2196F3;
+        }
+
+        th {
+            background-color: #2196F3;
+        }
+
+        tr:nth-child(even) {
+            background-color: #E3F2FD;
+        }
+
+        select[name^="press_"] {
+            background-color: #BBDEFB;
+            color: #000;
+        }
+
+        select[name^="mold_"] {
+            background-color: #64B5F6;
+            color: #fff;
+        }
+
+        select[name^="cavity_"] {
+            background-color: #1976d1;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <h2>Production Plan Editor</h2>
-    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <label for="erp">ERP ID:</label>
-        <input type="text" id="erp" name="erp" required>
-        <button type="submit">Generate Plan</button>
-    </form>
+    <div class="container">
+        <h2>Production Plan Editor</h2>
+        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <label for="erp">ERP ID:</label>
+            <input type="text" id="erp" name="erp" required>
+            <button type="submit">Generate Plan</button>
+        </form>
+
+        <?php
+        // ... The existing PHP code for generating the table ...
+        ?>
+    </div>
+</body>
+</html>
+
 
 <?php
 // Check if the form is submitted
@@ -53,7 +161,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<form method='post' action='".$_SERVER['PHP_SELF']."'>";
             echo "<input type='hidden' name='erp' value='$erp'>";
             echo "<table>";
-            echo "<tr><th>ICode</th><th>Description</th><th>Press</th><th>Mold</th><th>Cavity</th><th>Tire Quantity</th><th>Time Required</th><th>Start Date</th><th>Completion Date</th></tr>";
+            echo "<tr>
+            <th>ICode</th>
+            <th>Description</th>
+          
+            <th>Press</th>
+            <th>Mold</th>
+            <th>Cavity</th>
+            <th>Order Quantity</th>
+            <th>To Be Produce</th>
+            <th>Time Required</th>
+            <th>Start Date</th>
+            <th>Completion Date</th>
+          </tr>
+          ";
 
             // Iterate over each row in the result set
             while ($row = mysqli_fetch_assoc($result)) {
@@ -74,15 +195,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Retrieve time required for the tire type
                 $timeRequired = getTimeRequired($conn, $icode);
+// Retrieve tire size for the tire type
+$tireSize = getTireSize($conn, $icode);
 
-                echo "<tr>";
-                echo "<td>$icode</td>";
-                echo "<td>$description</td>";
-                echo "<td><select name='press_$icode'>" . getDropdownOptions($pressOptions) . "</select></td>";
-                echo "<td><select name='mold_$icode'>" . getDropdownOptions($moldOptions) . "</select></td>";
-                echo "<td><select name='cavity_$icode'>" . getDropdownOptions($cavityOptions) . "</select></td>";
-                echo "<td>$tireQuantity</td>";
-                echo "<td>$timeRequired</td>";
+// ...
+
+echo "<tr>";
+echo "<td>$icode</td>";
+echo "<td>$description</td>";
+
+echo "<td><select name='press_$icode'>" . getDropdownOptions($pressOptions) . "</select></td>";
+echo "<td><select name='mold_$icode'>" . getDropdownOptions($moldOptions) . "</select></td>";
+echo "<td><select name='cavity_$icode'>" . getDropdownOptions($cavityOptions) . "</select></td>";
+echo "<td>$tireSize</td>";
+echo "<td>$tireQuantity</td>";
+echo "<td>$timeRequired</td>";
+
+// ...
+
 
                 // Retrieve the selected press value
                 $selectedPress = isset($_POST['press_' . $icode]) ? $_POST['press_' . $icode] : '';
@@ -224,6 +354,21 @@ function getAvailabilityDate($conn, $table, $optionId) {
 
     return 'N/A';
 }
+// Function to retrieve tire size for a given tire type
+function getTireSize($conn, $icode) {
+    // Replace 'tire' with the actual table name where tire sizes are stored
+    $sql = "SELECT new FROM worder WHERE icode = '$icode'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['new'];
+    }
+
+    return 'N/A';
+}
+
+
 
 // Function to generate dropdown options
 function getDropdownOptions($options) {
