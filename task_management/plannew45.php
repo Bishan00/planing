@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Check if there are any rows returned
         if (mysqli_num_rows($result) > 0) {
             echo "<h3>Production Plan for ERP: $erp</h3>";
-            echo "<form method='post' action='".$_SERVER['PHP_SELF']."'>";
+            echo "<form method='post' action='savedata.php'>";
             echo "<input type='hidden' name='erp' value='$erp'>";
             echo "<table>";
             echo "<tr>
@@ -170,9 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>Cavity</th>
             <th>Order Quantity</th>
             <th>To Be Produce</th>
-            <th>Time Required</th>
-            <th>Start Date</th>
-            <th>Completion Date</th>
+          
           </tr>
           ";
 
@@ -193,8 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Retrieve tire quantity for the tire type
                 $tireQuantity = getTireQuantity($conn, $icode);
 
-                // Retrieve time required for the tire type
-                $timeRequired = getTimeRequired($conn, $icode);
+             
 // Retrieve tire size for the tire type
 $tireSize = getTireSize($conn, $icode);
 
@@ -209,28 +206,24 @@ echo "<td><select name='mold_$icode'>" . getDropdownOptions($moldOptions) . "</s
 echo "<td><select name='cavity_$icode'>" . getDropdownOptions($cavityOptions) . "</select></td>";
 echo "<td>$tireSize</td>";
 echo "<td>$tireQuantity</td>";
-echo "<td>$timeRequired</td>";
+
+
+
+    
+// Retrieve the selected press value
+$selectedPress = isset($_POST['press_' . $icode]) ? $_POST['press_' . $icode] : '';
+
+// Retrieve the selected mold value
+$selectedMold = isset($_POST['mold_' . $icode]) ? $_POST['mold_' . $icode] : '';
+
+// Retrieve the selected cavity value
+$selectedCavity = isset($_POST['cavity_' . $icode]) ? $_POST['cavity_' . $icode] : '';
+
+
 
 // ...
 
 
-                // Retrieve the selected press value
-                $selectedPress = isset($_POST['press_' . $icode]) ? $_POST['press_' . $icode] : '';
-
-                // Retrieve the selected mold value
-                $selectedMold = isset($_POST['mold_' . $icode]) ? $_POST['mold_' . $icode] : '';
-
-                // Retrieve the selected cavity value
-                $selectedCavity = isset($_POST['cavity_' . $icode]) ? $_POST['cavity_' . $icode] : '';
-// Calculate the total time required for all the tires
-$totalTimeRequired = $timeRequired * $tireQuantity;
-
-// Calculate start date and completion date
-$startDate = calculateStartDate($conn, $selectedPress, $selectedMold, $selectedCavity);
-$completionDate = calculateCompletionDate($startDate, $totalTimeRequired);
-
-echo "<td>$startDate</td>";
-echo "<td>$completionDate</td>";
 echo "</tr>";
 
             }
@@ -311,36 +304,7 @@ function getTireQuantity($conn, $icode) {
     return 'N/A';
 }
 
-// Function to retrieve time required for a given tire type
-function getTimeRequired($conn, $icode) {
-    // Replace 'tire' with the actual table name where the time required is stored
-    $sql = "SELECT time_taken FROM tire WHERE icode = '$icode'";
-    $result = mysqli_query($conn, $sql);
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        return $row['time_taken'];
-    }
-
-    return 'N/A';
-}
-
-// Function to calculate the start date based on selected options
-function calculateStartDate($conn, $selectedPress, $selectedMold, $selectedCavity) {
-    $pressAvailabilityDate = getAvailabilityDate($conn, 'press', $selectedPress);
-    $moldAvailabilityDate = getAvailabilityDate($conn, 'mold', $selectedMold);
-    $cavityAvailabilityDate = getAvailabilityDate($conn, 'cavity', $selectedCavity);
-
-    // Start date is the maximum of the availability dates
-    return max($pressAvailabilityDate, $moldAvailabilityDate, $cavityAvailabilityDate);
-}
-
-// Function to calculate the completion date based on start date and time required
-function calculateCompletionDate($startDate, $timeRequired) {
-    $startDate = strtotime($startDate);
-    $completionDate = strtotime("+$timeRequired minutes", $startDate);
-    return date('Y-m-d H:i:s', $completionDate);
-}
 
 // Function to retrieve the availability date for a selected option
 function getAvailabilityDate($conn, $table, $optionId) {
@@ -378,4 +342,22 @@ function getDropdownOptions($options) {
     }
     return $dropdown;
 }
+
+
+
+// Function to retrieve the number of tobes for a given tire type
+function getTobeQuantity($conn, $icode) {
+    // Replace 'tobeplan' with the actual table name where the tobe quantity is stored
+    $sql = "SELECT tobe FROM tobeplan WHERE icode = '$icode'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['tobe'];
+    }
+
+    return 0; // Return 0 if no tobe quantity is found
+}
+
 ?>
+

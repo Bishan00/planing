@@ -78,13 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $end_date = date("Y-m-d H:i:s", strtotime("$start_date + $total_time minutes"));
 
             // Check for available press and mold matching the tire_id
-            $sql = "SELECT p.press_id, p.press_name, m.mold_id, m.mold_name
-                    FROM press p
-                    INNER JOIN mold_press mp ON p.press_id = mp.press_id
-                    INNER JOIN mold m ON mp.mold_id = m.mold_id
-                    INNER JOIN tire_mold tm ON m.mold_id = tm.mold_id
-                    INNER JOIN tire t ON tm.icode = t.icode
-                    WHERE p.is_available = 1 AND m.is_available = 1 AND t.icode = '$icode'";
+            $sql ="SELECT s.press_id, s.press_name, s.mold_id, s.mold_name, s.cavity_id, s.cavity_name
+            FROM selected_data s";
 
             $result3 = mysqli_query($conn, $sql);
 
