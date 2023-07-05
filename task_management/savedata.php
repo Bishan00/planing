@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 <head>
     <title>Production Plan Editor</title>
@@ -144,8 +144,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>ICode</th>
             <th>Description</th>
             <th>Press</th>
+            
             <th>Mold</th>
+         
             <th>Cavity</th>
+          
             <th>Order Quantity</th>
             <th>To Be Produced</th>
           </tr>";
@@ -157,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Retrieve the selected press value
                 $selectedPress = isset($_POST['press_' . $icode]) ? $_POST['press_' . $icode] : '';
-
+              
                 // Retrieve the selected mold value
                 $selectedMold = isset($_POST['mold_' . $icode]) ? $_POST['mold_' . $icode] : '';
 
@@ -171,8 +174,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "<td>$icode</td>";
                 echo "<td>$description</td>";
                 echo "<td>$selectedPress</td>";
+               
                 echo "<td>$selectedMold</td>";
+             
                 echo "<td>$selectedCavity</td>";
+               
                 echo "</tr>";
             }
 
@@ -190,14 +196,19 @@ exit();
 } else {
     echo "Invalid request method";
 }
-
 // Function to save the selected values to the database
 function saveSelectedValues($conn, $erp, $icode, $press, $mold, $cavity) {
     // Retrieve the number of tobes for the tire type
     $tobeQuantity = getTobeQuantity($conn, $icode);
 
+    // Retrieve the description, mold name, press name, and cavity name for the tire type
+    $description = getDescription($conn, $icode);
+    $moldName = getMoldName($conn, $mold);
+    $pressName = getPressName($conn, $press);
+    $cavityName = getCavityName($conn, $cavity);
+
     // Prepare the INSERT statement
-    $sql = "INSERT INTO selected_data (erp, icode,press, mold, cavity, tobe) VALUES ('$erp', '$icode','$press', '$mold', '$cavity', '$tobeQuantity')";
+    $sql = "INSERT INTO selected_data (erp, icode, description, press,mold,cavity, tobe) VALUES ('$erp', '$icode', '$description', '$press','$mold','$cavity', '$tobeQuantity' )";
 
     // Execute the INSERT statement
     if (mysqli_query($conn, $sql)) {
@@ -219,4 +230,56 @@ function getTobeQuantity($conn, $icode) {
     }
 
     return 0; // Return 0 if no tobe quantity is found
+}
+
+// Function to retrieve the description for a given tire type
+function getDescription($conn, $icode) {
+    $sql = "SELECT description FROM production_plan WHERE icode = '$icode'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['description'];
+    }
+
+    return ""; // Return an empty string if no description is found
+}
+
+// Function to retrieve the mold name for a given mold ID
+function getMoldName($conn, $mold) {
+    $sql = "SELECT mold_name FROM molds WHERE mold_id = '$mold'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['mold_name'];
+    }
+
+    return ""; // Return an empty string if no mold name is found
+}
+
+// Function to retrieve the press name for a given press ID
+function getPressName($conn, $press) {
+    $sql = "SELECT press_name FROM presses WHERE press_id = '$press'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['press_name'];
+    }
+
+    return ""; // Return an empty string if no press name is found
+}
+
+// Function to retrieve the cavity name for a given cavity ID
+function getCavityName($conn, $cavity) {
+    $sql = "SELECT cavity_name FROM cavities WHERE cavity_id = '$cavity'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['cavity_name'];
+    }
+
+    return ""; // Return an empty string if no cavity name is found
 }
