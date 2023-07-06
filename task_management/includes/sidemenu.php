@@ -312,6 +312,7 @@
                                 <div class="sub-menu-i">
                                     <ul class="sub-menu">
                                             <li><a href="subtract.php">Add Plan</a></li>
+                                            <li><a href="u.php">Update Plan</a></li>
                                           
                                            
                                     </ul>

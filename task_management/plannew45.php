@@ -242,9 +242,12 @@ echo "</tr>";
     mysqli_close($conn);
 }
 
-// Function to retrieve available press options for a given tire type
 function getPressOptions($conn, $erp, $icode) {
-    $sql = "SELECT DISTINCT p.press_id, p.press_name, p.availability_date FROM press p INNER JOIN production_plan pp ON p.press_id = pp.press_id WHERE pp.erp = '$erp' AND pp.icode = '$icode'";
+    $sql = "SELECT DISTINCT p.press_id, p.press_name, p.availability_date
+            FROM press p
+            INNER JOIN production_plan pp ON p.press_id = pp.press_id
+            WHERE pp.erp = '$erp' AND pp.icode = '$icode'
+            ORDER BY p.availability_date ASC"; // Order by availability_date in ascending order
     $result = mysqli_query($conn, $sql);
 
     $options = array();
@@ -258,9 +261,13 @@ function getPressOptions($conn, $erp, $icode) {
     return $options;
 }
 
-// Function to retrieve available mold options for a given tire type
+
 function getMoldOptions($conn, $erp, $icode) {
-    $sql = "SELECT DISTINCT m.mold_id, m.mold_name, m.availability_date FROM mold m INNER JOIN production_plan pp ON m.mold_id = pp.mold_id WHERE pp.erp = '$erp' AND pp.icode = '$icode'";
+    $sql = "SELECT DISTINCT m.mold_id, m.mold_name, m.availability_date
+            FROM mold m
+            INNER JOIN production_plan pp ON m.mold_id = pp.mold_id
+            WHERE pp.erp = '$erp' AND pp.icode = '$icode'
+            ORDER BY m.availability_date ASC"; // Order by availability_date in ascending order
     $result = mysqli_query($conn, $sql);
 
     $options = array();
@@ -274,9 +281,13 @@ function getMoldOptions($conn, $erp, $icode) {
     return $options;
 }
 
-// Function to retrieve available cavity options for a given tire type
+
 function getCavityOptions($conn, $erp, $icode) {
-    $sql = "SELECT DISTINCT c.cavity_id, c.cavity_name, c.availability_date FROM cavity c INNER JOIN production_plan pp ON c.cavity_id = pp.cavity_id WHERE pp.erp = '$erp' AND pp.icode = '$icode'";
+    $sql = "SELECT DISTINCT c.cavity_id, c.cavity_name, c.availability_date
+            FROM cavity c
+            INNER JOIN production_plan pp ON c.cavity_id = pp.cavity_id
+            WHERE pp.erp = '$erp' AND pp.icode = '$icode'
+            ORDER BY c.availability_date ASC"; // Order by availability_date in ascending order
     $result = mysqli_query($conn, $sql);
 
     $options = array();
@@ -289,6 +300,7 @@ function getCavityOptions($conn, $erp, $icode) {
 
     return $options;
 }
+
 
 // Function to retrieve tire quantity for a given tire type
 function getTireQuantity($conn, $icode) {

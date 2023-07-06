@@ -40,9 +40,22 @@ if (isset($_POST['submit'])) {
                 WHERE t1.erp = '$erp'";
 
         if ($conn->query($sql) === TRUE) {
-            // Redirect to another page to display the relevant data
-            header("Location: display.php?erp=$erp");
-            exit;
+            // Perform subtraction and update stock table
+            $updateSql = "UPDATE stock t2
+                          INNER JOIN worder t1 ON t1.icode = t2.icode
+                          SET t2.cstock = CASE
+                              WHEN t1.new <= t2.cstock THEN t2.cstock - t1.new
+                              ELSE 0
+                          END
+                          WHERE t1.erp = '$erp'";
+
+            if ($conn->query($updateSql) === TRUE) {
+                // Redirect to another page to display the relevant data
+                header("Location: display.php?erp=$erp");
+                exit;
+            } else {
+                echo "Error updating stock: " . $conn->error;
+            }
         } else {
             echo "Error performing subtraction: " . $conn->error;
         }
