@@ -1,4 +1,5 @@
 
+<!DOCTYPE html>
 <html>
 <head>
     <title>Production Plan Editor</title>
@@ -112,8 +113,12 @@
             background-color: #1976d1;
             color: #fff;
         }
+
+        .curing-group {
+        font-size: 12px;
+        color: #999999;
+    }
     </style>
-</head>
 <body>
     <div class="container">
         <h2>Production Plan Editor</h2>
@@ -123,12 +128,9 @@
             <button type="submit">Generate Plan</button>
         </form>
 
-        <?php
-        // ... The existing PHP code for generating the table ...
-        ?>
-    </div>
+        </div>
 </body>
-</html>
+</html> 
 
 
 <?php
@@ -150,7 +152,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erp = mysqli_real_escape_string($conn, $erp);
 
     // Retrieve the data from the production_plan table for the given ERP ID
-    $sql = "SELECT DISTINCT icode, description FROM production_plan WHERE erp = '$erp'";
+    $sql = "SELECT DISTINCT icode, description, cuing_group_name FROM production_plan WHERE erp = '$erp'";
+
     $result = mysqli_query($conn, $sql);
 
     // Check if the query executed successfully
@@ -164,21 +167,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<tr>
             <th>ICode</th>
             <th>Description</th>
-          
+            <th>Curing Group</th>
             <th>Press</th>
             <th>Mold</th>
             <th>Cavity</th>
             <th>Order Quantity</th>
-            <th>To Be Produce</th>
-          
-          </tr>
-          ";
-
+            <th>To Be Produced</th>
+        </tr>";
+    
             // Iterate over each row in the result set
             while ($row = mysqli_fetch_assoc($result)) {
                 $icode = $row['icode'];
                 $description = $row['description'];
-
+                $curingGroup = $row['cuing_group_name'];
+                
                 // Retrieve available press options for the tire type
                 $pressOptions = getPressOptions($conn, $erp, $icode);
 
@@ -200,6 +202,7 @@ $tireSize = getTireSize($conn, $icode);
 echo "<tr>";
 echo "<td>$icode</td>";
 echo "<td>$description</td>";
+echo "<td>$curingGroup</td>";
 
 echo "<td><select name='press_$icode'>" . getDropdownOptions($pressOptions) . "</select></td>";
 echo "<td><select name='mold_$icode'>" . getDropdownOptions($moldOptions) . "</select></td>";
@@ -372,4 +375,3 @@ function getTobeQuantity($conn, $icode) {
 }
 
 ?>
-

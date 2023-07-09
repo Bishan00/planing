@@ -1,3 +1,120 @@
+<style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 200px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            padding: 8px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        select {
+            padding: 6px;
+            width: 100%;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button[name="submit"] {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Colorful design */
+        h2, button[type="submit"], button[name="submit"] {
+            background-color: #2196F3;
+        }
+
+        th {
+            background-color: #2196F3;
+        }
+
+        tr:nth-child(even) {
+            background-color: #E3F2FD;
+        }
+
+        select[name^="press_"] {
+            background-color: #BBDEFB;
+            color: #000;
+        }
+
+        select[name^="mold_"] {
+            background-color: #64B5F6;
+            color: #fff;
+        }
+
+        select[name^="cavity_"] {
+            background-color: #1976d1;
+            color: #fff;
+        }
+
+        .curing-group {
+        font-size: 12px;
+        color: #999999;
+    }
+    </style>
+
 <?php
 ob_start(); // Start output buffering
 
