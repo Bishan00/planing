@@ -91,7 +91,7 @@ body {
                             </div>
 
                             <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="planning.php">
+                                <a class="element-box el-tablo" href="planbuttoon.php">
                                 <div id="myDIV">Plan</div>
                             
                                 </a>
