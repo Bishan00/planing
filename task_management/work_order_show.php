@@ -54,49 +54,101 @@
                             <th>Total Tones kgs</th>
                         </tr>
                         <tbody>
-                            <?php 
-                                $con = mysqli_connect("localhost","root","","task_management");
+                            <?php
+                            $con = mysqli_connect("localhost","root","","task_management");
 
-                                if(isset($_GET['search']))
+                            if(isset($_GET['search']) && !empty($_GET['search']))
+                            {
+                                $filtervalues = $_GET['search'];
+                                $query = "SELECT * FROM worder WHERE CONCAT(erp,Customer) LIKE '%$filtervalues%' ";
+                                $query_run = mysqli_query($con, $query);
+
+                                if(mysqli_num_rows($query_run) > 0)
                                 {
-                                    $filtervalues = $_GET['search'];
-                                    $query = "SELECT * FROM worder WHERE CONCAT(erp,Customer) LIKE '%$filtervalues%' ";
-                                    $query_run = mysqli_query($con, $query);
+                                    $columnNumber = 1; // Variable to store the column number
 
-                                    if(mysqli_num_rows($query_run) > 0)
-                                    {
-                                        $columnNumber = 1; // Variable to store the column number
-
-                                        foreach($query_run as $items)
-                                        {
-                                            ?>
-                                            <tr>
-                                                <td><?= $columnNumber++; ?></td> <!-- Display column number -->
-                                                <td><?= $items['icode']; ?></td>
-                                                <td><?= $items['t_size']; ?></td>
-                                                <td><?= $items['brand']; ?></td>
-                                                <td><?= $items['col']; ?></td>
-                                                <td><?= $items['fit']; ?></td>
-                                                <td><?= $items['rim']; ?></td>
-                                                <td><?= $items['cons']; ?></td>
-                                                <td><?= $items['fweight']; ?></td>
-                                                <td><?= $items['ptv']; ?></td>
-                                                <td><?= $items['new']; ?></td>
-                                                <td><?= $items['cbm']; ?></td>
-                                                <td><?= $items['kgs']; ?></td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
-                                    else
+                                    foreach($query_run as $items)
                                     {
                                         ?>
                                         <tr>
-                                            <td colspan="4">No Record Found</td>
+                                            <td><?= $columnNumber++; ?></td> <!-- Display column number -->
+                                            <td><?= $items['icode']; ?></td>
+                                            <td><?= $items['t_size']; ?></td>
+                                            <td><?= $items['brand']; ?></td>
+                                            <td><?= $items['col']; ?></td>
+                                            <td><?= $items['fit']; ?></td>
+                                            <td><?= $items['rim']; ?></td>
+                                            <td><?= $items['cons']; ?></td>
+                                            <td><?= $items['fweight']; ?></td>
+                                            <td><?= $items['ptv']; ?></td>
+                                            <td><?= $items['new']; ?></td>
+                                            <td><?= $items['cbm']; ?></td>
+                                            <td><?= $items['kgs']; ?></td>
                                         </tr>
                                         <?php
                                     }
                                 }
+                                else
+                                {
+                                    ?>
+                                    <tr>
+                                        <td colspan="4">No Record Found</td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            else
+                            {
+                                $query = "SELECT DISTINCT erp FROM worder";
+                                $query_run = mysqli_query($con, $query);
+
+                                if(mysqli_num_rows($query_run) > 0)
+                                {
+                                    while($erpRow = mysqli_fetch_assoc($query_run))
+                                    {
+                                        $erp = $erpRow['erp'];
+
+                                        $subQuery = "SELECT * FROM worder WHERE erp = '$erp'";
+                                        $subQuery_run = mysqli_query($con, $subQuery);
+
+                                        if(mysqli_num_rows($subQuery_run) > 0)
+                                        {
+                                            $columnNumber = 1; // Variable to store the column number
+
+                                            echo '<tr><td colspan="13">ERP: '.$erp.'</td></tr>';
+
+                                            foreach($subQuery_run as $items)
+                                            {
+                                                ?>
+                                                <tr>
+                                                    <td><?= $columnNumber++; ?></td> <!-- Display column number -->
+                                                    <td><?= $items['icode']; ?></td>
+                                                    <td><?= $items['t_size']; ?></td>
+                                                    <td><?= $items['brand']; ?></td>
+                                                    <td><?= $items['col']; ?></td>
+                                                    <td><?= $items['fit']; ?></td>
+                                                    <td><?= $items['rim']; ?></td>
+                                                    <td><?= $items['cons']; ?></td>
+                                                    <td><?= $items['fweight']; ?></td>
+                                                    <td><?= $items['ptv']; ?></td>
+                                                    <td><?= $items['new']; ?></td>
+                                                    <td><?= $items['cbm']; ?></td>
+                                                    <td><?= $items['kgs']; ?></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    ?>
+                                    <tr>
+                                        <td colspan="4">No Record Found</td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
                             ?>
                         </tbody>
                     </table>
@@ -107,5 +159,13 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#showAllButton').click(function() {
+                $('input[name="search"]').val('');
+                $('form').submit();
+            });
+        });
+    </script>
 </body>
 </html>

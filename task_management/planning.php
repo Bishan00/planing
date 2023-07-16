@@ -97,7 +97,7 @@ if ($erpResult) {
                         }
 
                         // Retrieve the cstock value for the given tire type
-                        $cstockSql = "SELECT cstock FROM stock WHERE icode = '$icode'";
+                        $cstockSql = "SELECT cstock FROM realstock WHERE icode = '$icode'";
                         $cstockResult = mysqli_query($conn, $cstockSql);
                         $cstockValue = '';
 

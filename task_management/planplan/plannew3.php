@@ -36,21 +36,17 @@ if (isset($_POST['work_order_ids'])) {
             $row2 = mysqli_fetch_assoc($result2);
             $time_taken = $row2['time_taken'];
 
-            // Calculate the total time for all tires in the work order
-            $total_time = $time_taken * $quantity;
-
-            // Calculate the start and end dates based on the total time
-            $start_date = date("Y-m-d H:i:s");
-            $end_date = date("Y-m-d H:i:s", strtotime("+$total_time minutes"));
+            
 
             // Check for available press and mold matching the tire_id
-            $sql = "SELECT p.press_id, p.press_name, m.mold_id, m.mold_name, pc.cavity_id, pc.cavity_name
-                    FROM press p
-                    INNER JOIN mold m ON p.mold_id = m.mold_id
-                    INNER JOIN tire t ON m.tire_id = t.tire_id
-                    INNER JOIN press_cavity pc ON p.press_id = pc.press_id AND m.mold_id = pc.mold_id
-                    WHERE p.is_available = 1 AND t.tire_id = $tire_id AND pc.is_available = 1
-                    LIMIT 1";
+            $sql = "SELECT p.press_id, p.press_name, m.mold_id, m.mold_name, pc.cavity_id
+            FROM press p
+            INNER JOIN mold m ON p.mold_id = m.mold_id
+            INNER JOIN tire t ON m.tire_id = t.tire_id
+            INNER JOIN press_cavity pc ON p.press_id = pc.press_id AND m.mold_id = pc.mold_id
+            WHERE p.is_available = 1 AND t.tire_id = $tire_id AND pc.is_available = 1
+            LIMIT 1";
+    
             $result3 = mysqli_query($conn, $sql);
 
          
@@ -115,18 +111,26 @@ if (!$result3) {
 
 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Production Planning</title>
-</head>
-<body>
-    <h2>Generate Production Plan</h2>
-    <form action="plannew3.php" method="post">
-        <label for="work_order_ids">Work Order IDs (comma-separated):</label>
-        <input type="text" name="work_order_ids" id="work_order_ids">
-        <button type="submit">Generate Plan</button>
-    </form>
-</body>
-</html>
+// Retrieve the latest end date for the current press
+                $latest_end_date = isset($latest_end_dates[$press]) ? $latest_end_dates[$press] : null;
+
+                // Calculate the start date based on the latest end date of the previous tire type or the current time
+                $start_date = $latest_end_date ? date("Y-m-d H:i:s", strtotime("$latest_end_date + 1 minute")) : date("Y-m-d H:i:s");
+
+                // Calculate the total time for all tires in the ERP
+                $total_time = $time_taken * $tobe;
+
+                // Calculate the end date based on the total time
+                $end_date = date("Y-m-d H:i:s", strtotime("$start_date + $total_time minutes"));
+
+                // Update the next start date for the next tire type of the same press
+                $latest_end_dates[$press] = $end_date;
+
+                // Insert the production plan into the database for the entire quantity
+                $sql = "INSERT INTO plannew (erp, icode, press, mold, cavity, start_date, end_date)
+                        VALUES ('$erp', '$icode', '$press', '$mold', '$cavity', '$start_date', '$end_date')";
+                mysqli_query($conn, $sql);
+
+                // Get the ID of the inserted production plan
+                $production_plan_id = mysqli_insert_id($conn);
 

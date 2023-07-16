@@ -4,7 +4,6 @@ if (isset($_POST['submit'])) {
     $t_size = $_POST['t_size'];
     $brand = $_POST['brand'];
     $col = $_POST['col'];
-    $fit = $_POST['fit'];
     $rim = $_POST['rim'];
     $cstock = $_POST['cstock'];
 
@@ -16,20 +15,29 @@ if (isset($_POST['submit'])) {
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    // Insert the form data into the 'stock' table
-    $sql= "UPDATE stock
+    // Update the 'realstock' table
+    $realStockUpdateSQL = "UPDATE realstock
         SET t_size = '$t_size',
             brand = '$brand',
             col = '$col',
-            fit = '$fit',
             rim = '$rim',
             cstock = '$cstock'
         WHERE icode = '$icode'";
 
-    if (mysqli_query($conn, $sql)) {
+    // Update the 'stock' table
+    $stockUpdateSQL = "UPDATE stock
+        SET t_size = '$t_size',
+            brand = '$brand',
+            col = '$col',
+            rim = '$rim',
+            cstock = '$cstock'
+        WHERE icode = '$icode'";
+
+    // Perform the updates
+    if (mysqli_query($conn, $realStockUpdateSQL) && mysqli_query($conn, $stockUpdateSQL)) {
         echo "Data stored successfully!";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: " . mysqli_error($conn);
     }
 
     mysqli_close($conn);

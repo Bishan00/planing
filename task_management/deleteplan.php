@@ -39,7 +39,7 @@ include './includes/admin_header.php';
         }
 
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: blue;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -48,16 +48,27 @@ include './includes/admin_header.php';
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: darkblue;
         }
 
         .message {
             margin-top: 20px;
             text-align: center;
+             color:red;
         }
 
         .error {
             color: red;
+        }
+    </style>
+</head>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Data</title>
+    <style>
+        .container {
+            margin: 20px;
         }
     </style>
 </head>
@@ -66,52 +77,62 @@ include './includes/admin_header.php';
         <h1>Delete Data</h1>
 
         <form method="post" action="">
-            <input type="text" name="erp" placeholder="Enter ERP Number">
-            <br>
             <input type="submit" name="delete" value="Delete Data">
         </form>
 
         <?php
-        // Remaining PHP code goes here
+        // MySQL database credentials
+        $host = 'localhost';
+        $username = 'root';
+        $password = '';
+        $database = 'task_management';
+
+        // Create connection
+        $conn = new mysqli($host, $username, $password, $database);
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Check if the delete button is clicked
+        if (isset($_POST['delete'])) {
+            // Start the deletion transaction
+            $conn->begin_transaction();
+
+            try {
+                // Delete all data from the plannew table
+                $deletePlannewSql = "DELETE FROM plannew";
+                $conn->query($deletePlannewSql);
+
+                // Update the availability_date of all presses in the 'press' table
+                $updatePressSql = "UPDATE press SET availability_date = NOW()";
+                $conn->query($updatePressSql);
+
+                // Update the availability_date of all molds in the 'mold' table
+                $updateMoldSql = "UPDATE mold SET availability_date = NOW()";
+                $conn->query($updateMoldSql);
+
+                // Update the availability_date of all cavities in the 'cavity' table
+                $updateCavitySql = "UPDATE cavity SET availability_date = NOW()";
+                $conn->query($updateCavitySql);
+
+                 // Delete all data from the stock table
+        $deleteStockSql = "DELETE FROM stock";
+        $conn->query($deleteStockSql);
+
+                // Commit the transaction if all queries are successful
+                $conn->commit();
+
+                echo "All data in the 'plannew' table has been deleted successfully, and the availability dates in the 'press', 'mold', and 'cavity' tables have been updated.";
+            } catch (Exception $e) {
+                // Rollback the transaction if an error occurs
+                $conn->rollback();
+
+                echo "Error deleting data: " . $e->getMessage();
+            }
+        }
         ?>
     </div>
-</body>
-</html>
-
-
-    <?php
-    
-    // MySQL database credentials
-    $host = 'localhost';
-    $username = 'root';
-    $password = '';
-    $database = 'task_management';
-
-    // Create connection
-    $conn = new mysqli($host, $username, $password, $database);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Check if the delete button is clicked and ERP number is provided
-    if (isset($_POST['delete']) && !empty($_POST['erp'])) {
-        // Sanitize the input to prevent SQL injection
-        $erpNumber = $conn->real_escape_string($_POST['erp']);
-
-        // SQL query to delete data with the specified ERP number from the table
-        $sql = "DELETE FROM plannew WHERE erp = '$erpNumber'";
-
-        if ($conn->query($sql) === TRUE) {
-            echo "Data with ERP number $erpNumber deleted successfully.";
-        } else {
-            echo "Error deleting data: " . $conn->error;
-        }
-    }
-
-    // Close the database connection
-    $conn->close();
-    ?>
 </body>
 </html>

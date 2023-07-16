@@ -31,83 +31,87 @@
     background-color: lightblue;
   }
 </style>
+                        <?php
+                        // Establish a connection to the MySQL database
+                        $servername = "localhost";
+                        $username = "root";
+                        $password = "";
+                        $database = "task_management";
 
-<?php
-// Establish a connection to the MySQL database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "task_management";
+                        $conn = mysqli_connect($servername, $username, $password, $database);
 
-$conn = mysqli_connect($servername, $username, $password, $database);
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                        }
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+                        // Compare and display mismatched data
+                        if (isset($_POST['compare'])) {
+                            // Retrieve the ERP number from the form
+                            $erpNumber = $_POST['erpNumber'];
 
+                            // Query the order table to fetch the relevant data matching the ERP number
+                            $orderQuery = "SELECT * FROM worder WHERE erp = '$erpNumber'";
+                            $orderResult = mysqli_query($conn, $orderQuery);
 
-// Compare and display mismatched data
-if (isset($_POST['compare'])) {
-    // Query the order table and data table to fetch the relevant data
-   // Fetch the data from the order table
-   // Fetch the data from the order table
-$orderQuery = "SELECT * FROM worder";
-$orderResult = mysqli_query($conn, $orderQuery);
+                            if (!$orderResult) {
+                                die("Error executing order query: " . mysqli_error($conn));
+                            }
 
-if (!$orderResult) {
-    die("Error executing order query: " . mysqli_error($conn));
-}
-     echo '<table class="table table-bordered">';
-     echo '<thead class="thead-light">';
-    echo '<tr>';
-    echo '<th>Tire ID</th>';
-    echo '<th>Tire Size</th>';
-    echo '<th>Brand</th>';
-    echo '<th>Fit</th>';
-    echo '<th>Colour</th>';
-    echo '<th>Rim</th>';
+                            echo '<table class="table table-bordered">';
+                            echo '<thead class="thead-light">';
+                            echo '<tr>';
+                            echo '<th>Tire ID</th>';
+                            echo '<th>Colour</th>';
+                            echo '<th>Brand</th>';
+                            echo '</tr>';
+                            echo '</thead>';
+                            echo '<tbody>';
 
-    
-    while ($orderRow = mysqli_fetch_assoc($orderResult)) {
-        // Fetch the corresponding row from the data table based on Tireid
-        $dataQuery = "SELECT * FROM selectpress WHERE icode = " . $orderRow['icode'];
-        $dataResult = mysqli_query($conn, $dataQuery);
-    
-        if (!$dataResult) {
-            die("Error executing data query: " . mysqli_error($conn));
-        }
-    
-        $dataRow = mysqli_fetch_assoc($dataResult);
-    
-        // Compare each column and highlight mismatches
-        $mismatch = false;
-        if (
-            $orderRow['t_size'] !== $dataRow['t_size'] ||
-            $orderRow['fit'] !== $dataRow['fit'] ||
-            $orderRow['col'] !== $dataRow['col'] ||
-            $orderRow['rim'] !== $dataRow['rim'] 
-        ) {
-            $mismatch = true;
-        }
+                            while ($orderRow = mysqli_fetch_assoc($orderResult)) {
+                                // Fetch the corresponding row from the data table based on Tireid
+                                if (!empty($orderRow['icode'])) {
+                                    $dataQuery = "SELECT * FROM selectpress WHERE icode = " . $orderRow['icode'];
+                                    $dataResult = mysqli_query($conn, $dataQuery);
 
-        // Add table row with data
-        echo '<tr' . ($mismatch ? ' class="mismatched"' : '') . '>';
-        echo '<td>' . $orderRow['icode'] . '</td>';
-        echo '<td>' . $orderRow['t_size'] . '</td>';
-        echo '<td>' . $orderRow['brand'] . '</td>';
-        echo '<td>' . $orderRow['fit'] . '</td>';
-        echo '<td>' . $orderRow['col'] . '</td>';
-        echo '<td>' . $orderRow['rim'] . '</td>';
-        
-     
-        echo '</tr>';
+                                    if (!$dataResult) {
+                                        die("Error executing data query: " . mysqli_error($conn));
+                                    }
 
-        
-    mysqli_free_result($dataResult);
-    }
+                                    $dataRow = mysqli_fetch_assoc($dataResult);
 
-    echo '</table>';
-} else {
-    // ...
-}
-?>
+                                    // Compare each column and highlight mismatches
+                                    $mismatch = false;
+                                    if (
+                                        $orderRow['icode'] !== $dataRow['icode'] ||
+                                        $orderRow['col'] !== $dataRow['col']
+                                    ) {
+                                        $mismatch = true;
+                                    }
+
+                                    // Add table row with data
+                                    echo '<tr' . ($mismatch ? ' class="mismatched"' : '') . '>';
+                                    echo '<td>' . $orderRow['icode'] . '</td>';
+                                    echo '<td>' . $orderRow['col'] . '</td>';
+                                    echo '<td>' . $orderRow['brand'] . '</td>';
+                                    echo '</tr>';
+
+                                    mysqli_free_result($dataResult);
+                                }
+                            }
+
+                            echo '</tbody>';
+                            echo '</table>';
+                        } else {
+                            // ...
+                        }
+
+                        // Close the database connection
+                        mysqli_close($conn);
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

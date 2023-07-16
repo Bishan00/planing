@@ -78,7 +78,7 @@ END - Breadcrumbs
         }
 
         // Fetch item details from the 'items' table
-        $sql = "SELECT icode, t_size, brand, col, fit, rim FROM stock WHERE icode = '$icode'";
+        $sql = "SELECT icode, t_size, brand, col, rim FROM realstock WHERE icode = '$icode'";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
@@ -95,8 +95,6 @@ END - Breadcrumbs
                 echo '<input type="text" name="brand" id="brand" value="' . $row['brand'] . '" required><br>';
                 echo '<label for="col">Color:</label>';
                 echo '<input type="text" name="col" id="col" value="' . $row['col'] . '" required><br>';
-                echo '<label for="fit">FIT:</label>';
-                echo '<input type="text" name="fit" id="fit" value="' . $row['fit'] . '" required><br>';
                 echo '<label for="rim">RIM:</label>';
                 echo '<input type="text" name="rim" id="rim" value="' . $row['rim'] . '" required><br>';
                 echo '<label for="cstock">Quantity in Stock:</label>';

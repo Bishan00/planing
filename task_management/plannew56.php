@@ -39,6 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         while ($row = mysqli_fetch_assoc($result)) {
             $icode = $row['icode'];
             $tobe = $row['tobe'];
+            
+            // Skip the tire if the 'tobe' value is 0
+            if ($tobe == 0) {
+                continue;
+            }
+            
             $press = $row['press'];
             $mold = $row['mold'];
             $cavity = $row['cavity'];
@@ -46,58 +52,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tires[] = array('icode' => $icode, 'tobe' => $tobe, 'press' => $press, 'mold' => $mold, 'cavity' => $cavity, 'time_taken' => $time_taken);
         }
 
-        // Iterate over each tire in the ERP
-        foreach ($tires as $tire) {
-            $icode = $tire['icode'];
-            $tobe = $tire['tobe'];
-            $press = $tire['press'];
-            $mold = $tire['mold'];
-            $cavity = $tire['cavity'];
+        // Check if any tires are available for production
+        if (count($tires) > 0) {
+            // Iterate over each tire in the ERP
+            foreach ($tires as $tire) {
+                $icode = $tire['icode'];
+                $tobe = $tire['tobe'];
+                $press = $tire['press'];
+                $mold = $tire['mold'];
+                $cavity = $tire['cavity'];
 
-            // Retrieve the time taken for the tire type
-            $time_taken = $tire['time_taken'];
+                // Retrieve the time taken for the tire type
+                $time_taken = $tire['time_taken'];
 
-            // Retrieve the latest end date for the current press
-            $latest_end_date = isset($latest_end_dates[$press]) ? $latest_end_dates[$press] : null;
+                // Retrieve the latest end date for the current press
+                $latest_end_date = isset($latest_end_dates[$press]) ? $latest_end_dates[$press] : null;
 
-            // Calculate the start date based on the latest end date of the previous tire type or the current time
-            $start_date = $latest_end_date ? date("Y-m-d H:i:s", strtotime("$latest_end_date + 1 minute")) : date("Y-m-d H:i:s");
+                // Calculate the start date based on the latest end date of the previous tire type or the current time
+                $start_date = $latest_end_date ? date("Y-m-d H:i:s", strtotime("$latest_end_date + 1 minute")) : date("Y-m-d H:i:s");
 
-            // Calculate the total time for all tires in the ERP
-            $total_time = $time_taken * $tobe;
+                // Calculate the total time for all tires in the ERP
+                $total_time = $time_taken * $tobe;
 
-            // Calculate the end date based on the total time
-            $end_date = date("Y-m-d H:i:s", strtotime("$start_date + $total_time minutes"));
+                // Calculate the end date based on the total time
+                $end_date = date("Y-m-d H:i:s", strtotime("$start_date + $total_time minutes"));
 
-            // Update the next start date for the next tire type of the same press
-            $latest_end_dates[$press] = $end_date;
+                // Update the next start date for the next tire type of the same press
+                $latest_end_dates[$press] = $end_date;
 
-            // Insert the production plan into the database for the entire quantity
-            $sql = "INSERT INTO plannew (erp, icode, press, mold, cavity, start_date, end_date)
-                    VALUES ('$erp', '$icode', '$press', '$mold', '$cavity', '$start_date', '$end_date')";
-            mysqli_query($conn, $sql);
+                // Insert the production plan into the database for the entire quantity
+                $sql = "INSERT INTO plannew (erp, icode, press, mold, cavity, start_date, end_date)
+                        VALUES ('$erp', '$icode', '$press', '$mold', '$cavity', '$start_date', '$end_date')";
+                mysqli_query($conn, $sql);
 
-            // Get the ID of the inserted production plan
-            $production_plan_id = mysqli_insert_id($conn);
+                // Get the ID of the inserted production plan
+                $production_plan_id = mysqli_insert_id($conn);
 
-            // Update the availability date of press
-            $sql = "UPDATE press SET availability_date = '$end_date' WHERE press_id = '$press'";
-            mysqli_query($conn, $sql);
+                // Update the availability date of press
+                $sql = "UPDATE press SET availability_date = '$end_date' WHERE press_id = '$press'";
+                mysqli_query($conn, $sql);
 
-            // Update the availability date of mold
-            $sql = "UPDATE mold SET availability_date = '$end_date' WHERE mold_id = '$mold'";
-            mysqli_query($conn, $sql);
+                // Update the availability date of mold
+                $sql = "UPDATE mold SET availability_date = '$end_date' WHERE mold_id = '$mold'";
+                mysqli_query($conn, $sql);
 
-            // Update the availability date of cavity
-            $sql = "UPDATE cavity SET availability_date = '$end_date' WHERE cavity_id = '$cavity'";
-            mysqli_query($conn, $sql);
+                // Update the availability date of cavity
+                $sql = "UPDATE cavity SET availability_date = '$end_date' WHERE cavity_id = '$cavity'";
+                mysqli_query($conn, $sql);
+            }
+
+            
+            echo "Production plan generated successfully!";
+        } else {
+            echo "No tires found for the provided ERP ID.";
         }
-
-        // Redirect to the success page
-        header("Location: planning.php");
-        exit();
-
-        echo "Production plan generated successfully!";
     } else {
         echo "No tires found for the provided ERP ID.";
     }
@@ -106,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_close($conn);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>

@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Production Plan Editor</title>
+    <title>Production Plan </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -193,6 +193,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         h2, button[type="submit"], button[name="submit"] {
             background-color: #2196F3;
         }
+        h3, button[type="submit"], button[name="submit"] {
+            
+        }
 
         th {
             background-color: #2196F3;
@@ -220,7 +223,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="container">
-        <h2>Production Plan Editor</h2>
+        <h2>Production Plan </h2>
+        <h3>Please enter Work order Number</h3>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <label for="erp">ERP ID:</label>
             <input type="text" id="erp" name="erp" required>

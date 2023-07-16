@@ -86,6 +86,17 @@
                     echo "Error executing tobe query: " . mysqli_error($conn);
                 }
 
+                // Calculate the total requirement for each icode
+                $totals = [];
+
+                foreach ($workOrders as $icode => $workOrderData) {
+                    $total = 0;
+                    foreach ($workOrderData as $erpData) {
+                        $total += $erpData['new'];
+                    }
+                    $totals[$icode] = $total;
+                }
+
                 // Display the production plan details in a table
                 echo "<table class='production-table'>";
                 echo "<tr><th>Tire ID</th>";
@@ -94,7 +105,10 @@
                 echo "<th>Color</th>";
                 echo "<th>Curing Time</th>";
                 echo "<th>Curing Group</th>";
+                echo "<th>Stock on Hand</th>"; // New column for Stock on Hand
 
+                // Add a header for the total requirement column
+                echo "<th>Total Requirement</th>";
                 // Display the ERP numbers horizontally
                 while ($erpRow = mysqli_fetch_assoc($erpResult)) {
                     $erp = $erpRow['erp'];
@@ -129,6 +143,24 @@
                         echo "<td>$color</td>";
                         echo "<td>$curingTime</td>";
                         echo "<td>$curingGroup</td>";
+
+                        // Retrieve the suitable amount of cstock from the realstock table
+                        $realStockSql = "SELECT cstock FROM realstock WHERE icode = '$icode'";
+                        $realStockResult = mysqli_query($conn, $realStockSql);
+
+                        if ($realStockResult) {
+                            $realStockRow = mysqli_fetch_assoc($realStockResult);
+                            $stockOnHand = $realStockRow['cstock'];
+
+                            // Display the stock on hand in a separate column
+                            echo "<td>$stockOnHand</td>";
+                        } else {
+                            echo "Error executing realstock query: " . mysqli_error($conn);
+                        }
+
+                        // Display the total requirement in a separate column
+                        $totalRequirement = isset($totals[$icode]) ? $totals[$icode] : "";
+                        echo "<td>$totalRequirement</td>";
 
                         foreach ($erpResult as $erpRow) {
                             $erp = $erpRow['erp'];
@@ -165,4 +197,3 @@
     ?>
 </body>
 </html>
-

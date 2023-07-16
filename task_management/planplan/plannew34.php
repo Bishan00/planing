@@ -68,14 +68,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $row2 = mysqli_fetch_assoc($result2);
 
-            $time_taken = $row2['time_taken'];
+         // Retrieve the time taken for the tire type
+         $time_taken = $tire['time_taken'];
 
-            // Calculate the total time for all tires in the ERP
-            $total_time = $time_taken * $tobe;
+         // Retrieve the latest end date for the current press
+         $latest_end_date = isset($latest_end_dates[$press]) ? $latest_end_dates[$press] : null;
 
-            // Calculate the start and end dates based on the total time
-            $start_date = $next_start_date;
-            $end_date = date("Y-m-d H:i:s", strtotime("$start_date + $total_time minutes"));
+         // Calculate the start date based on the latest end date of the previous tire type or the current time
+         $start_date = $latest_end_date ? date("Y-m-d H:i:s", strtotime("$latest_end_date + 1 minute")) : date("Y-m-d H:i:s");
+
+         // Calculate the total time for all tires in the ERP
+         $total_time = $time_taken * $tobe;
+
+         // Calculate the end date based on the total time
+         $end_date = date("Y-m-d H:i:s", strtotime("$start_date + $total_time minutes"));
+
+         // Update the next start date for the next tire type of the same press
+         $latest_end_dates[$press] = $end_date;
 
             // Check for available press and mold matching the tire_id
             $sql ="SELECT s.press_id, s.press_name, s.mold_id, s.mold_name, s.cavity_id, s.cavity_name
