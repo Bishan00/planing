@@ -14,7 +14,7 @@ if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT icode,  GROUP_CONCAT(DISTINCT mold_id) AS mold_ids, GROUP_CONCAT(DISTINCT press_id) AS press_ids 
+$sql = "SELECT icode, GROUP_CONCAT(DISTINCT mold_id) AS mold_ids, GROUP_CONCAT(DISTINCT press_id) AS press_ids 
         FROM new_table 
         GROUP BY icode";
 
@@ -37,11 +37,15 @@ if (mysqli_num_rows($result) > 0) {
         foreach ($moldIdsArray as $moldId) {
             foreach ($pressIdsArray as $pressId) {
                 $capacity = getCapacity($connection, $moldId, $pressId);
-                echo "Capacity for Mold ID $moldId and Press ID $pressId: $capacity<br>";
+                echo "Capacity for Mold ID $moldId and Press ID $pressId: $capacity<br><br>";
+
+                // Get cavity_id for each press_id
+                $cavityIds = getCavityIds($connection, $pressId);
+                echo "Cavity IDs for Press ID $pressId: $cavityIds<br>";
 
                 // Save the data in the task_data table
-                $insertSql = "INSERT INTO task_data (icode, mold_id, press_id, capacity)
-                              VALUES ('$icode', '$moldId', '$pressId', '$capacity')";
+                $insertSql = "INSERT INTO task_data (icode, mold_id, press_id, capacity, cavity_id)
+                              VALUES ('$icode', '$moldId', '$pressId', '$capacity', '$cavityIds')";
                 mysqli_query($connection, $insertSql);
             }
         }
@@ -70,4 +74,20 @@ function getCapacity($connection, $moldId, $pressId) {
         return "Unknown";
     }
 }
+
+function getCavityIds($connection, $pressId) {
+    $sql = "SELECT cavity_id FROM cavity WHERE press_id = '$pressId'";
+    $result = mysqli_query($connection, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $cavityIds = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $cavityIds[] = $row['cavity_id'];
+        }
+        return implode(',', $cavityIds);
+    } else {
+        return "None";
+    }
+}
 ?>
+
