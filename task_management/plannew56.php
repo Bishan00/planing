@@ -1,5 +1,3 @@
-
-
 <?php
 // Establish database connection
 $conn = mysqli_connect("localhost", "root", "", "task_management");
@@ -14,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Generate Production Plan
 
     // Retrieve all tire IDs, quantities, press, mold, and time_taken from the database table
-    $sql = "SELECT s.icode, p.tobe, s.mold_id, s.cavity_id, t.time_taken
+    $sql = "SELECT s.icode, p.tobe, s.mold_id, s.cavity_id, t.time_taken, p.erp
             FROM process s
             INNER JOIN tire t ON s.icode = t.icode
             INNER JOIN tobeplan p ON s.icode = p.icode";
@@ -22,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$result) {
         die("Query failed: " . mysqli_error($conn));
     }
-    
+
     // Check if any tires are available for production
     if (mysqli_num_rows($result) > 0) {
         // Initialize array to store the latest end date for each press
@@ -35,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mold = $row['mold_id'];
             $cavity = $row['cavity_id'];
             $time_taken = $row['time_taken'];
+            $erp_number = $row['erp'];
 
             // Skip the tire if the 'tobe' value is 0
             if ($tobe == 0) {
@@ -57,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $latest_end_dates[$mold] = $end_date;
 
             // Insert the production plan into the database for the entire quantity
-            $sql = "INSERT INTO plannew (icode, mold_id, cavity_id, start_date, end_date)
-                    VALUES ('$icode', '$mold', '$cavity', '$start_date', '$end_date')";
+            $sql = "INSERT INTO plannew (icode, mold_id, cavity_id, start_date, end_date, erp)
+                    VALUES ('$icode', '$mold', '$cavity', '$start_date', '$end_date', '$erp_number')";
             mysqli_query($conn, $sql);
 
             // Get the ID of the inserted production plan
@@ -80,8 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Close the database connection
     mysqli_close($conn);
+    header("Location: deleteall.php");
+    exit();
 }
 ?>
+
 
 
 

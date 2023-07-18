@@ -1,3 +1,4 @@
+
 <?php
 // Database connection settings
 $host = 'localhost';
@@ -59,6 +60,9 @@ try {
         // Display the results
         echo "icode: $icode<br>";
 
+        // Display the number of tobess related to the current icode
+        echo "Number of tobess: $totalTires<br>";
+
         foreach ($subResults as $subRow) {
             $moldId = $subRow['mold_id'];
             $count = $subRow['count'];
@@ -68,7 +72,7 @@ try {
             echo "tires_per_mold: <input type='text' name='tires_per_mold[$icode][$moldId]' value='$updatedTiresPerMold'><br>";
             echo "cavity_id: $cavityId <br>";
             echo "<input type='hidden' name='icode' value='$icode'>";
-            
+
             // Insert the data into the 'process' table
             $insertQuery = "INSERT INTO process (icode, mold_id, cavity_id, tires_per_mold) VALUES (:icode, :moldId, :cavityId, :tiresPerMold)";
             $insertStmt = $db->prepare($insertQuery);
