@@ -106,4 +106,7 @@ if (!empty($quick_plan_values)) {
 
 // Close the database connection
 $conn->close();
+
+header("Location: process5.php");
+exit();
 ?>

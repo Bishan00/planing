@@ -62,4 +62,7 @@ if ($result->num_rows > 0) {
 
 // Close the connection
 $conn->close();
+
+header("Location: tire_mold.php");
+exit();
 ?>

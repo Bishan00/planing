@@ -63,6 +63,10 @@ if (mysqli_num_rows($result) > 0) {
 // Close the database connection
 mysqli_close($connection);
 
+// Redirect to another page
+header("Location: process.php");
+exit();
+
 function getCapacity($connection, $moldId, $pressId) {
     $sql = "SELECT capacity FROM press_quantity WHERE press_id = '$pressId'";
     $result = mysqli_query($connection, $sql);

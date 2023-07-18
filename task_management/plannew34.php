@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_close($conn);
 
             // Redirect to another page
-            header("Location: plannew45.php");
+            header("Location: tire_cavity.php");
             exit();
         } else {
             echo "No tires found for the given ERP ID";

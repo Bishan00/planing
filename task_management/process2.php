@@ -7,7 +7,7 @@
 <?php
 
 
-
+ob_start();
 
 $host = 'localhost'; // Replace with your host name
 $username = 'root'; // Replace with your MySQL username
@@ -110,5 +110,11 @@ if (isset($_POST['submit'])) {
 
     // Close the MySQL connection
     mysqli_close($connection);
+
+    // Redirect to another page
+    header("Location: tire_cavity.php");
+    exit();
 }
+
+ob_end_flush();
 ?>
