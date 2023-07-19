@@ -63,13 +63,6 @@ try {
     // Fetch the results
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Start the form
-    echo "<form method='post' action='update.php'>"; // Replace 'update.php' with the desired update script
-
-    // Display the results in a table
-    echo "<table>";
-    echo "<tr><th>icode</th><th>Number of tobess</th><th>Mold ID</th><th>Cavity ID</th><th>Tires per Mold</th></tr>";
-
     foreach ($results as $row) {
         $icode = $row['icode'];
         $totalTires = $row['total_tires'];
@@ -99,34 +92,16 @@ try {
         // Calculate the sum of the number of tires per mold for this icode
         $totalTiresPerMoldSum = $updatedTiresPerMold * $moldCount;
 
-        // Check if the total number of tires per mold is not equal to the total tires for this icode
         if ($totalTires !== $totalTiresPerMoldSum) {
+            // Calculate the difference and distribute among molds
             $difference = $totalTires - $totalTiresPerMoldSum;
-
-            // Calculate the difference per mold
             $differencePerMold = intval($difference / $moldCount);
-
-            // Calculate the remaining difference that could not be evenly distributed among molds
             $remainingDifference = $difference % $moldCount;
-
-            // Display the results
-            echo "<tr>";
-            echo "<td rowspan='" . count($subResults) . "'>$icode</td>";
-            echo "<td rowspan='" . count($subResults) . "'>$totalTires</td>";
-
-            $firstRow = true;
 
             foreach ($subResults as $subRow) {
                 $moldId = $subRow['mold_id'];
                 $count = $subRow['count'];
                 $cavityId = $subRow['cavity_id'];
-
-                if (!$firstRow) {
-                    echo "<tr>";
-                }
-
-                echo "<td>$moldId</td>";
-                echo "<td>$cavityId</td>";
 
                 // Calculate the tires_per_mold for the current mold
                 $updatedTiresPerMoldMold = $updatedTiresPerMold + $differencePerMold;
@@ -140,23 +115,27 @@ try {
                 // Set the tires_per_mold to 0 if it has a negative transition
                 $updatedTiresPerMoldMold = max(0, $updatedTiresPerMoldMold);
 
-                echo "<td><input type='text' name='tires_per_mold[$icode][$moldId]' value='$updatedTiresPerMoldMold'></td>";
+                // Prepare and execute the INSERT query to insert data into the "process" table
+                $insertQuery = "
+                INSERT INTO process (icode, mold_id, cavity_id, tires_per_mold)
+                VALUES (:icode, :mold_id, :cavity_id, :tires_per_mold)
+                ";
 
-                echo "</tr>";
-                $firstRow = false;
-
-                // ... (remaining code)
+                $insertStmt = $db->prepare($insertQuery);
+                $insertStmt->bindValue(':icode', $icode);
+                $insertStmt->bindValue(':mold_id', $moldId);
+                $insertStmt->bindValue(':cavity_id', $cavityId);
+                $insertStmt->bindValue(':tires_per_mold', $updatedTiresPerMoldMold);
+                $insertStmt->execute();
             }
         }
     }
 
-    echo "</table>";
+    // Redirect to another page after the data is inserted successfully
+    header("Location: plannew56.php");
+    exit(); // Make sure to add this exit() to stop further execution
 
-    // Add the update button
-    echo "<input type='submit' name='submit' value='Update'>";
-    echo "</form>";
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
 ?>
-
