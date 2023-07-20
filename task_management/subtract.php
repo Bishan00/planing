@@ -143,7 +143,7 @@ if (isset($_POST['submit'])) {
     $erp = $_POST['erp'];
 
     // Check if the work order already exists in tobeplan table
-    $existingSql = "SELECT COUNT(*) as count FROM tobeplan WHERE erp = '$erp'";
+    $existingSql = "SELECT COUNT(*) as count FROM tobeplan1 WHERE erp = '$erp'";
     $existingResult = $conn->query($existingSql);
     $existingRow = $existingResult->fetch_assoc();
     $count = $existingRow['count'];

@@ -65,29 +65,7 @@
                     $workOrders[$icode][$erp]['new'] = $new;
                 }
 
-                // Retrieve the tobe values for each tire type
-                $tobeSql = "SELECT icode, erp, tobe FROM tobeplan";
-                $tobeResult = mysqli_query($conn, $tobeSql);
-
-                // Check if the query was successful
-                if ($tobeResult) {
-                    // Iterate through each tobe value
-                    while ($tobeRow = mysqli_fetch_assoc($tobeResult)) {
-                        $icode = $tobeRow['icode'];
-                        $erp = $tobeRow['erp'];
-                        $tobe = $tobeRow['tobe'];
-
-                        // Set the tobe value related to each tire type
-                        if (isset($workOrders[$icode][$erp])) {
-                            $workOrders[$icode][$erp]['tobe'] = $tobe;
-                        }
-                    }
-                } else {
-                    echo "Error executing tobe query: " . mysqli_error($conn);
-                }
-
-                // Calculate the total requirement for each icode
-                $totals = [];
+               
 
                 foreach ($workOrders as $icode => $workOrderData) {
                     $total = 0;
@@ -154,25 +132,30 @@
 
                             // Display the stock on hand in a separate column
                             echo "<td>$stockOnHand</td>";
+
+                            // Display the total requirement in a separate column
+                            $totalRequirement = isset($totals[$icode]) ? $totals[$icode] : "";
+                            echo "<td>$totalRequirement</td>";
+
+                            foreach ($erpResult as $erpRow) {
+                                $erp = $erpRow['erp'];
+                                $new = isset($workOrderData[$erp]['new']) ? $workOrderData[$erp]['new'] : "";
+                                $tobe = isset($workOrderData[$erp]['tobe']) ? $workOrderData[$erp]['tobe'] : "";
+
+                                if (!empty($new) && is_numeric($new) && !empty($stockOnHand) && is_numeric($stockOnHand)) {
+                                    // Calculate the tobe value by subtracting cstock from the new value
+                                    $tobe = $new - $stockOnHand;
+                                }
+
+                                echo "<td>";
+                                echo "<div class='erp-window'>";
+                                echo "<span>New: $new</span><br>";
+                                echo "<span>Tobe: $tobe</span><br>";
+                                echo "</div>";
+                                echo "</td>";
+                            }
                         } else {
                             echo "Error executing realstock query: " . mysqli_error($conn);
-                        }
-
-                        // Display the total requirement in a separate column
-                        $totalRequirement = isset($totals[$icode]) ? $totals[$icode] : "";
-                        echo "<td>$totalRequirement</td>";
-
-                        foreach ($erpResult as $erpRow) {
-                            $erp = $erpRow['erp'];
-                            $new = isset($workOrderData[$erp]['new']) ? $workOrderData[$erp]['new'] : "";
-                            $tobe = isset($workOrderData[$erp]['tobe']) ? $workOrderData[$erp]['tobe'] : "";
-
-                            echo "<td>";
-                            echo "<div class='erp-window'>";
-                            echo "<span>New: $new</span><br>";
-                            echo "<span>Tobe: $tobe</span><br>";
-                            echo "</div>";
-                            echo "</td>";
                         }
                     } else {
                         echo "Error executing selectpress query: " . mysqli_error($conn);
