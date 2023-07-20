@@ -88,7 +88,7 @@ if ($erpResult) {
                         }
 
                         // Retrieve the tobe value for the given tire type
-                        $tobeSql = "SELECT tobe FROM tobeplan WHERE icode = '$icode' AND erp = '$erp'";
+                        $tobeSql = "SELECT tobe FROM tobeplan1 WHERE icode = '$icode' AND erp = '$erp'";
                         $tobeResult = mysqli_query($conn, $tobeSql);
                         $tobeValue = '';
 
@@ -98,13 +98,13 @@ if ($erpResult) {
                         }
 
                         // Retrieve the cstock value for the given tire type
-                        $cstockSql = "SELECT cstock FROM realstock WHERE icode = '$icode'";
+                        $cstockSql = "SELECT stockonhand FROM tobeplan1 WHERE icode = '$icode'";
                         $cstockResult = mysqli_query($conn, $cstockSql);
                         $cstockValue = '';
 
                         if ($cstockResult && mysqli_num_rows($cstockResult) > 0) {
                             $cstockRow = mysqli_fetch_assoc($cstockResult);
-                            $cstockValue = $cstockRow['cstock'];
+                            $cstockValue = $cstockRow['stockonhand'];
                         }
 
                         // Retrieve the new value for the given tire type

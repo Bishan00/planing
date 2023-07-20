@@ -1,232 +1,159 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Task Management</title>
     <style>
         table {
-            width: 100%;
             border-collapse: collapse;
         }
 
-        table, th, td {
-            border: 1px solid black;
+        th, td {
             padding: 5px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
         }
     </style>
+    <script>
+        function updateData(icode, moldId, press, cavityId, checked) {
+            // Send an AJAX request to update the database with the selected mold and cavity IDs
+            const url = "update_data.php";
+
+            const data = {
+                icode: icode,
+                moldId: moldId,
+                press: press,
+                cavityId: cavityId,
+                checked: checked ? 1 : 0
+            };
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                // The server-side script may send a response with updated data
+                // You can handle the response here, if needed
+                console.log(result);
+            })
+            .catch(error => {
+                console.error("Error updating data: ", error);
+            });
+        }
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h2>Production Plan Editor</h2>
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <label for="erp">ERP ID:</label>
-            <input type="text" id="erp" name="erp" required>
-            <button type="submit">Generate Plan</button>
-        </form>
-    </div>
-
     <?php
-    // Check if the form is submitted
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Replace these variables with your database credentials
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "task_management";
 
-        // Establish database connection
-        $conn = mysqli_connect("localhost", "root", "", "task_management");
+    // Create a connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Retrieve the ERP ID from the form submission
-        $erp = isset($_POST['erp']) ? $_POST['erp'] : '';
+    // Check the connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-        // Validate the ERP ID (you can add your own validation logic here)
-        if (empty($erp)) {
-            die("Please enter a valid ERP ID");
+    // SQL query to fetch all data for each icode
+    $sql = "SELECT 
+                icode,
+                mold_id,
+                press_name,
+                GROUP_CONCAT(DISTINCT cavity_id ORDER BY cavity_id) AS selected_cavities
+            FROM 
+                production_plan
+            GROUP BY 
+                icode, mold_id, press_name";
+
+    $result = $conn->query($sql);
+
+    // Fetch the selected mold and cavity IDs for each icode from the database
+    $selectedMoldIds = array();
+    $selectedCavityIds = array();
+
+    $sqlSelect = "SELECT icode, mold_id, cavity_id FROM process";
+    $resultSelect = $conn->query($sqlSelect);
+
+    if ($resultSelect->num_rows > 0) {
+        while ($rowSelect = $resultSelect->fetch_assoc()) {
+            $icode = $rowSelect["icode"];
+            $moldId = $rowSelect["mold_id"];
+            $cavityId = $rowSelect["cavity_id"];
+
+            if (!isset($selectedMoldIds[$icode])) {
+                $selectedMoldIds[$icode] = array();
+            }
+            if (!isset($selectedCavityIds[$icode])) {
+                $selectedCavityIds[$icode] = array();
+            }
+
+            $selectedMoldIds[$icode][] = $moldId;
+            $selectedCavityIds[$icode][] = $cavityId;
+        }
+    }
+
+    if ($result->num_rows > 0) {
+        $icodeData = array();
+
+        while ($row = $result->fetch_assoc()) {
+            $icode = $row["icode"];
+            $mold = $row["mold_id"];
+            $press = $row["press_name"];
+            $cavities = $row["selected_cavities"];
+
+            if (!isset($icodeData[$icode])) {
+                $icodeData[$icode] = array();
+            }
+
+            $icodeData[$icode][] = array("mold" => $mold, "press" => $press, "cavities" => $cavities);
         }
 
-        // Sanitize the ERP ID to prevent SQL injection
-        $erp = mysqli_real_escape_string($conn, $erp);
+        foreach ($icodeData as $icode => $data) {
+            echo "<h2>Icode: " . $icode . "</h2>";
+            echo "<table border='1'>";
+            echo "<tr><th>Selected Mold ID</th><th>Selected Press</th><th>Selected Cavities IDs</th></tr>";
 
-        // Retrieve the data from the production_plan table for the given ERP ID
-        $sql = "SELECT DISTINCT icode, description, cuing_group_name FROM production_plan WHERE erp = '$erp'";
+            foreach ($data as $row) {
+                echo "<tr>";
+                $moldCheckboxValue = $row["mold"];
+                $moldChecked = isset($selectedMoldIds[$icode]) && in_array($moldCheckboxValue, $selectedMoldIds[$icode]) ? 'checked' : '';
+                echo "<td><input type='checkbox' name='mold_checkbox[$icode][]' value='" . $moldCheckboxValue . "' onclick='updateData(\"$icode\", this.value, \"" . $row["press"] . "\", \"" . $row["cavities"] . "\", this.checked)' $moldChecked>" . $moldCheckboxValue . "</td>";
+                echo "<td>" . $row["press"] . "</td>";
 
-        $result = mysqli_query($conn, $sql);
-        if ($result === false) {
-            die("Query error: " . mysqli_error($conn));
-        }
-        // Check if the query executed successfully
-        if ($result) {
-            // Check if there are any rows returned
-            if (mysqli_num_rows($result) > 0) {
-                echo "<h3>Production Plan for ERP: $erp</h3>";
-                echo "<form method='post' action='savedata.php'>";
-                echo "<input type='hidden' name='erp' value='$erp'>";
-                echo "<table>";
-                echo "<tr>
-                        <th>ICode</th>
-                        <th>Description</th>
-                        <th>Curing Group</th>
-                        <th>Press</th>
-                        <th>Mold</th>
-                        <th>Cavity</th>
-                        <th>Order Quantity</th>
-                        <th>To Be Produced</th>
-                    </tr>";
+                // Split the cavities into an array
+                $cavitiesArray = explode(",", $row["cavities"]);
 
-                // Iterate over each row in the result set
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $icode = $row['icode'];
-                    $description = $row['description'];
-                    $curingGroup = $row['cuing_group_name'];
+                echo "<td>"; // Start the cell for cavities
 
-                    // Retrieve available press options for the tire type
-                    $pressOptions = getPressOptions($conn, $erp, $icode);
-
-                    echo "<tr>";
-                    echo "<td>$icode</td>";
-                    echo "<td>$description</td>";
-                    echo "<td>$curingGroup</td>";
-
-                    // Display the press and mold options
-                    foreach ($pressOptions as $press_id => $pressData) {
-                        $press_name = $pressData['press_name'];
-                        $availability_date = $pressData['availability_date'];
-                        $moldOptions = $pressData['mold_options'];
-
-                        echo "<td><b>$press_name</b> (Availability Date: $availability_date)</td>";
-                        echo "<td>$moldOptions</td>";
-                        echo "<td><select name='cavity_$icode'>" . getCavityOptions($conn, $erp, $icode) . "</select></td>";
-                        echo "<td>" . getTireSize($conn, $icode) . "</td>";
-                        echo "<td>" . getTireQuantity($conn, $icode) . "</td>";
-                    }
-
-                    echo "</tr>";
+                // Display checkboxes for cavities
+                foreach ($cavitiesArray as $cavity) {
+                    $cavityCheckboxValue = $cavity;
+                    $cavityChecked = isset($selectedCavityIds[$icode]) && in_array($cavityCheckboxValue, $selectedCavityIds[$icode]) ? 'checked' : '';
+                    echo '<input type="checkbox" name="cavity_checkbox[' . $icode . '][' . $moldCheckboxValue . '][' . $cavityCheckboxValue . ']" value="' . $cavityCheckboxValue . '" onclick="updateData(\'' . $icode . '\', \'' . $moldCheckboxValue . '\', \'' . $row["press"] . '\', \'' . $cavityCheckboxValue . '\', this.checked)" ' . $cavityChecked . '>' . $cavityCheckboxValue . '<br>';
                 }
 
-                echo "</table>";
-                echo "<button type='submit' name='submit'>Submit</button>";
-                echo "</form>";
-            } else {
-                echo "No data found in the production plan for ERP: $erp";
+                echo "</td>"; // End the cell for cavities
+                echo "</tr>";
             }
-        } else {
-            echo "Error: " . mysqli_error($conn);
-        }
 
-        // Close the database connection
-        mysqli_close($conn);
+            echo "</table><br>";
+        }
+    } else {
+        echo "No results found.";
     }
 
-    function getPressOptions($conn, $erp, $icode) {
-        $sql = "SELECT DISTINCT p.press_id, p.press_name, p.availability_date
-                FROM press p
-                INNER JOIN production_plan pp ON p.press_id = pp.press_id
-                WHERE pp.erp = '$erp' AND pp.icode = '$icode'
-                ORDER BY p.availability_date ASC"; // Order by availability_date in ascending order
-        $result = mysqli_query($conn, $sql);
-
-        if ($result === false) {
-            die("Query error: " . mysqli_error($conn));
-        }
-
-        $options = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $press_id = $row['press_id'];
-            $press_name = $row['press_name'];
-            $availability_date = $row['availability_date'];
-
-            // Retrieve available mold options for the tire type and press combination
-            $moldOptions = getMoldOptions($conn, $erp, $icode, $press_id);
-
-            $options[$press_id] = array(
-                'press_name' => $press_name,
-                'availability_date' => $availability_date,
-                'mold_options' => $moldOptions
-            );
-        }
-
-        return $options;
-    }
-
-    function getMoldOptions($conn, $erp, $icode, $press_id) {
-        $sql = "SELECT DISTINCT m.mold_id, m.mold_name, m.availability_date, m.quantity
-                FROM mold m
-                INNER JOIN production_plan pp ON m.mold_id = pp.mold_id
-                WHERE pp.erp = '$erp' AND pp.icode = '$icode' AND pp.press_id = '$press_id'
-                ORDER BY m.availability_date ASC"; // Order by availability_date in ascending order
-        $result = mysqli_query($conn, $sql);
-
-        if ($result === false) {
-            die("Query error: " . mysqli_error($conn));
-        }
-
-        $options = '';
-        while ($row = mysqli_fetch_assoc($result)) {
-            $mold_id = $row['mold_id'];
-            $mold_name = $row['mold_name'];
-            $availability_date = $row['availability_date'];
-            $quantity = $row['quantity'];
-            $options .= "<input type='checkbox' name='mold_" . $press_id . "[]' value='$mold_id'> $mold_name (Availability Date: $availability_date, Quantity: $quantity)<br>";
-        }
-
-        return $options;
-    }
-
-    function getCavityOptions($conn, $erp, $icode) {
-        $sql = "SELECT DISTINCT c.cavity_id, c.cavity_name, c.availability_date
-                FROM cavity c
-                INNER JOIN production_plan pp ON c.cavity_id = pp.cavity_id
-                WHERE pp.erp = '$erp' AND pp.icode = '$icode'
-                ORDER BY c.availability_date ASC"; // Order by availability_date in ascending order
-        $result = mysqli_query($conn, $sql);
-
-        if ($result === false) {
-            die("Query error: " . mysqli_error($conn));
-        }
-
-        $options = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $cavity_id = $row['cavity_id'];
-            $cavity_name = $row['cavity_name'];
-            $availability_date = $row['availability_date'];
-            $options[$cavity_id] = $cavity_name . " (Availability Date: " . $availability_date . ")";
-        }
-
-        $dropdown = "";
-        foreach ($options as $value => $label) {
-            $dropdown .= "<option value='$value'>$label</option>";
-        }
-
-        return $dropdown;
-    }
-
-    function getTireQuantity($conn, $icode) {
-        // Replace 'tobeplan' with the actual table name where the tire quantity is stored
-        $sql = "SELECT tobe FROM tobeplan WHERE icode = '$icode'";
-        $result = mysqli_query($conn, $sql);
-
-        if ($result === false) {
-            die("Query error: " . mysqli_error($conn));
-        }
-
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            return $row['tobe'];
-        }
-
-        return 'N/A';
-    }
-
-    function getTireSize($conn, $icode) {
-        // Replace 'tire' with the actual table name where tire sizes are stored
-        $sql = "SELECT new FROM worder WHERE icode = '$icode'";
-        $result = mysqli_query($conn, $sql);
-
-        if ($result === false) {
-            die("Query error: " . mysqli_error($conn));
-        }
-
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            return $row['new'];
-        }
-
-        return 'N/A';
-    }
+    // Close the connection
+    $conn->close();
     ?>
 </body>
 </html>

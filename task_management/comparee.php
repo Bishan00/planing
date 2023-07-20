@@ -47,7 +47,7 @@
                         // Compare and display mismatched data
                         if (isset($_POST['compare'])) {
                             // Retrieve the ERP number from the form
-                            $erpNumber = $_POST['erpNumber'];
+                            $erpNumber = $_POST['erp'];
 
                             // Query the order table to fetch the relevant data matching the ERP number
                             $orderQuery = "SELECT * FROM worder WHERE erp = '$erpNumber'";

@@ -136,6 +136,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// ... Previous code ...
+
 if (isset($_POST['submit'])) {
     // Get the user-provided work order ID
     $erp = $_POST['erp'];
@@ -150,8 +152,8 @@ if (isset($_POST['submit'])) {
         echo "Work order with ERP number $erp already exists.";
     } else {
         // Perform subtraction and insert result into result_table
-        $sql = "INSERT INTO tobeplan (icode, tobe, erp)
-                SELECT t1.icode, t1.new - t2.cstock, t1.erp
+        $sql = "INSERT INTO tobeplan (icode, tobe, erp, stockonhand)
+                SELECT t1.icode, t1.new - t2.cstock, t1.erp, t2.cstock
                 FROM worder t1
                 INNER JOIN stock t2 ON t1.icode = t2.icode
                 WHERE t1.erp = '$erp'";
@@ -178,6 +180,9 @@ if (isset($_POST['submit'])) {
         }
     }
 }
+
+// ... Rest of the code ...
+
 
 $conn->close();
 ob_end_flush(); // Send output buffer and turn off output buffering
