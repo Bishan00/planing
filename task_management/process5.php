@@ -114,26 +114,44 @@ try {
           
                 // Set the tires_per_mold to 0 if it has a negative transition
                 $updatedTiresPerMoldMold = max(0, $updatedTiresPerMoldMold);
+ // Fetch mold_name and cavity_name based on mold_id and cavity_id
+ $moldId = $subRow['mold_id'];
+ $cavityId = $subRow['cavity_id'];
 
-                // Prepare and execute the INSERT query to insert data into the "process" table
-                $insertQuery = "
-                INSERT INTO process (icode, mold_id, cavity_id, tires_per_mold)
-                VALUES (:icode, :mold_id, :cavity_id, :tires_per_mold)
-                ";
+ $moldQuery = "SELECT mold_name FROM mold WHERE mold_id = :mold_id";
+ $moldStmt = $db->prepare($moldQuery);
+ $moldStmt->bindValue(':mold_id', $moldId);
+ $moldStmt->execute();
+ $moldRow = $moldStmt->fetch(PDO::FETCH_ASSOC);
+ $moldName = $moldRow['mold_name'];
+
+ $cavityQuery = "SELECT cavity_name FROM cavity WHERE cavity_id = :cavity_id";
+ $cavityStmt = $db->prepare($cavityQuery);
+ $cavityStmt->bindValue(':cavity_id', $cavityId);
+ $cavityStmt->execute();
+ $cavityRow = $cavityStmt->fetch(PDO::FETCH_ASSOC);
+ $cavityName = $cavityRow['cavity_name'];
+              // Insert data into the "process" table, including mold_name and cavity_name
+              $insertQuery = "
+              INSERT INTO process (icode, mold_id, cavity_id, tires_per_mold, mold_name, cavity_name)
+              VALUES (:icode, :mold_id, :cavity_id, :tires_per_mold, :mold_name, :cavity_name)
+              ";
 
                 $insertStmt = $db->prepare($insertQuery);
                 $insertStmt->bindValue(':icode', $icode);
                 $insertStmt->bindValue(':mold_id', $moldId);
                 $insertStmt->bindValue(':cavity_id', $cavityId);
                 $insertStmt->bindValue(':tires_per_mold', $updatedTiresPerMoldMold);
+                $insertStmt->bindValue(':mold_name', $moldName);
+                $insertStmt->bindValue(':cavity_name', $cavityName);
                 $insertStmt->execute();
             }
         }
     }
 
     // Redirect to another page after the data is inserted successfully
-    header("Location: plannew56.php");
-    exit(); // Make sure to add this exit() to stop further execution
+  header("Location: plannew45.php");
+  exit(); // Make sure to add this exit() to stop further execution
 
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();

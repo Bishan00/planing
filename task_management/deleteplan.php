@@ -121,6 +121,12 @@ include './includes/admin_header.php';
         $deleteStockSql = "DELETE FROM stock";
         $conn->query($deleteStockSql);
 
+        
+                 // Delete all data from the stock table
+                 $deleteStockSql = "DELETE FROM tobeplan1";
+                 $conn->query($deleteStockSql);
+         
+
                 // Commit the transaction if all queries are successful
                 $conn->commit();
 

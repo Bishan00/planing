@@ -55,6 +55,26 @@ usort($tires, function ($a, $b) {
     return strtotime($a['mold_avail_date']) <=> strtotime($b['mold_avail_date']);
 });
 
+// Check if the icode already exists in the plannew table and fetch the mold_id and cavity_id
+$existing_mapping = array();
+$check_sql = "SELECT icode, mold_id, cavity_id FROM plannew";
+$check_result = $conn->query($check_sql);
+
+if ($check_result && $check_result->num_rows > 0) {
+    while ($row = $check_result->fetch_assoc()) {
+        $icode = $row['icode'];
+        $mold_id = $row['mold_id'];
+        $cavity_id = $row['cavity_id'];
+
+        if (!isset($existing_mapping[$icode])) {
+            $existing_mapping[$icode] = array(
+                'mold_id' => $mold_id,
+                'cavity_id' => $cavity_id
+            );
+        }
+    }
+}
+
 // Prepare the data for insertion into the quick_plan table
 $quick_plan_values = '';
 $production_schedule = array();
@@ -65,6 +85,15 @@ $mold_tire_count = array();
 foreach ($tires as $tire) {
     $mold_id = $tire['mold_id'];
     $cavity_id = $tire['cavity_id'];
+
+    $icode = $tire['icode'];
+
+    // Check if the icode already exists in the plannew table
+    if (isset($existing_mapping[$icode])) {
+        // If icode exists in the plannew table, use the same mold_id and cavity_id
+        $mold_id = $existing_mapping[$icode]['mold_id'];
+        $cavity_id = $existing_mapping[$icode]['cavity_id'];
+    }
 
     if (
         !isset($mold_availability[$mold_id])
@@ -86,7 +115,7 @@ foreach ($tires as $tire) {
         $mold_tire_count[$mold_id]++;
 
         // Prepare the values for the quick_plan table insertion
-        $quick_plan_values .= "('" . $tire['icode'] . "', '" . $tire['mold_id'] . "', '" . $tire['cavity_id'] . "'),";
+        $quick_plan_values .= "('" . $tire['icode'] . "', '" . $mold_id . "', '" . $cavity_id . "'),";
     }
 }
 

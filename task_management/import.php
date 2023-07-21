@@ -42,10 +42,9 @@ if (isset($_POST['import'])) {
         }
 
         $msg = 'Excel file imported successfully.';
-        
-        // Redirect to another page
         header("Location: convertstock.php");
         exit();
+       
     } else {
         $msg = 'Error importing file.';
     }

@@ -7,12 +7,13 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-
 // Retrieve all tire IDs, quantities, press, mold, and time_taken from the database table
-$sql = "SELECT s.icode, s.tires_per_mold, s.mold_id, s.cavity_id, t.time_taken, p.erp
+$sql = "SELECT s.icode, s.tires_per_mold, s.mold_id, s.cavity_id, t.time_taken, p.erp, m.availability_date AS mold_availability, c.availability_date AS cavity_availability
         FROM process s
         INNER JOIN tire t ON s.icode = t.icode
-        INNER JOIN tobeplan p ON s.icode = p.icode";
+        INNER JOIN tobeplan p ON s.icode = p.icode
+        LEFT JOIN mold m ON s.mold_id = m.mold_id
+        LEFT JOIN cavity c ON s.cavity_id = c.cavity_id";
 $result = mysqli_query($conn, $sql);
 if (!$result) {
     die("Query failed: " . mysqli_error($conn));
@@ -31,18 +32,16 @@ if (mysqli_num_rows($result) > 0) {
         $cavity = $row['cavity_id'];
         $time_taken = $row['time_taken'];
         $erp_number = $row['erp'];
+        $mold_availability = $row['mold_availability'];
+        $cavity_availability = $row['cavity_availability'];
 
         // Skip the tire if the 'tobe' value is 0
         if ($tobe == 0) {
             continue;
         }
 
-        // Retrieve the latest end dates for the current mold and cavity
-        $latest_end_date_mold = isset($latest_end_dates[$mold]) ? $latest_end_dates[$mold] : null;
-        $latest_end_date_cavity = isset($latest_end_dates[$cavity]) ? $latest_end_dates[$cavity] : null;
-
         // Calculate the start date based on the latest end date of the previous tire type or the current time
-        $start_date = max($latest_end_date_mold, $latest_end_date_cavity) ? date("Y-m-d H:i:s", strtotime("$latest_end_date_mold $latest_end_date_cavity + 1 minute")) : date("Y-m-d H:i:s");
+        $start_date = max($latest_end_dates[$mold] ?? $mold_availability, $latest_end_dates[$cavity] ?? $cavity_availability) ?: date("Y-m-d H:i:s");
 
         // Calculate the total time for all tires in the current iteration
         $total_time = $time_taken * $tobe;
@@ -58,9 +57,6 @@ if (mysqli_num_rows($result) > 0) {
         $sql = "INSERT INTO plannew (icode, mold_id, cavity_id, start_date, end_date, erp)
                 VALUES ('$icode', '$mold', '$cavity', '$start_date', '$end_date', '$erp_number')";
         mysqli_query($conn, $sql);
-
-        // Get the ID of the inserted production plan
-        $production_plan_id = mysqli_insert_id($conn);
 
         // Update the availability date of mold
         $sql = "UPDATE mold SET availability_date = '$end_date' WHERE mold_id = '$mold'";
@@ -81,4 +77,3 @@ mysqli_close($conn);
 header("Location: deleteall.php");
 exit();
 ?>
-
