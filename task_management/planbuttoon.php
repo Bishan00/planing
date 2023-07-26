@@ -38,7 +38,14 @@ if (isset($_POST['button2'])) {
 if (isset($_POST['button3'])) {
     // Code to execute when Button 3 is clicked
     // Redirect to the desired page
-    header("Location: page3.php");
+    header("Location: indwork.php");
+    exit();
+}
+
+if (isset($_POST['button4'])) {
+    // Code to execute when Button 3 is clicked
+    // Redirect to the desired page
+    header("Location: rangeerp.php");
     exit();
 }
 ?>
@@ -46,7 +53,7 @@ if (isset($_POST['button3'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Button Example</title>
+    <title>Summery Report</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,22 +70,23 @@ if (isset($_POST['button3'])) {
             font-size: 16px;
             border-radius: 4px;
             border: none;
-            background-color: #4CAF50;
+            background-color: blue;
             color: white;
             cursor: pointer;
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color:lightblue;
         }
     </style>
 </head>
 <body>
-    <h1>Button Example</h1>
+    <h1>Summery Report</h1>
     <form method="post" action="">
-        <input type="submit" name="button1" value="Work Order Range">
-        <input type="submit" name="button2" value="Button 2">
-        <input type="submit" name="button3" value="Button 3">
+        <input type="submit" name="button1" value="All Plan">
+        <input type="submit" name="button2" value="TO BE Produce All Work Orders">
+        <input type="submit" name="button3" value="Individual Work orders">
+        <input type="submit" name="button4" value="Work Order range">
     </form>
 </body>
 </html>

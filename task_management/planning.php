@@ -34,7 +34,7 @@ if ($erpResult) {
                     // Display the production plan details in a table
                     echo "<h2>ERP Number: $erp</h2>";
                     echo "<table class='production-table'>";
-                    echo "<tr><th>Tire ID</th><th>Description</th><th>Curing Group</th><th>Press Name</th><th>Mold Name</th>
+                    echo "<tr><th>Tire ID</th><th>Description</th></th><th>Press Name</th><th>Mold Name</th>
                         <th>Cavity Name</th><th>Start Date</th><th>End Date</th><th>Order Quantity</th>
                         <th>Stock On Hand</th><th>To Be Produced</th></tr>";
 
@@ -120,7 +120,7 @@ if ($erpResult) {
                         echo "<tr>";
                         echo "<td>$icode</td>";
                         echo "<td>$description</td>";
-                        echo "<td>$curingGroup</td>";
+                       // echo "<td>$curingGroup</td>";
                         echo "<td>$pressName</td>";
                         echo "<td>$moldName</td>";
                         echo "<td>$cavityName</td>";

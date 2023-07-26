@@ -3,15 +3,68 @@
 <head>
     <title>Production Plan Details</title>
     <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        form input[type="text"],
+        form input[type="submit"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        form input[type="submit"] {
+            background-color: #007BFF; /* Change the background color to blue */
+            color: white;
+            cursor: pointer;
+            /* Add hover effect */
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
         .production-table {
             border-collapse: collapse;
             width: 100%;
+            margin-top: 20px;
         }
 
-        .production-table th, .production-table td {
-            padding: 8px;
+        .production-table th,
+        .production-table td {
+            padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+        }
+
+        .production-table th {
+            background-color: #f2f2f2;
         }
 
         .erp-window {
@@ -19,29 +72,57 @@
             border: 1px solid #ddd;
             padding: 4px;
         }
+
+        .erp-window span {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .erp-number {
+            font-weight: bold;
+        }
+
+        .stock-on-hand {
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        .total-requirement {
+            font-weight: bold;
+            color: #FFC107;
+        }
     </style>
+    
 </head>
 <body>
+    <form method="get" action="">
+        ERP Range: <input type="text" name="start_erp" placeholder="Start ERP">
+        to <input type="text" name="end_erp" placeholder="End ERP">
+        <input type="submit" value="Submit">
+    </form>
+
     <?php
-    include './includes/admin_header.php';
-    include './includes/data_base_save_update.php';
-    include 'includes/App_Code.php';
+    // Check if the form is submitted with the ERP range
+    if (isset($_GET['start_erp']) && isset($_GET['end_erp'])) {
+        // Establish database connection
+        $conn = mysqli_connect("localhost", "root", "", "task_management");
 
-    // Establish database connection
-    $conn = mysqli_connect("localhost", "root", "", "task_management");
+        // Check if the connection is successful
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
 
-    // Check if the connection is successful
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
+        $start_erp = $_GET['start_erp'];
+        $end_erp = $_GET['end_erp'];
 
-    // Retrieve all unique ERP numbers
-    $erpSql = "SELECT DISTINCT erp FROM plannew";
-    $erpResult = mysqli_query($conn, $erpSql);
+        // Modify the ERP query to get ERP numbers within the specified range
+        $erpSql = "SELECT DISTINCT erp FROM plannew WHERE erp BETWEEN '$start_erp' AND '$end_erp'";
+        $erpResult = mysqli_query($conn, $erpSql);
 
-    // Check if the query was successful
-    if ($erpResult) {
-        // Check if any ERP numbers exist
+        // Check if the query was successful
+        if ($erpResult) {
+
+             // Check if any ERP numbers exist
         if (mysqli_num_rows($erpResult) > 0) {
             // Retrieve all work orders
             $workOrderSql = "SELECT DISTINCT erp, icode, new FROM worder";
@@ -171,18 +252,16 @@
                 }
 
                 echo "</table>";
-            } else {
-                echo "Error executing work order query: " . mysqli_error($conn);
-            }
+            // Close the database connection
+            mysqli_close($conn);
         } else {
-            echo "No ERP numbers found in the database.";
+            echo "No ERP numbers found in the database for the specified range.";
         }
     } else {
         echo "Error executing ERP query: " . mysqli_error($conn);
     }
-
-    // Close the database connection
-    mysqli_close($conn);
-    ?>
+}}
+?>
 </body>
 </html>
+  

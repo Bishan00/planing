@@ -81,7 +81,6 @@
 </head>
 <body>
     
-
 <div id="searchForm">
     <form id="searchForm">
     <h4 style="background-color:powderblue;">Do You want to update plan please input icode and press search button.</h4>
@@ -140,5 +139,89 @@
             xhr.send();
         });
     </script>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Management - Process Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f9f9;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Task Management - Process Data</h1>
+
+<?php
+$hostname = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'task_management';
+
+$connection = mysqli_connect($hostname, $username, $password, $database);
+
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+function displayProcessData($connection)
+{
+    $selectQuery = "SELECT * FROM `process`";
+    $result = mysqli_query($connection, $selectQuery);
+
+    if (mysqli_num_rows($result) > 0) {
+        echo "<table>
+                <tr>
+                    <th>ICODE</th>
+                    <th>Tires per Mold</th>
+                    <th>Mold Name</th>
+                    <th>Cavity Name</th>
+                </tr>";
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>
+                    <td>{$row['icode']}</td>
+                    <td>{$row['tires_per_mold']}</td>
+                    <td>{$row['mold_name']}</td>
+                    <td>{$row['cavity_name']}</td>
+                  </tr>";
+        }
+
+        echo "</table>";
+    } else {
+        echo "No records found.";
+    }
+
+    mysqli_free_result($result);
+}
+
+displayProcessData($connection);
+
+mysqli_close($connection);
+?>
+
 </body>
 </html>
