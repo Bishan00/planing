@@ -3,9 +3,24 @@
 <head>
     <title>Production Plan Details</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 20px;
+        }
+ /* ... your existing styles ... */
+
+ .erp-window span.green {
+        color: green;
+    }
+
+    .erp-window span.red {
+        color: red;
+    }
         .production-table {
             border-collapse: collapse;
             width: 100%;
+            margin-top: 20px;
         }
 
         .production-table th, .production-table td {
@@ -14,19 +29,55 @@
             border-bottom: 1px solid #ddd;
         }
 
+        .production-table th {
+            background-color: #f2f2f2;
+        }
+
         .erp-window {
             background-color: #f9f9f9;
             border: 1px solid #ddd;
             padding: 4px;
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+        }
+
+        button[type="submit"] {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
+    <h1>Production Plan Details</h1>
+    <form action="erprange2.php" method="get">
+        <label for="icode">Enter iCode:</label>
+        <input type="text" id="icode" name="icode">
+        <button type="submit">Submit</button>
+    </form>
     <?php
-    include './includes/admin_header.php';
-    include './includes/data_base_save_update.php';
-    include 'includes/App_Code.php';
-
     // Establish database connection
     $conn = mysqli_connect("localhost", "root", "", "task_management");
 
@@ -65,7 +116,7 @@
                     $workOrders[$icode][$erp]['new'] = $new;
                 }
 
-               
+                $totals = [];
 
                 foreach ($workOrders as $icode => $workOrderData) {
                     $total = 0;
@@ -126,7 +177,7 @@
                         $realStockSql = "SELECT cstock FROM realstock WHERE icode = '$icode'";
                         $realStockResult = mysqli_query($conn, $realStockSql);
 
-                        if ($realStockResult) { 
+                        if ($realStockResult) {
                             $realStockRow = mysqli_fetch_assoc($realStockResult);
                             $stockOnHand = $realStockRow['cstock'];
 
@@ -140,26 +191,24 @@
                             foreach ($erpResult as $erpRow) {
                                 $erp = $erpRow['erp'];
                                 $new = isset($workOrderData[$erp]['new']) ? $workOrderData[$erp]['new'] : "";
-                                $tobe = isset($workOrderData[$erp]['tobe']) ? $workOrderData[$erp]['tobe'] : "";
+                                $tobe = "";
                             
-                                if ($stockOnHand == 0) {
-                                    // If stock_on_hand is 0, set tobe to display the new quantity for that ERP number
-                                    $tobe = $new;
-                                } else {
-                                    if (!empty($new) && is_numeric($new) && !empty($stockOnHand) && is_numeric($stockOnHand)) {
-                                        // Calculate the tobe value by subtracting stock_on_hand from the new value
-                                        $tobe = $new - $stockOnHand;
-                                    }
+                                // Retrieve the "tobe" value from the tobeplan1 table
+                                $tobeSql = "SELECT tobe FROM tobeplan1 WHERE erp = '$erp' AND icode = '$icode'";
+                                $tobeResult = mysqli_query($conn, $tobeSql);
+                            
+                                if ($tobeResult && mysqli_num_rows($tobeResult) > 0) {
+                                    $tobeRow = mysqli_fetch_assoc($tobeResult);
+                                    $tobe = $tobeRow['tobe'];
                                 }
                             
                                 echo "<td>";
                                 echo "<div class='erp-window'>";
-                                echo "<span>New: $new</span><br>";
-                                echo "<span>Tobe: $tobe</span><br>";
+                                echo "<span class='" . ($new > 0 ? 'green' : '') . "'>Order Quantity: $new</span><br>";
+                                echo "<span class='" . ($tobe > 0 ? 'red' : '') . "'>Tobe: $tobe</span><br>";
                                 echo "</div>";
                                 echo "</td>";
                             }
-                            
                         } else {
                             echo "Error executing realstock query: " . mysqli_error($conn);
                         }

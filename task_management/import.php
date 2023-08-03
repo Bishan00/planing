@@ -25,8 +25,9 @@ if (isset($_POST['import'])) {
             $icode = $foo[$count][5];
             $t_size = $foo[$count][6];
             $brand = $foo[$count][7];
-            $fit = $foo[$count][8];
-            $col = $foo[$count][9];
+            $col = $foo[$count][8];
+            $fit = $foo[$count][9];
+            
             $rim = $foo[$count][10];
             $cons = $foo[$count][11];
             $fweight = $foo[$count][12];
@@ -35,8 +36,8 @@ if (isset($_POST['import'])) {
             $cbm = $foo[$count][15];
             $kgs = $foo[$count][16];
 
-            $query = "INSERT INTO worder (date, Customer, wono, ref, erp, icode, t_size, brand, fit, col, rim, cons, fweight, ptv, new, cbm, kgs) ";
-            $query .= "VALUES ('$date', '$Customer', '$wono', '$ref', '$erp', '$icode', '$t_size', '$brand', '$fit', '$col', '$rim', '$cons', '$fweight', '$ptv', '$new', '$cbm', '$kgs')";
+            $query = "INSERT INTO worder (date, Customer, wono, ref, erp, icode, t_size, brand, col, fit, rim, cons, fweight, ptv, new, cbm, kgs) ";
+            $query .= "VALUES ('$date', '$Customer', '$wono', '$ref', '$erp', '$icode', '$t_size', '$brand', '$col', '$fit', '$rim', '$cons', '$fweight', '$ptv', '$new', '$cbm', '$kgs')";
             mysqli_query($db, $query);
             $count++;
         }

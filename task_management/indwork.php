@@ -212,12 +212,23 @@
 
                     // Display the new and tobe quantities for the selected ERP number
                     $new = $workOrderData['new'];
-                    $tobe = $stockOnHand == 0 ? $new : $new - $stockOnHand;
+             // Fetch the "tobe" quantity from the "tobeplan1" table
+             $tobePlanSql = "SELECT tobe FROM tobeplan1 WHERE erp = '$selectedErpNumber' AND icode = '$icode'";
+             $tobePlanResult = mysqli_query($conn, $tobePlanSql);
+
+             if ($tobePlanResult && mysqli_num_rows($tobePlanResult) > 0) {
+                 $tobePlanRow = mysqli_fetch_assoc($tobePlanResult);
+                 $tobeQuantity = $tobePlanRow['tobe'];
+
+             
+             } else {
+                 echo "<td>Error: Tobe Quantity not available</td>";
+             }
 
                     echo "<td>";
                     echo "<div class='erp-window'>";
-                    echo "<span>New: $new</span><br>";
-                    echo "<span>Tobe: $tobe</span><br>";
+                    echo "<span>Order Quantity: $new</span><br>";
+                    echo "<span>Tobe: $tobeQuantity</span><br>";
                     echo "</div>";
                     echo "</td>";
                 } else {

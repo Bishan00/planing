@@ -10,9 +10,8 @@ $conn = mysqli_connect("localhost", "root", "", "task_management");
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
-// Retrieve all unique ERP numbers
-$erpSql = "SELECT DISTINCT erp FROM plannew";
+// Retrieve all unique ERP numbers with customer name
+$erpSql = "SELECT DISTINCT erp, customer FROM plannew";
 $erpResult = mysqli_query($conn, $erpSql);
 
 // Check if the query was successful
@@ -22,6 +21,7 @@ if ($erpResult) {
         // Iterate through each ERP number
         while ($erpRow = mysqli_fetch_assoc($erpResult)) {
             $erp = $erpRow['erp'];
+            $customerName = $erpRow['customer'];
 
             // Retrieve production plan details for the current ERP number
             $sql = "SELECT * FROM plannew WHERE erp = '$erp'";
@@ -32,9 +32,9 @@ if ($erpResult) {
                 // Check if any production plan entries exist
                 if (mysqli_num_rows($result) > 0) {
                     // Display the production plan details in a table
-                    echo "<h2>ERP Number: $erp</h2>";
+                    echo "<h2>ERP Number: $erp - Customer Name: $customerName</h2>";
                     echo "<table class='production-table'>";
-                    echo "<tr><th>Tire ID</th><th>Description</th></th><th>Press Name</th><th>Mold Name</th>
+                    echo "<tr><th>Tire ID</th><th>Description</th><th>Press Name</th><th>Mold Name</th>
                         <th>Cavity Name</th><th>Start Date</th><th>End Date</th><th>Order Quantity</th>
                         <th>Stock On Hand</th><th>To Be Produced</th></tr>";
 
@@ -120,7 +120,7 @@ if ($erpResult) {
                         echo "<tr>";
                         echo "<td>$icode</td>";
                         echo "<td>$description</td>";
-                       // echo "<td>$curingGroup</td>";
+                      // echo "<td>$curingGroup</td>";
                         echo "<td>$pressName</td>";
                         echo "<td>$moldName</td>";
                         echo "<td>$cavityName</td>";

@@ -1,41 +1,13 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Task Management</title>
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        input[type='text'] {
-            width: 60px;
-        }
-
-        input[type='submit'] {
-            margin-top: 10px;
-            padding: 5px 10px;
-        }
+        /* CSS styles here */
     </style>
 </head>
 <body>
 <?php
-// Database connection settings
 $host = 'localhost';
 $dbname = 'task_management';
 $username = 'root';
@@ -111,31 +83,41 @@ try {
                     $updatedTiresPerMoldMold += 1;
                     $remainingDifference--;
                 }
-          
+
                 // Set the tires_per_mold to 0 if it has a negative transition
                 $updatedTiresPerMoldMold = max(0, $updatedTiresPerMoldMold);
- // Fetch mold_name and cavity_name based on mold_id and cavity_id
- $moldId = $subRow['mold_id'];
- $cavityId = $subRow['cavity_id'];
 
- $moldQuery = "SELECT mold_name FROM mold WHERE mold_id = :mold_id";
- $moldStmt = $db->prepare($moldQuery);
- $moldStmt->bindValue(':mold_id', $moldId);
- $moldStmt->execute();
- $moldRow = $moldStmt->fetch(PDO::FETCH_ASSOC);
- $moldName = $moldRow['mold_name'];
+                // Fetch mold_name and cavity_name based on mold_id and cavity_id
+                $moldId = $subRow['mold_id'];
+                $cavityId = $subRow['cavity_id'];
 
- $cavityQuery = "SELECT cavity_name FROM cavity WHERE cavity_id = :cavity_id";
- $cavityStmt = $db->prepare($cavityQuery);
- $cavityStmt->bindValue(':cavity_id', $cavityId);
- $cavityStmt->execute();
- $cavityRow = $cavityStmt->fetch(PDO::FETCH_ASSOC);
- $cavityName = $cavityRow['cavity_name'];
-              // Insert data into the "process" table, including mold_name and cavity_name
-              $insertQuery = "
-              INSERT INTO process (icode, mold_id, cavity_id, tires_per_mold, mold_name, cavity_name)
-              VALUES (:icode, :mold_id, :cavity_id, :tires_per_mold, :mold_name, :cavity_name)
-              ";
+                $moldQuery = "SELECT mold_name FROM mold WHERE mold_id = :mold_id";
+                $moldStmt = $db->prepare($moldQuery);
+                $moldStmt->bindValue(':mold_id', $moldId);
+                $moldStmt->execute();
+                $moldRow = $moldStmt->fetch(PDO::FETCH_ASSOC);
+                $moldName = $moldRow['mold_name'];
+
+                $cavityQuery = "SELECT cavity_name FROM cavity WHERE cavity_id = :cavity_id";
+                $cavityStmt = $db->prepare($cavityQuery);
+                $cavityStmt->bindValue(':cavity_id', $cavityId);
+                $cavityStmt->execute();
+                $cavityRow = $cavityStmt->fetch(PDO::FETCH_ASSOC);
+                $cavityName = $cavityRow['cavity_name'];
+
+                // Fetch press_name based on cavity_id from the production_plan database
+                $pressQuery = "SELECT press_name FROM production_plan WHERE cavity_id = :cavity_id";
+                $pressStmt = $db->prepare($pressQuery);
+                $pressStmt->bindValue(':cavity_id', $cavityId);
+                $pressStmt->execute();
+                $pressRow = $pressStmt->fetch(PDO::FETCH_ASSOC);
+                $pressName = $pressRow['press_name'];
+
+                // Insert data into the "process" table, including mold_name, cavity_name, and press_name
+                $insertQuery = "
+                INSERT INTO process (icode, mold_id, cavity_id, tires_per_mold, mold_name, cavity_name, press_name)
+                VALUES (:icode, :mold_id, :cavity_id, :tires_per_mold, :mold_name, :cavity_name, :press_name)
+                ";
 
                 $insertStmt = $db->prepare($insertQuery);
                 $insertStmt->bindValue(':icode', $icode);
@@ -144,16 +126,19 @@ try {
                 $insertStmt->bindValue(':tires_per_mold', $updatedTiresPerMoldMold);
                 $insertStmt->bindValue(':mold_name', $moldName);
                 $insertStmt->bindValue(':cavity_name', $cavityName);
+                $insertStmt->bindValue(':press_name', $pressName);
                 $insertStmt->execute();
             }
         }
     }
 
     // Redirect to another page after the data is inserted successfully
-  header("Location: plannew45.php");
-  exit(); // Make sure to add this exit() to stop further execution
+    header("Location: plannew45.php");
+    exit(); // Make sure to add this exit() to stop further execution
 
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
 ?>
+</body>
+</html>

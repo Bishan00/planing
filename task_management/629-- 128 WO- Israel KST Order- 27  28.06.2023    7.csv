@@ -1,4 +1,4 @@
-date,Customer,wono,ref,erp,icode,t_size,brand,fit,col,rim,cons,fweight,ptv,new,cbm,kgs
+date,Customer,wono,ref,erp,icode,t_size,brand,col,fit,rim,cons,fweight,ptv,new,cbm,kgs
 28.06.2023,ISRL-KST,128,OREDR 26,629,103161,16x6- 8 (WIDE),ACHIEVER PLUS,BLACK,STD,4.33,3 LAYER,16.3,0.0257,6,0.154,97.8
 28.06.2023,ISRL-KST,128,OREDR 26,629,102161,5.00-8 (WIDE),ACHIEVER PLUS,BLACK,STD,3,3 LAYER,17.4,0.0263,6,0.158,104.4
 28.06.2023,ISRL-KST,128,OREDR 26,629,111161,6.00-9 (WIDE),ACHIEVER PLUS,BLACK,STD,4,3 LAYER,26.4,0.0383,24,0.919,633.6

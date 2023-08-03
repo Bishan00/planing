@@ -7,6 +7,20 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+// Fetch customer names for each ERP from the 'worder' table
+$customerNames = array();
+$sql = "SELECT erp, Customer FROM worder";
+$result = mysqli_query($conn, $sql);
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $erp = $row['erp'];
+        $customer_name = $row['Customer'];
+        $customerNames[$erp] = $customer_name;
+    }
+} else {
+    die("Query failed: " . mysqli_error($conn));
+}
+
 // Retrieve all tire IDs, quantities, press, mold, and time_taken from the database table
 $sql = "SELECT s.icode, s.tires_per_mold, s.mold_id, s.cavity_id, t.time_taken, p.erp, m.availability_date AS mold_availability, c.availability_date AS cavity_availability
         FROM process s
@@ -35,6 +49,9 @@ if (mysqli_num_rows($result) > 0) {
         $mold_availability = $row['mold_availability'];
         $cavity_availability = $row['cavity_availability'];
 
+        // Get the customer name corresponding to the current ERP from the associative array
+        $customer_name = $customerNames[$erp_number];
+
         // Skip the tire if the 'tobe' value is 0
         if ($tobe == 0) {
             continue;
@@ -53,9 +70,9 @@ if (mysqli_num_rows($result) > 0) {
         $latest_end_dates[$mold] = $end_date;
         $latest_end_dates[$cavity] = $end_date;
 
-        // Insert the production plan into the database for the entire quantity
-        $sql = "INSERT INTO plannew (icode, mold_id, cavity_id, start_date, end_date, erp)
-                VALUES ('$icode', '$mold', '$cavity', '$start_date', '$end_date', '$erp_number')";
+        // Insert the production plan into the database for the entire quantity, including the customer name
+        $sql = "INSERT INTO plannew (icode, mold_id, cavity_id, start_date, end_date, erp, tires_per_mold, Customer)
+                VALUES ('$icode', '$mold', '$cavity', '$start_date', '$end_date', '$erp_number', '$tobe', '$customer_name')";
         mysqli_query($conn, $sql);
 
         // Update the availability date of mold

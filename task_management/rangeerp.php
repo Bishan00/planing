@@ -81,7 +81,15 @@
         .erp-number {
             font-weight: bold;
         }
+   /* ... your existing styles ... */
 
+   .erp-window span.green {
+        color: green;
+    }
+
+    .erp-window span.red {
+        color: red;
+    }
         .stock-on-hand {
             font-weight: bold;
             color: #007BFF;
@@ -211,6 +219,7 @@
                             $realStockRow = mysqli_fetch_assoc($realStockResult);
                             $stockOnHand = $realStockRow['cstock'];
 
+                            
                             // Display the stock on hand in a separate column
                             echo "<td>$stockOnHand</td>";
 
@@ -221,22 +230,21 @@
                             foreach ($erpResult as $erpRow) {
                                 $erp = $erpRow['erp'];
                                 $new = isset($workOrderData[$erp]['new']) ? $workOrderData[$erp]['new'] : "";
-                                $tobe = isset($workOrderData[$erp]['tobe']) ? $workOrderData[$erp]['tobe'] : "";
+                                $tobe = "";
                             
-                                if ($stockOnHand == 0) {
-                                    // If stock_on_hand is 0, set tobe to display the new quantity for that ERP number
-                                    $tobe = $new;
-                                } else {
-                                    if (!empty($new) && is_numeric($new) && !empty($stockOnHand) && is_numeric($stockOnHand)) {
-                                        // Calculate the tobe value by subtracting stock_on_hand from the new value
-                                        $tobe = $new - $stockOnHand;
-                                    }
+                                // Retrieve the "tobe" value from the tobeplan1 table
+                                $tobeSql = "SELECT tobe FROM tobeplan1 WHERE erp = '$erp' AND icode = '$icode'";
+                                $tobeResult = mysqli_query($conn, $tobeSql);
+                            
+                                if ($tobeResult && mysqli_num_rows($tobeResult) > 0) {
+                                    $tobeRow = mysqli_fetch_assoc($tobeResult);
+                                    $tobe = $tobeRow['tobe'];
                                 }
                             
                                 echo "<td>";
                                 echo "<div class='erp-window'>";
-                                echo "<span>New: $new</span><br>";
-                                echo "<span>Tobe: $tobe</span><br>";
+                                echo "<span class='" . ($new > 0 ? 'green' : '') . "'>Order Quantity: $new</span><br>";
+                                echo "<span class='" . ($tobe > 0 ? 'red' : '') . "'>Tobe: $tobe</span><br>";
                                 echo "</div>";
                                 echo "</td>";
                             }

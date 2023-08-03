@@ -19,8 +19,12 @@
                         <h4>Check work Order</h4>
 
                         <form action="comparee.php" method="POST">
-    <button type="submit" name="compare">Comparee Data</button>
-  </form>
+    <label for="erp">Enter ERP Number:</label>
+    <input type="text" id="erp" name="erp" required>
+    <button type="submit" name="compare">Compare Data</button>
+</form>
+
+  
 
 </a>
 </html>
@@ -63,6 +67,7 @@
                             echo '<th>Tire ID</th>';
                             echo '<th>Colour</th>';
                             echo '<th>Brand</th>';
+                            echo '<th>Rim</th>';
                             echo '</tr>';
                             echo '</thead>';
                             echo '<tbody>';
@@ -83,6 +88,7 @@
                                     $mismatch = false;
                                     if (
                                         $orderRow['icode'] !== $dataRow['icode'] ||
+                                        $orderRow['rim'] !== $dataRow['rim'] ||
                                         $orderRow['col'] !== $dataRow['col']
                                     ) {
                                         $mismatch = true;
@@ -93,6 +99,7 @@
                                     echo '<td>' . $orderRow['icode'] . '</td>';
                                     echo '<td>' . $orderRow['col'] . '</td>';
                                     echo '<td>' . $orderRow['brand'] . '</td>';
+                                    echo '<td>' . $orderRow['rim'] . '</td>';
                                     echo '</tr>';
 
                                     mysqli_free_result($dataResult);

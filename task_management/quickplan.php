@@ -52,7 +52,12 @@ if ($result->num_rows > 0) {
 
 // Sort the tires based on the availability date of the molds and cavities in ascending order
 usort($tires, function ($a, $b) {
-    return strtotime($a['mold_avail_date']) <=> strtotime($b['mold_avail_date']);
+    $moldDateComparison = strtotime($a['mold_avail_date']) <=> strtotime($b['mold_avail_date']);
+    if ($moldDateComparison === 0) {
+        // If mold dates are equal, compare based on cavity dates
+        return strtotime($a['cavity_avail_date']) <=> strtotime($b['cavity_avail_date']);
+    }
+    return $moldDateComparison;
 });
 
 // Check if the icode already exists in the plannew table and fetch the mold_id and cavity_id

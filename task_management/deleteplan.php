@@ -77,7 +77,11 @@ include './includes/admin_header.php';
         <h1>Delete Data</h1>
 
         <form method="post" action="">
-            <input type="submit" name="delete" value="Delete Data">
+            <input type="submit" name="delete" value="Delete All Plan">
+        </form>
+
+        <form method="post" action="deleteerp.php">
+            <input type="submit" name="delete" value="Delete one Plan">
         </form>
 
         <?php

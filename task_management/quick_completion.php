@@ -28,7 +28,7 @@ FROM production_plan pp
 INNER JOIN (
   SELECT icode, MIN(end_date) AS end_date
   FROM production_plan
-  WHERE DATEDIFF(end_date, start_date) <= 3 -- Filter choices that can be completed within 3 days (adjust the duration as per your requirement)
+  WHERE DATEDIFF(end_date, start_date) 
   GROUP BY icode
 ) AS subquery ON pp.icode = subquery.icode AND pp.end_date = subquery.end_date
 GROUP BY pp.icode; -- Select only one option per tire type (assuming 'icode' represents the tire type);
