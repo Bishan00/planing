@@ -60,25 +60,7 @@ usort($tires, function ($a, $b) {
     return $moldDateComparison;
 });
 
-// Check if the icode already exists in the plannew table and fetch the mold_id and cavity_id
-$existing_mapping = array();
-$check_sql = "SELECT icode, mold_id, cavity_id FROM plannew";
-$check_result = $conn->query($check_sql);
 
-if ($check_result && $check_result->num_rows > 0) {
-    while ($row = $check_result->fetch_assoc()) {
-        $icode = $row['icode'];
-        $mold_id = $row['mold_id'];
-        $cavity_id = $row['cavity_id'];
-
-        if (!isset($existing_mapping[$icode])) {
-            $existing_mapping[$icode] = array(
-                'mold_id' => $mold_id,
-                'cavity_id' => $cavity_id
-            );
-        }
-    }
-}
 
 // Prepare the data for insertion into the quick_plan table
 $quick_plan_values = '';
@@ -93,12 +75,7 @@ foreach ($tires as $tire) {
 
     $icode = $tire['icode'];
 
-    // Check if the icode already exists in the plannew table
-    if (isset($existing_mapping[$icode])) {
-        // If icode exists in the plannew table, use the same mold_id and cavity_id
-        $mold_id = $existing_mapping[$icode]['mold_id'];
-        $cavity_id = $existing_mapping[$icode]['cavity_id'];
-    }
+
 
     if (
         !isset($mold_availability[$mold_id])
@@ -141,6 +118,6 @@ if (!empty($quick_plan_values)) {
 // Close the database connection
 $conn->close();
 
-header("Location: process5.php");
+header("Location: update_quick.php");
 exit();
 ?>

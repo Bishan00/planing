@@ -8,6 +8,13 @@
             background-color: #f2f2f2;
             margin: 20px;
         }
+
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 20px;
+        }
  /* ... your existing styles ... */
 
  .erp-window span.green {
@@ -69,6 +76,8 @@
             margin-bottom: 30px;
         }
     </style>
+
+    </style>
 </head>
 <body>
     <h1>Production Plan Details</h1>
@@ -94,6 +103,12 @@
     if ($erpResult) {
         // Check if any ERP numbers exist
         if (mysqli_num_rows($erpResult) > 0) {
+            // Store ERP numbers in an array
+            $erpNumbers = array();
+            while ($erpRow = mysqli_fetch_assoc($erpResult)) {
+                $erpNumbers[] = $erpRow['erp'];
+            }
+
             // Retrieve all work orders
             $workOrderSql = "SELECT DISTINCT erp, icode, new FROM worder";
             $workOrderResult = mysqli_query($conn, $workOrderSql);
@@ -116,14 +131,35 @@
                     $workOrders[$icode][$erp]['new'] = $new;
                 }
 
-                $totals = [];
-
+                // Calculate the total "tobe" value for each "icode"
+                $tobeTotals = [];
                 foreach ($workOrders as $icode => $workOrderData) {
-                    $total = 0;
-                    foreach ($workOrderData as $erpData) {
-                        $total += $erpData['new'];
+                    $totalTobe = 0;
+                    foreach ($workOrderData as $erp => $erpData) {
+                        $tobe = isset($erpData['new']) ? $erpData['new'] : "";
+
+                        // Retrieve the "tobe" value from the tobeplan1 table
+                        $tobeSql = "SELECT tobe FROM tobeplan1 WHERE erp = '$erp' AND icode = '$icode'";
+                        $tobeResult = mysqli_query($conn, $tobeSql);
+
+                        if ($tobeResult && mysqli_num_rows($tobeResult) > 0) {
+                            $tobeRow = mysqli_fetch_assoc($tobeResult);
+                            $tobe = $tobeRow['tobe'];
+                        }
+
+                        $totalTobe += $tobe;
                     }
-                    $totals[$icode] = $total;
+                    $tobeTotals[$icode] = $totalTobe;
+                }
+
+                // Calculate the total requirement for each "icode"
+                $totalRequirements = [];
+                foreach ($workOrders as $icode => $workOrderData) {
+                    $totalRequirement = 0;
+                    foreach ($workOrderData as $erpData) {
+                        $totalRequirement += $erpData['new'];
+                    }
+                    $totalRequirements[$icode] = $totalRequirement;
                 }
 
                 // Display the production plan details in a table
@@ -134,13 +170,12 @@
                 echo "<th>Color</th>";
                 echo "<th>Curing Time</th>";
                 echo "<th>Curing Group</th>";
-                echo "<th>Stock on Hand</th>"; // New column for Stock on Hand
+                echo "<th>Stock on Hand</th>";
+                echo "<th>Total Tobe</th>"; // New column for Total Tobe
+                echo "<th>Total Requirement</th>"; // New column for Total Requirement
 
-                // Add a header for the total requirement column
-                echo "<th>Total Requirement</th>";
                 // Display the ERP numbers horizontally
-                while ($erpRow = mysqli_fetch_assoc($erpResult)) {
-                    $erp = $erpRow['erp'];
+                foreach ($erpNumbers as $erp) {
                     echo "<th>ERP Number: $erp</th>";
                 }
 
@@ -152,7 +187,7 @@
                     echo "<td>$icode</td>";
 
                     // Fetch the ERP numbers again for the inner loop
-                    $erpResult = mysqli_query($conn, $erpSql);
+                    mysqli_data_seek($erpResult, 0);
 
                     // Retrieve Brand, Color, Curing Time, and Curing Group from the selectpress table
                     $selectPressSql = "SELECT brand, col, curing_id, curing_group, description FROM selectpress WHERE icode = '$icode'";
@@ -184,28 +219,48 @@
                             // Display the stock on hand in a separate column
                             echo "<td>$stockOnHand</td>";
 
-                            // Display the total requirement in a separate column
-                            $totalRequirement = isset($totals[$icode]) ? $totals[$icode] : "";
+                            // Display the total "tobe" value for this "icode"
+                            $totalTobe = $tobeTotals[$icode];
+                            echo "<td>";
+                            if ($totalTobe >= 0) {
+                                echo $totalTobe;
+                            } else {
+                                echo "-";
+                            }
+                            echo "</td>";
+
+                            // Display the total requirement for this "icode"
+                            $totalRequirement = $totalRequirements[$icode];
                             echo "<td>$totalRequirement</td>";
 
-                            foreach ($erpResult as $erpRow) {
-                                $erp = $erpRow['erp'];
+                            foreach ($erpNumbers as $erp) {
                                 $new = isset($workOrderData[$erp]['new']) ? $workOrderData[$erp]['new'] : "";
                                 $tobe = "";
-                            
+
                                 // Retrieve the "tobe" value from the tobeplan1 table
                                 $tobeSql = "SELECT tobe FROM tobeplan1 WHERE erp = '$erp' AND icode = '$icode'";
                                 $tobeResult = mysqli_query($conn, $tobeSql);
-                            
+
                                 if ($tobeResult && mysqli_num_rows($tobeResult) > 0) {
                                     $tobeRow = mysqli_fetch_assoc($tobeResult);
                                     $tobe = $tobeRow['tobe'];
                                 }
-                            
+
                                 echo "<td>";
                                 echo "<div class='erp-window'>";
                                 echo "<span class='" . ($new > 0 ? 'green' : '') . "'>Order Quantity: $new</span><br>";
-                                echo "<span class='" . ($tobe > 0 ? 'red' : '') . "'>Tobe: $tobe</span><br>";
+
+                                // Display the Total Tobe column specific changes here
+                                if ($erp === "Total Tobe") {
+                                    if ($tobe >= 0) {
+                                        echo "<span class='" . ($tobe > 0 ? 'red' : '') . "'>Tobe: $tobe</span><br>";
+                                    } else {
+                                        echo "<span class='red'>Tobe: -</span><br>";
+                                    }
+                                } else {
+                                    echo "<span class='" . ($tobe > 0 ? 'red' : '') . "'>Tobe: $tobe</span><br>";
+                                }
+
                                 echo "</div>";
                                 echo "</td>";
                             }

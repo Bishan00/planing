@@ -22,11 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Generate Production Plan
 
-    // Retrieve the tire IDs and quantities for the ERP
-    $sql = "SELECT wt.icode, wt.tobe, t.time_taken
-        FROM tobeplan wt
-        INNER JOIN tire t ON wt.icode = t.icode
-        WHERE wt.erp = '$erp'";
+   // Retrieve all tire IDs, quantities, press, mold, and time_taken from the database table
+$sql = "SELECT s.icode, s.tires_per_mold, s.mold_id, s.cavity_id, t.time_taken, p.erp, m.availability_date AS mold_availability, c.availability_date AS cavity_availability
+FROM process s
+INNER JOIN tire t ON s.icode = t.icode
+INNER JOIN tobeplan p ON s.icode = p.icode
+LEFT JOIN mold m ON s.mold_id = m.mold_id
+LEFT JOIN cavity c ON s.cavity_id = c.cavity_id";
     $result = mysqli_query($conn, $sql);
 
     // Check if the ERP exists
@@ -41,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Get the latest completion date among existing production plans
         $latest_end_date = null;
-        $sql = "SELECT MAX(end_date) AS latest_end_date
-                FROM production_plan";
+        $sql = "SELECT end_date
+                FROM process";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($result);
         if ($row['latest_end_date']) {
@@ -86,10 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          // Update the next start date for the next tire type of the same press
          $latest_end_dates[$press] = $end_date;
 
-            // Check for available press and mold matching the tire_id
-            $sql ="SELECT s.press_id, s.press_name, s.mold_id, s.mold_name, s.cavity_id, s.cavity_name
-            FROM selected_data s";
-
             $result3 = mysqli_query($conn, $sql);
 
             if (!$result3) {
@@ -108,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $next_start_date = $end_date;
 
                 // Insert the production plan into the database for the entire quantity
-                $sql = "INSERT INTO production_plan (erp, icode, press_id, press_name, mold_id, mold_name, start_date, end_date)
+                $sql = "INSERT INTO plannew (erp, icode, press_id, press_name, mold_id, mold_name, start_date, end_date)
                         VALUES ('$erp', '$icode', '$press_id', '$press_name', '$mold_id', '$mold_name', '$start_date', '$end_date')";
                 mysqli_query($conn, $sql);
 
