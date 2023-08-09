@@ -43,6 +43,6 @@ mysqli_query($connection, $deletetobe);
 mysqli_close($connection);
 
 
-header("Location: planning.php")
+header("Location: indidateR.php")
 
 ?>

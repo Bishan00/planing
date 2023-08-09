@@ -13,38 +13,36 @@ if (mysqli_connect_errno()) {
     die('Failed to connect to the database: ' . mysqli_connect_error());
 }
 
-// Copy data from the tobeplan table to the tobeplan1 table
-$copyDataQuery = "INSERT INTO tobeplan1 SELECT * FROM tobeplan";
-mysqli_query($connection, $copyDataQuery);
+
 
 // Delete records from the production_plan table
-$deleteProductionPlan = "DELETE FROM production_plan";
+$deleteProductionPlan = "DELETE FROM new_table1";
 mysqli_query($connection, $deleteProductionPlan);
 
 // Delete records from the tire_cavity table
-$deleteTireCavity = "DELETE FROM tire_cavity";
+$deleteTireCavity = "DELETE FROM new_table2";
 mysqli_query($connection, $deleteTireCavity);
 
 // Delete records from the tire_molddd table
-$deleteTireMolddd = "DELETE FROM tire_molddd";
+$deleteTireMolddd = "DELETE FROM result_table";
 mysqli_query($connection, $deleteTireMolddd);
 
 // Delete records from the quick_plan table
-$deleteQuickPlan = "DELETE FROM quick_plan";
+$deleteQuickPlan = "DELETE FROM new_table";
 mysqli_query($connection, $deleteQuickPlan);
 
 // Delete records from the quick_plan table
-$deleteprocess = "DELETE FROM process";
+$deleteprocess = "DELETE FROM new_table3";
 mysqli_query($connection, $deleteprocess);
 
 // Delete records from the quick_plan table
-$deletetobe = "DELETE FROM tobeplan";
+$deletetobe = "DELETE FROM result_table";
 mysqli_query($connection, $deletetobe);
 
 // Close the database connection
 mysqli_close($connection);
 
 
-header("Location: indidate.php")
+header("Location: planning.php")
 
 ?>

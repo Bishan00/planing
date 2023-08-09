@@ -17,11 +17,18 @@ $sql_select = "SELECT erp FROM derp";
 $result = $conn->query($sql_select);
 
 if ($result->num_rows > 0) {
-    // Step 2: Iterate through the result and delete related data from tobeplan1 table
+    // Step 2: Iterate through the result and delete related data from merged_data table
     while ($row = $result->fetch_assoc()) {
         $erp_number = $row["erp"];
-        $sql_delete = "DELETE FROM tobeplan1 WHERE erp = '$erp_number'";
-        if ($conn->query($sql_delete) !== TRUE) {
+        // Step 2a: Delete related data from merged_data table
+        $sql_delete_merged = "DELETE FROM merged_data WHERE erp = '$erp_number'";
+        if ($conn->query($sql_delete_merged) !== TRUE) {
+            echo "Error deleting data from merged_data: " . $conn->error;
+        }
+        
+        // Step 2b: Delete related data from tobeplan1 table
+        $sql_delete_tobeplan1 = "DELETE FROM tobeplan1 WHERE erp = '$erp_number'";
+        if ($conn->query($sql_delete_tobeplan1) !== TRUE) {
             echo "Error deleting data from tobeplan1: " . $conn->error;
         }
     }
@@ -31,7 +38,7 @@ if ($result->num_rows > 0) {
     if ($conn->query($sql_delete_all) !== TRUE) {
         echo "Error deleting data from derp: " . $conn->error;
     } else {
-        echo "Data deleted successfully from tobeplan1 and derp.";
+        echo "Data deleted successfully from merged_data, tobeplan1, and derp.";
     }
 } else {
     echo "No ERP numbers found in derp table.";
