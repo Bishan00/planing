@@ -59,8 +59,8 @@ if ($result === false) {
 
 // Close the connection
 $conn->close();
-header("Location: idcount3.php");
-exit();
+//header("Location: idcount3.php");
+//exit();
 ?>
 
 

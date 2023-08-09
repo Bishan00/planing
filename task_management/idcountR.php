@@ -47,6 +47,6 @@ if ($result->num_rows > 0) {
 
 // Close the connection
 $conn->close();
-header("Location: idcount2.php");
+header("Location: idcount2R.php");
 exit();
 ?>
