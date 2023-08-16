@@ -26,18 +26,19 @@ if ($result->num_rows > 0) {
         $icode = $row["icode"];
         $id_count = $row["id_count"];
         $start_date = $row["start_date"];
+        $start_time = $row["start_date"];
         $end_date = $row["end_date"];
         $cavity_id = $row["cavity_id"];
         $mold_id = $row["mold_id"];
         $erp = $row["erp"];
 
-        $sqlInsertData = "INSERT INTO merged_data (id, icode, id_count, start_date, end_date, cavity_id, mold_id, erp)
-                         VALUES ('$id', '$icode', '$id_count', '$start_date', '$end_date', '$cavity_id', '$mold_id', '$erp')";
+        $sqlInsertData = "INSERT INTO merged_data (id, icode, id_count, start_date, start_time ,end_date, cavity_id, mold_id, erp)
+                         VALUES ('$id', '$icode', '$id_count', '$start_date', '$start_time','$end_date', '$cavity_id', '$mold_id', '$erp')";
 
         if ($conn->query($sqlInsertData) === TRUE) {
-            echo "Data inserted successfully.<br>";
+            //echo "Data inserted successfully.<br>";
         } else {
-            echo "Error inserting data: " . $conn->error . "<br>";
+           // echo "Error inserting data: " . $conn->error . "<br>";
         }
     }
 } else {

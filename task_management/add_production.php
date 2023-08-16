@@ -1,78 +1,117 @@
-<?php
-include './includes/admin_header.php';
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Import Excel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
 
-$hostname = "localhost";
-$username = "root";
-$password = "";
-$database = "task_management";
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-// Create a connection
-$conn = new mysqli($hostname, $username, $password, $database);
+        h1 {
+            text-align: center;
+        }
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
 
-?>
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
 
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
 
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
 
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Import Daily Production Report</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="excel_file">
+            <input type="submit" value="Import">
+        </form>
 
-<!--------------------
-START - Breadcrumbs
--------------------->
-<ul class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><span>alert</span></li>
-</ul>
-<!--------------------
-END - Breadcrumbs
--------------------->
-<div class="content-panel-toggler"><i class="os-icon os-icon-grid-squares-22"></i><span>Sidebar</span></div>
-<div class="content-i">
-    <div class="content-box">
-        <div class="element-wrapper">
-            <div class="element-box">
-                <div class="row">
-                    <div class="col-md-6" id >
-                <form action="add_production2.php" method="post" enctype="multipart/form-data">
+        <?php
+        // Include the PhpSpreadsheet library
+        require 'vendor/autoload.php'; // Path to PhpSpreadsheet autoload
+        use PhpOffice\PhpSpreadsheet\IOFactory;
 
-                    
-                            <div class="row">
-                                 <div class="col-md-12">
-                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Add Daily Production</h5>                                   
-                                </div>  
-                                <form method="POST" action="add_production.php">
-                                <div class="col-sm-6">
-                                <div class="form-group"><label for="icode">Item Code:</label>
-        <input class="form-control" type="text" name="icode" id="icode" required> <br>
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["excel_file"])) {
+            $uploadedFile = $_FILES["excel_file"]["tmp_name"];
 
-  
-        <input class="btn btn-primary" type="submit" name="submit" value="Submit">
-    </form>
+            // Create a new connection to your MySQL database
+            $conn = new mysqli("localhost", "root", "", "task_management");
+
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            // Load the Excel file using PhpSpreadsheet
+            $spreadsheet = IOFactory::load($uploadedFile);
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            foreach ($worksheet->getRowIterator() as $row) {
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(FALSE);
+
+                $data = [];
+                foreach ($cellIterator as $cell) {
+                    $data[] = $cell->getValue();
+                }
+                if (!empty($data)) {
+                    $icode = $data[0];
+                    $amount = $data[2]; // Assuming the amount is in the third column
                 
-                            
+                    // Update cstock based on icode for realstock table
+                    $sqlRealStock = "UPDATE realstock SET cstock = cstock + ? WHERE icode = ?";
+                    $stmtRealStock = $conn->prepare($sqlRealStock);
+                    $stmtRealStock->bind_param("is", $amount, $icode);
+                    $stmtRealStock->execute();
+                
+                    // Update stock based on icode for stock table
+                    $sqlStock = "UPDATE stock SET cstock = cstock + ? WHERE icode = ?";
+                    $stmtStock = $conn->prepare($sqlStock);
+                    $stmtStock->bind_param("is", $amount, $icode);
+                    $stmtStock->execute();
+                }
+            }
 
-      
-    </form>
-                            </div>
-                        </div>
-                </form>
-                    </div>
-                      <div class="col-md-6">
-                          <br>
-               
-                                                               
-                </table>
-                      </div>
-            </div>
-        </div></div>
+            $conn->close();
 
-
-
-
-        
-<?php include './includes/Plugin.php'; ?>
-        <?php include './includes/admin_footer.php'; ?>
-
+            echo '<div class="result">';
+            echo '<h2>Import Result:</h2>';
+            echo '<p>Data imported successfully!</p>';
+            echo '</div>';
+        }
+        ?>
+    </div>
+</body>
+</html>

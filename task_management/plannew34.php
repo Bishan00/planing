@@ -85,17 +85,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_close($conn);
 
             // Redirect to another page
-            header("Location: tire_cavity.php");
+            header("Location: refresh2.php");
             exit();
+
+
         } else {
             echo "No tires found for the given ERP ID";
+
+             // Insert data into tobeplan1
+             $sqlInsert = "INSERT INTO tobeplan1 SELECT * FROM tobeplan WHERE erp = '$erp'";
+             mysqli_query($conn, $sqlInsert);
+        
+            // Delete data from tobeplan and move it to tobeplan1
+            $sqlDelete = "DELETE FROM tobeplan WHERE erp = '$erp'";
+            mysqli_query($conn, $sqlDelete);
+        
+           
         }
     } else {
         echo "Error: " . mysqli_error($conn);
     }
 
-    // Close the database connection
-    mysqli_close($conn);
 }
 ?>
 <!DOCTYPE html>

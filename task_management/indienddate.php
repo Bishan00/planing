@@ -57,9 +57,9 @@ if ($result->num_rows > 0) {
         
         $updateMoldSql = "UPDATE mold SET availability_date = '$endDate' WHERE mold_id = $moldId";
         if ($conn->query($updateMoldSql) === TRUE) {
-            echo "Mold end_date updated successfully<br>";
+           // echo "Mold end_date updated successfully<br>";
         } else {
-            echo "Error updating mold end_date: " . $conn->error . "<br>";
+            //echo "Error updating mold end_date: " . $conn->error . "<br>";
         }
     }
 } else {

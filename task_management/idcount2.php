@@ -48,9 +48,9 @@ if ($result === false) {
         $stmt->bind_param("sissiisi", $id, $tiresPerMold, $creationTime, $totalIdCount, $icode, $moldId, $cavityId, $difference);
 
         if ($stmt->execute()) {
-            echo "Data inserted successfully for plan_id: $id<br>";
+           // echo "Data inserted successfully for plan_id: $id<br>";
         } else {
-            echo "Error inserting data for plan_id: $id - " . $stmt->error;
+           // echo "Error inserting data for plan_id: $id - " . $stmt->error;
         }
     }
 } else {

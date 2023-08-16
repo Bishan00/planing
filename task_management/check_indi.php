@@ -89,7 +89,11 @@
     <input type="date" id="start_date" name="start_date">
     <input type="submit" value="Get Data">
   </form>
-
+  <form action="check_indi2.php" method="post">
+    <label for="start_date">Start Date:</label>
+    <input type="date" id="start_date" name="start_date">
+    <input type="submit" name="export_excel" value="Export to Excel">
+  </form>
   <?php
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $selected_start_date = $_POST["start_date"];
@@ -113,43 +117,45 @@
       $start_date = $_POST["start_date"];
 
       // SQL query to retrieve related data including press_id and press_name
-      $sql = "SELECT md.icode, md.id_count, cv.cavity_name, ml.mold_name, pc.press_id, p.press_name
-              FROM merged_data md
-              LEFT JOIN cavity cv ON md.cavity_id = cv.cavity_id
-              LEFT JOIN mold ml ON md.mold_id = ml.mold_id
-              LEFT JOIN press_cavity pc ON md.cavity_id = pc.cavity_id
-              LEFT JOIN press p ON pc.press_id = p.press_id
-              WHERE md.start_date = '$start_date'";
+      $sql = "SELECT md.icode, md.id_count, cv.cavity_name, ml.mold_name, pc.press_id, p.press_name, md.end_date, md.start_time
+      FROM merged_data md
+      LEFT JOIN cavity cv ON md.cavity_id = cv.cavity_id
+      LEFT JOIN mold ml ON md.mold_id = ml.mold_id
+      LEFT JOIN press_cavity pc ON md.cavity_id = pc.cavity_id
+      LEFT JOIN press p ON pc.press_id = p.press_id
+      WHERE md.start_date = '$start_date'";
 
       $result = $conn->query($sql);
 
       if ($result->num_rows > 0) {
-          echo "<table><tr><th>icode</th><th>Description</th><th>Cavity name</th><th>Mold name</th><th>Press Name</th><th>To be</th></tr>";
-          // Output data of each row
-          while ($row = $result->fetch_assoc()) {
-              $icode = $row["icode"];
-              $cavity_name = $row["cavity_name"];
-              $mold_name = $row["mold_name"];
-              $id_count = $row["id_count"];
-              $press_id = $row["press_id"];
-              $press_name = $row["press_name"];
-
-              // Fetch description from the "tire" table based on the fetched icode
-              $description_sql = "SELECT description FROM tire WHERE icode = '$icode'";
-              $description_result = $conn->query($description_sql);
-              $description = "";
-
-              if ($description_result->num_rows > 0) {
-                  $description_row = $description_result->fetch_assoc();
-                  $description = $description_row["description"];
-              }
-
-              echo "<tr><td>" . $icode . "</td><td>" . $description . "</td><td>" . $cavity_name . "</td><td>" . $mold_name . "</td><td>" . $press_name . "</td><td>" . $id_count . "</td></tr>";
-          }
-          echo "</table>";
-      } else {
-          echo "No results for the given start date.";
-      }
+        echo "<table><tr><th>icode</th><th>Description</th><th>Cavity name</th><th>Mold name</th><th>Press Name</th><th>To be</th><th>Start Time</th><th>End Time</th></tr>";
+        // Output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $icode = $row["icode"];
+            $cavity_name = $row["cavity_name"];
+            $mold_name = $row["mold_name"];
+            $id_count = $row["id_count"];
+            $press_id = $row["press_id"];
+            $press_name = $row["press_name"];
+            $end_date = $row["end_date"];
+            $start_date_db = $row["start_time"]; // Fetch start_date from the query result
+            
+            // Fetch description from the "tire" table based on the fetched icode
+            $description_sql = "SELECT description FROM tire WHERE icode = '$icode'";
+            $description_result = $conn->query($description_sql);
+            $description = "";
+    
+            if ($description_result->num_rows > 0) {
+                $description_row = $description_result->fetch_assoc();
+                $description = $description_row["description"];
+            }
+    
+            echo "<tr><td>" . $icode . "</td><td>" . $description . "</td><td>" . $cavity_name . "</td><td>" . $mold_name . "</td><td>" . $press_name . "</td><td>" . $id_count . "</td><td>" . $start_date_db . "</td><td>" . $end_date . "</td></tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "No results for the given start date.";
+    }
   }
 
   // Close connection

@@ -28,9 +28,9 @@ if ($lastStartDateResult->num_rows > 0) {
                         WHERE nt.plan_id = '$plan_id' AND nt.start_date = '$last_start_date'";
 
         if ($conn->query($updateQuery) === TRUE) {
-            echo "End date updated successfully for plan_id: $plan_id<br>";
+            //echo "End date updated successfully for plan_id: $plan_id<br>";
         } else {
-            echo "Error updating end date for plan_id: $plan_id - " . $conn->error . "<br>";
+            //echo "Error updating end date for plan_id: $plan_id - " . $conn->error . "<br>";
         }
     }
 } else {

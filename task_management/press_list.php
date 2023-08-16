@@ -48,7 +48,7 @@
 			<th>Tire Size</th>
 			<th>Brand</th>
 
-            <th>FIT</th>
+      
             <th>Colour</th>
 			<th>Rim Width</th>
             <th>green tyre weight with steel</th>
@@ -81,7 +81,7 @@
                                                     <td><?= $items['icode']; ?></td>
                                                     <td><?= $items['t_size']; ?></td>
                                                     <td><?= $items['brand']; ?></td>
-                                                    <td><?= $items['fit']; ?></td>
+                                              
                                                     <td><?= $items['col']; ?></td>
                                                     <td><?= $items['rim']; ?></td>
                                               

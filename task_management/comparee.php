@@ -65,9 +65,11 @@
                             echo '<thead class="thead-light">';
                             echo '<tr>';
                             echo '<th>Tire ID</th>';
+                            echo '<th>Tire Size</th>';
                             echo '<th>Colour</th>';
                             echo '<th>Brand</th>';
                             echo '<th>Rim</th>';
+                     
                             echo '</tr>';
                             echo '</thead>';
                             echo '<tbody>';
@@ -89,7 +91,8 @@
                                     if (
                                         $orderRow['icode'] !== $dataRow['icode'] ||
                                         $orderRow['rim'] !== $dataRow['rim'] ||
-                                        $orderRow['col'] !== $dataRow['col']
+                                        $orderRow['col'] !== $dataRow['col'] ||
+                                        $orderRow['t_size'] !== $dataRow['t_size'] 
                                     ) {
                                         $mismatch = true;
                                     }
@@ -97,9 +100,11 @@
                                     // Add table row with data
                                     echo '<tr' . ($mismatch ? ' class="mismatched"' : '') . '>';
                                     echo '<td>' . $orderRow['icode'] . '</td>';
+                                    echo '<td>' . $orderRow['t_size'] . '</td>';
                                     echo '<td>' . $orderRow['col'] . '</td>';
                                     echo '<td>' . $orderRow['brand'] . '</td>';
                                     echo '<td>' . $orderRow['rim'] . '</td>';
+                                    
                                     echo '</tr>';
 
                                     mysqli_free_result($dataResult);
