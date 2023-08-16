@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         } else {
-            echo "No tires found for the given ERP ID";
+           // echo "No tires found for the given ERP ID";
 
              // Insert data into tobeplan1
              $sqlInsert = "INSERT INTO tobeplan1 SELECT * FROM tobeplan WHERE erp = '$erp'";
@@ -99,7 +99,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Delete data from tobeplan and move it to tobeplan1
             $sqlDelete = "DELETE FROM tobeplan WHERE erp = '$erp'";
             mysqli_query($conn, $sqlDelete);
-        
+         
+            header("Location:Dashboard.php");
+            exit();
            
         }
     } else {
