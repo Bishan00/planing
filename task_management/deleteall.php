@@ -33,6 +33,8 @@ mysqli_query($connection, $deleteTireMolddd);
 $deleteQuickPlan = "DELETE FROM quick_plan";
 mysqli_query($connection, $deleteQuickPlan);
 
+
+
 // Delete records from the quick_plan table
 $deleteprocess = "DELETE FROM process";
 mysqli_query($connection, $deleteprocess);

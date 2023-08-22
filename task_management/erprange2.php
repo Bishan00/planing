@@ -94,7 +94,7 @@
     $icode = mysqli_real_escape_string($conn, $icode);
 
     // Retrieve all unique ERP numbers
-    $erpSql = "SELECT DISTINCT erp FROM plannew";
+    $erpSql = "SELECT DISTINCT erp FROM worder";
     $erpResult = mysqli_query($conn, $erpSql);
 
     // Check if the query was successful

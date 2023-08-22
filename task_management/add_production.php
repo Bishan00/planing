@@ -110,6 +110,9 @@
             echo '<h2>Import Result:</h2>';
             echo '<p>Data imported successfully!</p>';
             echo '</div>';
+
+            //header("Location: subtractR.php"); // Replace "new_page.php" with the actual filename
+            // exit();
         }
         ?>
     </div>

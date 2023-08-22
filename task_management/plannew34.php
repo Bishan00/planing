@@ -49,16 +49,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $icode = $tire['icode'];
                 $tobe = $tire['tobe'];
                 $description = $tire['description'];
-
                 $sql = "SELECT p.press_id, p.press_name, m.mold_id, m.mold_name, c.cavity_id, c.cavity_name
-                    FROM press p
-                    INNER JOIN mold_press mp ON p.press_id = mp.press_id
-                    INNER JOIN mold m ON mp.mold_id = m.mold_id
-                    INNER JOIN press_cavity pc ON p.press_id = pc.press_id
-                    INNER JOIN cavity c ON pc.cavity_id = c.cavity_id
-                    INNER JOIN tire_mold tm ON m.mold_id = tm.mold_id
-                    INNER JOIN tire t ON tm.icode = t.icode
-                    WHERE p.is_available = 1 AND m.is_available = 1 AND c.is_available = 1 AND t.icode = '$icode' AND (t.cuing_group_id = 0 OR t.cuing_group_id = (SELECT cuing_group_id FROM tire WHERE icode = '$icode'))";
+                FROM press p
+                INNER JOIN mold_press mp ON p.press_id = mp.press_id
+                INNER JOIN mold m ON mp.mold_id = m.mold_id
+                INNER JOIN press_cavity pc ON p.press_id = pc.press_id
+                INNER JOIN cavity c ON pc.cavity_id = c.cavity_id
+                INNER JOIN tire_mold tm ON m.mold_id = tm.mold_id
+                INNER JOIN tire t ON tm.icode = t.icode
+                WHERE p.is_available = 1 AND m.is_available = 1 AND c.is_available = 1 AND t.icode = '$icode' AND (t.cuing_group_id = 0 OR t.cuing_group_id = (SELECT cuing_group_id FROM tire WHERE icode = '$icode'))
+                ORDER BY mp.id ASC"; // Order by the ID column in ascending order
+        
                 $result2 = mysqli_query($conn, $sql);
 
                 // Check if the query executed successfully

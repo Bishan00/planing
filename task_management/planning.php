@@ -10,6 +10,11 @@ $conn = mysqli_connect("localhost", "root", "", "task_management");
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
+// Create arrays to store totals for each ERP
+$erpTotalOrderQuantity = array();
+$erpTotalTobeValue = array();
+
 // Retrieve all unique ERP numbers with customer name and the highest end_date
 $erpSql = "SELECT erp, customer, MAX(end_date) as last_completion_date FROM plannew GROUP BY erp";
 $erpResult = mysqli_query($conn, $erpSql);
@@ -24,6 +29,10 @@ if ($erpResult) {
             $customerName = $erpRow['customer'];
             $lastCompletionDate = $erpRow['last_completion_date'];
 
+            
+    // Add 3 days to the last completion date for cargo loading date
+    $cargoLoadingDate = date('Y-m-d', strtotime($lastCompletionDate . ' +3 days'));
+
             // Retrieve production plan details for the current ERP number
             $sql = "SELECT * FROM plannew WHERE erp = '$erp'";
             $result = mysqli_query($conn, $sql);
@@ -32,13 +41,35 @@ if ($erpResult) {
             if ($result) {
                 // Check if any production plan entries exist
                 if (mysqli_num_rows($result) > 0) {
+
+                     // Retrieve one worder ref for the current ERP number
+            $worderSql = "SELECT ref,wono,date FROM worder WHERE erp = '$erp' LIMIT 1";
+            $worderResult = mysqli_query($conn, $worderSql);
+
+            if ($worderResult) {
+                if (mysqli_num_rows($worderResult) > 0) {
+                    $worderRow = mysqli_fetch_assoc($worderResult);
+                    $worderRef = $worderRow['ref'];
+                    $wonoRef = $worderRow['wono'];
+                    $dateRef = $worderRow['date'];
+                   // echo "<h3>Worder Ref Number for ERP Number: $erp</h3>";
+                    //echo "<p>Worder Ref: $worderRef</p>";
+                } else {
+                    echo "<p>No worder details found for ERP number: $erp.</p>";
+                }
+            } else {
+                echo "Error executing worder query: " . mysqli_error($conn);
+            }
                     // Display the production plan details in a table
-                    echo "<h2>ERP Number: $erp - Customer Name: $customerName <br> Last Completion Date: $lastCompletionDate</h2>";
+                    echo "<h3>Worder Ref: $worderRef - WO NO: $wonoRef <h6> ERP Number: $erp<br>  Work Order Release Date: $dateRef - Last Completion Date: $lastCompletionDate <br>Cargo Loading Date: $cargoLoadingDate</h6>";
                  
                     echo "<table class='production-table'>";
-                    echo "<tr><th>Tire ID</th><th>Description</th><th>Press Name</th><th>Mold Name</th>
+                    echo "<tr><th>Tire ID</th><th>Description</th><th>Curing Group</th><th>Press Name</th><th>Mold Name</th>
                         <th>Cavity Name</th><th>Start Date</th><th>End Date</th><th>Order Quantity</th>
                         <th>Stock On Hand</th><th>To Be Produced</th></tr>";
+
+                        $totalOrderQuantity = 0;
+                        $totalTobeValue = 0;
 
                     while ($row = mysqli_fetch_assoc($result)) {
                         $icode = $row['icode'];
@@ -47,8 +78,9 @@ if ($erpResult) {
                         $start_date = $row['start_date'];
                         $end_date = $row['end_date'];
 
+
                         // Retrieve the press name for the given press ID
-                        $pressSql = "SELECT press_name FROM press WHERE press_id IN (SELECT press_id FROM cavity WHERE cavity_id = '$cavityId')";
+                        $pressSql = "SELECT press_name FROM press WHERE press_id IN (SELECT cavity_group_id FROM cavity WHERE cavity_id = '$cavityId')";
                         $pressResult = mysqli_query($conn, $pressSql);
                         $pressName = '';
 
@@ -90,6 +122,8 @@ if ($erpResult) {
                         }
 
                         // Retrieve the tobe value for the given tire type
+
+                        
                         $tobeSql = "SELECT tobe FROM tobeplan1 WHERE icode = '$icode' AND erp = '$erp'";
                         $tobeResult = mysqli_query($conn, $tobeSql);
                         $tobeValue = '';
@@ -118,11 +152,25 @@ if ($erpResult) {
                             $newRow = mysqli_fetch_assoc($newResult);
                             $newValue = $newRow['new'];
                         }
+ 
+
+                        // Update the total order quantity and total tobe value
+                        $totalOrderQuantity += $newValue; // $newValue is the order quantity for the current entry
+                        $totalTobeValue += $tobeValue; // $tobeValue is the "to be produced" value for the current entry
+    // Display the total order quantity above the 'Order Quantity' column
+
+    
+   //echo "<p><strong>Total Order Quantity: $totalOrderQuantity</strong></p>";
+
+    // ... (display the table with production plan details, including column headers)
+
+    // Display the sum of the total tobe value above the 'To Be Produced' column
+   // echo "<p><strong>Sum of Total To Be Produced: $totalTobeValue</strong></p>";
 
                         echo "<tr>";
                         echo "<td>$icode</td>";
                         echo "<td>$description</td>";
-                      // echo "<td>$curingGroup</td>";
+                        echo "<td>$curingGroup</td>";
                         echo "<td>$pressName</td>";
                         echo "<td>$moldName</td>";
                         echo "<td>$cavityName</td>";
@@ -158,11 +206,14 @@ mysqli_close($conn);
             font-family: Arial, sans-serif;
         }
 
-        h2 {
+        h3 {
             text-align: center;
             margin-top: 20px;
         }
-
+        h6 {
+            text-align: center;
+            margin-top: 20px;
+        }
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -237,10 +288,12 @@ mysqli_close($conn);
         }
 
         /* Colorful design */
-        h2, button[type="submit"], button[name="submit"] {
+        h3 , button[type="submit"], button[name="submit"] {
             background-color: #2196F3;
         }
-
+        h6 {
+            background-color: #2196F3;
+        }
         th {
             background-color: #2196F3;
         }

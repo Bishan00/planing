@@ -48,7 +48,7 @@
 			<th>Tyre name</th>
 			<th>brand</th>
             <th>Colour</th>
-			<th>FIT</th>
+			
             <th>RIM</th>
 			
 			<th>Qty stock</th>
@@ -65,7 +65,7 @@
                                  
                                     
                                        
-                                        $query = "SELECT * FROM stock";
+                                        $query = "SELECT * FROM realstock";
                                         $query_run = mysqli_query($con, $query);
 
                                         if(mysqli_num_rows($query_run) > 0)
@@ -78,7 +78,7 @@
                                                     <td><?= $items['t_size']; ?></td>
                                                     <td><?= $items['brand']; ?></td>
                                                     <td><?= $items['col']; ?></td>
-                                                    <td><?= $items['fit']; ?></td>
+                                                 
                                                     <td><?= $items['rim']; ?></td>
                                                    
                                                     <td><?= $items['cstock']; ?></td>
