@@ -62,11 +62,11 @@ class databaseSave {
 
     function addwork($tableNM) {
       
-        $date = $_POST['date'];
+        $date = $_POST['datetime'];
         $erp = $_POST['erp'];
    
         $this->table_name = $tableNM;
-        $query = "INSERT INTO work_order(date,erp) VALUES ('$date','$erp')";
+        $query = "INSERT INTO work_order(datetime,erp) VALUES ('$date','$erp')";
         $connection = mysqli_connect('localhost', 'root', '', 'task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {

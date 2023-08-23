@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_close($conn);
 
             // Redirect to another page
-            header("Location: refresh2.php");
+            header("Location: tire_cavity.php");
             exit();
 
 

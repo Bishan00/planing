@@ -43,7 +43,7 @@ if (isset($_POST['import'])) {
         }
 
         $msg = 'Excel file imported successfully.';
-        header("Location: convertstock.php");
+        header("Location: import2.php");
         exit();
        
     } else {

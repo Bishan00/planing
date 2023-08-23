@@ -1,62 +1,39 @@
 <?php
+ob_start(); // Start output buffering
 
-
-// MySQL database credentials
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'task_management';
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "task_management";
 
 // Create connection
-$conn = new mysqli($host, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Start the deletion transaction
-$conn->begin_transaction();
+// Perform subtraction and insert result into tobeplan table
+$subtractionSql = "INSERT INTO tobeplan (icode, tobe, erp, stockonhand)
+                  SELECT t1.icode, t1.new - t2.cstock, t1.erp, t2.cstock
+                  FROM copied_work t1
+                  INNER JOIN stock t2 ON t1.icode = t2.icode";
 
-try {
-    // Delete all data from the plannew table
-    $deletePlannewSql = "DELETE FROM plannew";
-    $conn->query($deletePlannewSql);
+if ($conn->query($subtractionSql) === TRUE) {
+    
 
-    // Update the availability_date of all presses in the 'press' table
-    $updatePressSql = "UPDATE press SET availability_date = NOW()";
-    $conn->query($updatePressSql);
-
-    // Update the availability_date of all molds in the 'mold' table
-    $updateMoldSql = "UPDATE mold SET availability_date = NOW()";
-    $conn->query($updateMoldSql);
-
-    // Update the availability_date of all cavities in the 'cavity' table
-    $updateCavitySql = "UPDATE cavity SET availability_date = NOW()";
-    $conn->query($updateCavitySql);
-
-    // Delete all data from the stock table
-    $deleteStockSql = "DELETE FROM stock";
-    $conn->query($deleteStockSql);
-
-    // Delete all data from the merge table
-    $deleteStockSql = "DELETE FROM merged_data";
-    $conn->query($deleteStockSql);
-
-    // Delete all data from the stock table
-    $deleteStockSql = "DELETE FROM tobeplan1";
-    $conn->query($deleteStockSql);
-
-    // Commit the transaction if all queries are successful
-    $conn->commit();
-
-    // Redirect to another PHP page after successful deletion
-    header("Location: refresh.php");
-    exit(); // Make sure to exit to prevent further script execution
-} catch (Exception $e) {
-    // Rollback the transaction if an error occurs
-    $conn->rollback();
-
-    echo "Error deleting data: " . $e->getMessage();
+    
+        // Redirect to another page to display the relevant data
+         header("Location: subtractR2.php"); // No ERP parameter needed
+        exit;
+    
+} else {
+    echo "Error performing subtraction: " . $conn->error;
 }
+
+// ... Rest of the code ...
+
+$conn->close();
+ob_end_flush(); // Send output buffer and turn off output buffering
 ?>

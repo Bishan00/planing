@@ -111,8 +111,10 @@
             echo '<p>Data imported successfully!</p>';
             echo '</div>';
 
-            //header("Location: subtractR.php"); // Replace "new_page.php" with the actual filename
-            // exit();
+           
+
+            header("Location: truncut_data.php");
+            exit();
         }
         ?>
     </div>

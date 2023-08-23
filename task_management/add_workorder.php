@@ -3,13 +3,16 @@ include './includes/data_base_save_update.php';
 $AppCodeObj = new databaseSave();
 if (isset($_POST['submit'])) {
     // Retrieve form data
-    $date = $_POST['date'];
+    $datetime = $_POST['datetime'];
     $erp = $_POST['erp'];
 
     // Perform data validation and sanitization
 
+    // Extract date and time components
+    $formattedDatetime = date("Y-m-d H:i:s", strtotime($datetime));
+
     // Save the data to the database
-    $result = $AppCodeObj->addwork("work_order", $date, $erp);
+    $result = $AppCodeObj->addwork("work_order", $formattedDatetime, $erp);
 
     if ($result) {
         // Data saved successfully
@@ -26,76 +29,72 @@ if (isset($_POST['submit'])) {
 <head>
     <title>Add Work Order</title>
     <style>
-        body {
-            background-color: #f1f1f1;
+           body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 120px;
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            text-align: center;
         }
 
-        h5 {
-            color: #333;
-            text-align: center;
+        .container h5 {
+            margin-top: 0;
         }
 
         .form-group {
             margin-bottom: 20px;
+            text-align: left;
         }
 
-        label {
+        .form-group label {
             display: block;
-            font-weight: bold;
-            color: #555;
             margin-bottom: 5px;
+            font-weight: bold;
         }
 
-        input[type="date"],
-        input[type="text"],
-        input[type="submit"] {
+        .form-group input {
             width: 100%;
             padding: 10px;
-            border: none;
+            border: 1px solid #ccc;
             border-radius: 4px;
         }
 
-        input[type="date"],
-        input[type="text"] {
-            background-color: #f8f8f8;
-            border: 1px solid #ddd;
-            color: #333;
-        }
-
-        input[type="date"]:focus,
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #5a9bd4;
+        .form-group input[type="datetime-local"] {
+            padding: 8px;
         }
 
         input[type="submit"] {
-            background-color: #5a9bd4;
-            color: #fff;
-            font-weight: bold;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
             cursor: pointer;
         }
 
         input[type="submit"]:hover {
-            background-color: #4488c7;
+            background-color: #0056b3;
         }
 
         .alert {
-            padding: 10px;
-            margin-bottom: 20px;
-            color: #721c24;
             background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 10px;
             border-radius: 4px;
+            border: 1px solid #f5c6cb;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -109,8 +108,8 @@ if (isset($_POST['submit'])) {
         <?php endif; ?>
         <form method="POST">
             <div class="form-group">
-                <label for="date">Date</label>
-                <input name="date" id="date" placeholder="" type="date" required>
+                <label for="datetime">Date and Time</label>
+                <input name="datetime" id="datetime" type="datetime-local" required>
             </div>
             <div class="form-group">
                 <label for="erp">Ref.ERP CO.No</label>

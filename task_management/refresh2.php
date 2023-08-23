@@ -59,6 +59,6 @@ $destinationConn->close();
 
 
 
-header("Location: tire_cavity.php");
-exit();
+//header("Location: tire_cavity.php");
+//exit();
 ?>
