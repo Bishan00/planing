@@ -314,6 +314,7 @@
                                     <ul class="sub-menu">
                                             <li><a href="convertstock.php">Add Plan</a></li>
                                             <li><a href="deleteplan.php">Delete Plan</a></li>
+                                            <li><a href="updatedate.php">Update Plan</a></li>
                                           
                                            
                                     </ul>

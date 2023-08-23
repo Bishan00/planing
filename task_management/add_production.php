@@ -113,7 +113,7 @@
 
            
 
-            header("Location: truncut_data.php");
+            header("Location: import22.php");
             exit();
         }
         ?>

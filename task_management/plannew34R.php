@@ -92,35 +92,28 @@ if ($result) {
 
             // Redirect to another page
             header("Location: tire_cavity.php");
-exit();
-
-
-
-        } else {
-            // ... Your processing logic here ...
-            // Similar to your original script
-        
-            // Insert data into tobeplan1
-            $sqlInsert = "INSERT INTO tobeplan1 SELECT * FROM tobeplan WHERE erp = '$erp'";
-            mysqli_query($conn, $sqlInsert);
-        
-            // Delete data from tobeplan and move it to tobeplan1
-            $sqlDelete = "DELETE FROM tobeplan WHERE erp = '$erp'";
-            mysqli_query($conn, $sqlDelete);
-        
-            // Check if there's data in wcopy table
-            $sqlCheckWCopy = "SELECT COUNT(*) AS count FROM wcopy";
-            $result = mysqli_query($conn, $sqlCheckWCopy);
-            $row = mysqli_fetch_assoc($result);
-            $wcopyRowCount = $row['count'];
-        
-           // if ($wcopyRowCount > 0) {
-         //header("Location: testingbis.php");
-           //} 
-        
             exit();
-        }
-        
+
+
+
+
+            } else {
+                // ... Your processing logic here ...
+                // Similar to your original script
+
+                // Insert data into tobeplan1
+                $sqlInsert = "INSERT INTO tobeplan1 SELECT * FROM tobeplan WHERE erp = '$erp'";
+                mysqli_query($conn, $sqlInsert);
+
+                // Delete data from tobeplan and move it to tobeplan1
+                $sqlDelete = "DELETE FROM tobeplan WHERE erp = '$erp'";
+                mysqli_query($conn, $sqlDelete);
+                
+                header("Location:checktesting.php");
+                exit();
+                
+
+            }
         } else {
             echo "Error: " . mysqli_error($conn);
         }
