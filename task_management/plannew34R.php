@@ -91,7 +91,7 @@ if ($result) {
             mysqli_close($conn);
 
             // Redirect to another page
-            header("Location: tire_cavity.php");
+            header("Location: tire_cavity2.php");
             exit();
 
 

@@ -25,6 +25,7 @@ mysqli_query($connection, $deleteProductionPlan);
 $deleteTireCavity = "DELETE FROM tire_cavity";
 mysqli_query($connection, $deleteTireCavity);
 
+
 // Delete records from the tire_molddd table
 $deleteTireMolddd = "DELETE FROM tire_molddd";
 mysqli_query($connection, $deleteTireMolddd);
