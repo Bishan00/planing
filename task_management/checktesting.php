@@ -7,7 +7,7 @@
         var targetPage = "testingbis.php";
         
         // Set the time (in milliseconds) you want the delay before redirection
-        var delayMilliseconds = 1; // Change this value to the desired delay
+        var delayMilliseconds = 100; // Change this value to the desired delay
         
         // Function to perform the redirection
         function redirectToTargetPage() {

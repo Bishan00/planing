@@ -149,6 +149,9 @@
                 $description_row = $description_result->fetch_assoc();
                 $description = $description_row["description"];
             }
+
+
+            
     
             echo "<tr><td>" . $icode . "</td><td>" . $description . "</td><td>" . $cavity_name . "</td><td>" . $mold_name . "</td><td>" . $press_name . "</td><td>" . $id_count . "</td><td>" . $start_date_db . "</td><td>" . $end_date . "</td></tr>";
         }

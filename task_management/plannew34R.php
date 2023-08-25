@@ -121,7 +121,10 @@ if ($result) {
 
     // Close the database connection
     mysqli_close($conn);
+    header("Location:checktesting.php");
+    exit();
 } else {
     echo "Error: " . mysqli_error($conn);
 }
+
 ?>

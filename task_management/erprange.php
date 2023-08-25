@@ -130,46 +130,63 @@
                     }
                     $workOrders[$icode][$erp]['new'] = $new;
                 }
+// Assuming you have the $workOrders array and a database connection $conn
 
-                // Calculate the total "tobe" value for each "icode"
-                $tobeTotals = [];
-                foreach ($workOrders as $icode => $workOrderData) {
-                    $totalTobe = 0;
-                    foreach ($workOrderData as $erp => $erpData) {
-                        $tobe = isset($erpData['new']) ? $erpData['new'] : "";
+// Assuming you have the $workOrders array and a database connection $conn
 
-                        // Retrieve the "tobe" value from the tobeplan1 table
-                        $tobeSql = "SELECT tobe FROM tobeplan1 WHERE erp = '$erp' AND icode = '$icode'";
-                        $tobeResult = mysqli_query($conn, $tobeSql);
+$tobeTotals = [];
 
-                        if ($tobeResult && mysqli_num_rows($tobeResult) > 0) {
-                            $tobeRow = mysqli_fetch_assoc($tobeResult);
-                            $tobe = $tobeRow['tobe'];
-                        }
+foreach ($workOrders as $icode => $workOrderData) {
+    $totalTobe = 0;
 
-                        $totalTobe += $tobe;
-                    }
-                    $tobeTotals[$icode] = $totalTobe;
-                }
+    foreach ($workOrderData as $erp => $erpData) {
+        $tobe = isset($erpData['new']) ? $erpData['new'] : "";
 
-                // Calculate the total requirement for each "icode"
-                $totalRequirements = [];
-                foreach ($workOrders as $icode => $workOrderData) {
-                    $totalRequirement = 0;
-                    foreach ($workOrderData as $erpData) {
-                        $totalRequirement += $erpData['new'];
-                    }
-                    $totalRequirements[$icode] = $totalRequirement;
-                }
+        // Sanitize variables before using in SQL query to prevent SQL injection
+        $icodeSafe = mysqli_real_escape_string($conn, $icode);
+        $erpSafe = mysqli_real_escape_string($conn, $erp);
+
+        // Retrieve the "tobe" value from the tobeplan1 table for positive transitions
+        $tobeSql = "SELECT SUM(tobe) AS totalTobe FROM tobeplan1 WHERE erp = '$erpSafe' AND icode = '$icodeSafe' AND tobe > 0";
+        $tobeResult = mysqli_query($conn, $tobeSql);
+
+        if ($tobeResult && mysqli_num_rows($tobeResult) > 0) {
+            $tobeRow = mysqli_fetch_assoc($tobeResult);
+            $tobe = $tobeRow['totalTobe'];
+        } else {
+            $tobe = 0; // Set to 0 if no positive transitions found
+        }
+
+        $totalTobe += $tobe;
+    }
+
+    $tobeTotals[$icode] = $totalTobe;
+}
+
+// Now $tobeTotals array contains the total "tobe" values with positive transitions for each "icode"
+
+
+// Now $tobeTotals array contains the total "tobe" values for each "icode"
+
+
+               // Calculate the total requirement for each "icode"
+$totalRequirements = [];
+foreach ($workOrders as $icode => $workOrderData) {
+    $totalRequirement = 0;
+    foreach ($workOrderData as $erpData) {
+        $totalRequirement += $erpData['new'];
+    }
+    $totalRequirements[$icode] = $totalRequirement;
+}
 
                 // Display the production plan details in a table
                 echo "<table class='production-table'>";
                 echo "<tr><th>Tire ID</th>";
-                echo "<th>Description</th>";
-                echo "<th>Brand</th>";
-                echo "<th>Color</th>";
-                echo "<th>Curing Time</th>";
-                echo "<th>Curing Group</th>";
+               //echo "<th>Description</th>";
+                //echo "<th>Brand</th>";
+                //echo "<th>Color</th>";
+               // echo "<th>Curing Time</th>";
+                //echo "<th>Curing Group</th>";
                 echo "<th>Stock on Hand</th>";
                 echo "<th>Total Tobe</th>"; // New column for Total Tobe
                 echo "<th>Total Requirement</th>"; // New column for Total Requirement
@@ -195,32 +212,36 @@
 
                     if ($selectPressResult) {
                         $selectPressRow = mysqli_fetch_assoc($selectPressResult);
-                        $brand = $selectPressRow['brand'];
-                        $color = $selectPressRow['col'];
-                        $curingTime = $selectPressRow['curing_id'];
-                        $curingGroup = $selectPressRow['curing_group'];
-                        $description = $selectPressRow['description'];
+                     //  $brand = $selectPressRow['brand'];
+                       // $color = $selectPressRow['col'];
+                       // $curingTime = $selectPressRow['curing_id'];
+                        //$curingGroup = $selectPressRow['curing_group'];
+                        //$description = $selectPressRow['description'];
 
                         // Display the tire description, brand, color, curing time, and curing group in separate columns
-                        echo "<td>$description</td>";
-                        echo "<td>$brand</td>";
-                        echo "<td>$color</td>";
-                        echo "<td>$curingTime</td>";
-                        echo "<td>$curingGroup</td>";
+                       // echo "<td>$description</td>";
+                      // echo "<td>$brand</td>";
+                        //echo "<td>$color</td>";
+                        //echo "<td>$curingTime</td>";
+                      //  echo "<td>$curingGroup</td>";
 
                         // Retrieve the suitable amount of cstock from the realstock table
                         $realStockSql = "SELECT cstock FROM realstock WHERE icode = '$icode'";
                         $realStockResult = mysqli_query($conn, $realStockSql);
-
+                    
                         if ($realStockResult) {
                             $realStockRow = mysqli_fetch_assoc($realStockResult);
-                            $stockOnHand = $realStockRow['cstock'];
-
-                            // Display the stock on hand in a separate column
-                            echo "<td>$stockOnHand</td>";
-
+                    
+                            if ($realStockRow && isset($realStockRow['cstock'])) {
+                                $stockOnHand = $realStockRow['cstock'];
+                                // Display the stock on hand in a separate column
+                                echo "<td>$stockOnHand</td>";
+                            } else {
+                                echo "<td>No Stock Data</td>"; // Handle the case when data is not available
+                            }
+                    
                             // Display the total "tobe" value for this "icode"
-                            $totalTobe = $tobeTotals[$icode];
+                            $totalTobe = isset($tobeTotals[$icode]) ? $tobeTotals[$icode] : 0; // Set a default value if the key doesn't exist
                             echo "<td>";
                             if ($totalTobe >= 0) {
                                 echo $totalTobe;
@@ -229,9 +250,13 @@
                             }
                             echo "</td>";
 
-                            // Display the total requirement for this "icode"
-                            $totalRequirement = $totalRequirements[$icode];
+                            if (isset($totalRequirements[$icode])) {
+                                $totalRequirement = $totalRequirements[$icode];
+                            } else {
+                                $totalRequirement = 0; // Set a default value if the key doesn't exist
+                            }
                             echo "<td>$totalRequirement</td>";
+                        
 
                             foreach ($erpNumbers as $erp) {
                                 $new = isset($workOrderData[$erp]['new']) ? $workOrderData[$erp]['new'] : "";
