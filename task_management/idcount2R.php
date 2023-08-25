@@ -59,7 +59,7 @@ if ($result === false) {
 
 // Close the connection
 $conn->close();
-header("Location: indienddate.php");
+header("Location: sleep2.php");
 exit();
 ?>
 
