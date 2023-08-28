@@ -106,13 +106,13 @@ body {
 
                             <div class="col-sm-4 col-xxxl-3">
                                 <a class="element-box el-tablo" href="press_list.php">
-                                <div id="myDIV">Press list</div>
+                                <div id="myDIV">Dispatch Work Order</div>
                        
                                 </a>
                             </div>
 
                             <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="press_list.php">
+                                <a class="element-box el-tablo" href="get_reject.php">
                                 <div id="myDIV">Daily Reject List</div>
                        
                                 </a>

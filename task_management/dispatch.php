@@ -89,7 +89,8 @@
                 if (!empty($data)) {
                     $icode = $data[5];
                     $amount = $data[14]; // Assuming the amount is in the third column
-                
+                    $erpNumber = $data[4];
+
                     // Update cstock based on icode for realstock table
                     $sqlRealStock = "UPDATE realstock SET cstock = cstock - ? WHERE icode = ?";
                     $stmtRealStock = $conn->prepare($sqlRealStock);
@@ -102,6 +103,11 @@
                     $stmtStock->bind_param("is", $amount, $icode);
                     $stmtStock->execute();
 
+                     // Delete related entries from worder table based on ERP number
+        $sqlDeleteWorder = "DELETE FROM worder WHERE erp = ?";
+        $stmtDeleteWorder = $conn->prepare($sqlDeleteWorder);
+        $stmtDeleteWorder->bind_param("s", $erpNumber);
+        $stmtDeleteWorder->execute();
                     
 
                     
@@ -116,11 +122,9 @@
             echo '<p>Data imported successfully!</p>';
             echo '</div>';
 
-             header("Location: dashboard.php");
-         exit();
-
-            //header("Location: import22.php");
-           // exit();
+          
+            header("Location: import22.php");
+           exit();
         }
         ?>
     </div>

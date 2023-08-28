@@ -101,6 +101,15 @@
                     $stmtStock = $conn->prepare($sqlStock);
                     $stmtStock->bind_param("is", $amount, $icode);
                     $stmtStock->execute();
+
+                    
+                    // Insert data into the new table
+                    $insertSQL = "INSERT INTO dailypro_imported_data (icode, amount) VALUES (?, ?)";
+                    $stmt = $conn->prepare($insertSQL);
+                    $stmt->bind_param("is", $icode, $amount);
+                    $stmt->execute();
+
+
                 }
             }
 

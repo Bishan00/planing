@@ -80,7 +80,7 @@ include './includes/admin_header.php';
             <input type="submit" name="delete" value="Delete All Plan">
         </form>
 
-        <form method="post" action="deleteerp.php">
+        <form method="post" action="deleteplan222.php">
             <input type="submit" name="delete" value="Delete one Plan">
         </form>
 

@@ -91,6 +91,6 @@ if (mysqli_num_rows($result) > 0) {
 
 // Close the database connection
 mysqli_close($conn);
-header("Location: deleteall.php");
+header("Location: getprocess.php");
 exit();
 ?>

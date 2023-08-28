@@ -15,21 +15,21 @@ if ($conn->connect_error) {
 
 
 // Retrieve and display data from the table
-$sqlRetrieve = "SELECT * FROM dailypro_imported_data";
+$sqlRetrieve = "SELECT * FROM daily_reject";
 $result = $conn->query($sqlRetrieve);
 
 if ($result->num_rows > 0) {
     echo "<table>
             <tr>
-                <th>ID</th>
-                <th>Code</th>
-                <th>Amount</th>
+                <th>icode</th>
+                <th>amount</th>
+                <th>date</th>
             </tr>";
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
-                <td>".$row["id"]."</td>
                 <td>".$row["icode"]."</td>
                 <td>".$row["amount"]."</td>
+                <td>".$row["dates_c"]."</td>
               </tr>";
     }
     echo "</table>";

@@ -179,6 +179,27 @@ foreach ($workOrders as $icode => $workOrderData) {
     $totalRequirements[$icode] = $totalRequirement;
 }
 
+    // Calculate the sum of all "Total Requirement" values
+    $totalRequirementSum = array_sum($totalRequirements);
+
+    
+
+ // Display the sum of all "Total Requirement" values above the "Total Requirement" column
+ echo "<th colspan='" . (count($erpNumbers) + 1) . "'>Total Requirement Sum: $totalRequirementSum</th>";
+
+
+ // Calculate the sum of all "Total Requirement" values
+$totalRequirementSum = array_sum($totalRequirements);
+
+// Calculate the sum of all "Total Tobe" values
+$totalTobeSum = array_sum($tobeTotals);
+
+
+
+// Display the sum of all "Total Tobe" values above the "Total Tobe" column
+echo "<th><br>Total Tobe Sum: $totalTobeSum</th>";
+
+
                 // Display the production plan details in a table
                 echo "<table class='production-table'>";
                 echo "<tr><th>Tire ID</th>";

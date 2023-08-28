@@ -133,7 +133,7 @@ try {
     }
 
     // Redirect to another page after the data is inserted successfully
-    header("Location: plannew562.php");
+    header("Location: updatepro.php");
     exit(); // Make sure to add this exit() to stop further execution
 
 } catch (PDOException $e) {
