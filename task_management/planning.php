@@ -21,14 +21,24 @@ $erpResult = mysqli_query($conn, $erpSql);
 
 // Check if the query was successful
 if ($erpResult) {
-    // Check if any ERP numbers exist
     if (mysqli_num_rows($erpResult) > 0) {
+        // Retrieve the results from the first code block
+        $sumQuery = "SELECT `erp`, SUM(CASE WHEN `tobe` > 0 THEN `tobe` ELSE 0 END) AS `total_positive_amount` FROM `tobeplan1` GROUP BY `erp`";
+        $result = $conn->query($sumQuery);
+
+        // Store the results in an associative array for easier access
+        $totalPositiveAmounts = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $totalPositiveAmounts[$row["erp"]] = $row["total_positive_amount"];
+            }
+        }
+
         // Iterate through each ERP number
         while ($erpRow = mysqli_fetch_assoc($erpResult)) {
             $erp = $erpRow['erp'];
             $customerName = $erpRow['customer'];
             $lastCompletionDate = $erpRow['last_completion_date'];
-
             
     // Add 3 days to the last completion date for cargo loading date
     $cargoLoadingDate = date('Y-m-d', strtotime($lastCompletionDate . ' +3 days'));
@@ -52,17 +62,29 @@ if ($erpResult) {
                     $worderRef = $worderRow['ref'];
                     $wonoRef = $worderRow['wono'];
                     $dateRef = $worderRow['date'];
-                   // echo "<h3>Worder Ref Number for ERP Number: $erp</h3>";
-                    //echo "<p>Worder Ref: $worderRef</p>";
+                 
                 } else {
                     echo "<p>No worder details found for ERP number: $erp.</p>";
                 }
             } else {
                 echo "Error executing worder query: " . mysqli_error($conn);
             }
-                    // Display the production plan details in a table
-                    echo "<h3>Worder Ref: $worderRef - WO NO: $wonoRef <h6> ERP Number: $erp<br>  Work Order Release Date: $dateRef - Last Completion Date: $lastCompletionDate <br>Cargo Loading Date: $cargoLoadingDate</h6>";
-                 
+
+
+         // Display the "Total Positive Amount" from the first code block
+         $totalPositiveAmount = isset($totalPositiveAmounts[$erp]) ? $totalPositiveAmounts[$erp] : 0;
+
+        
+
+         // Display the ERP information along with Total Positive Amount
+         //echo "<h3>Worder Ref: $worderRef - WO NO: $wonoRef<h6>ERP Number: $erp<br>Work Order Release Date: $dateRef - Last Completion Date: $lastCompletionDate <br>Cargo Loading Date: $cargoLoadingDate</h6>";
+ 
+        // echo"<h8>Total To Be Produced Amount: $totalPositiveAmount<h8>"; 
+
+        echo "<h3>Worder Ref: $worderRef - WO NO: $wonoRef<h6>ERP Number: $erp<br>Work Order Release Date: $dateRef - Last Completion Date: $lastCompletionDate <br>";
+echo "<span class='cargo-loading-date'>Cargo Loading Date: $cargoLoadingDate</span></h6>";
+
+echo "<h5>Total To Be Produced Amount: $totalPositiveAmount</h5>";
                     echo "<table class='production-table'>";
                     echo "<tr><th>Tire ID</th><th>Description</th><th>Curing Group</th><th>Press Name</th><th>Mold Name</th>
                         <th>Cavity Name</th><th>Start Date</th><th>End Date</th><th>Order Quantity</th>
@@ -154,19 +176,13 @@ if ($erpResult) {
                         }
  
 
+
+                        
+
                         // Update the total order quantity and total tobe value
                         $totalOrderQuantity += $newValue; // $newValue is the order quantity for the current entry
                         $totalTobeValue += $tobeValue; // $tobeValue is the "to be produced" value for the current entry
-    // Display the total order quantity above the 'Order Quantity' column
-
     
-   //echo "<p><strong>Total Order Quantity: $totalOrderQuantity</strong></p>";
-
-    // ... (display the table with production plan details, including column headers)
-
-    // Display the sum of the total tobe value above the 'To Be Produced' column
-   // echo "<p><strong>Sum of Total To Be Produced: $totalTobeValue</strong></p>";
-
                         echo "<tr>";
                         echo "<td>$icode</td>";
                         echo "<td>$description</td>";
@@ -196,27 +212,50 @@ if ($erpResult) {
 mysqli_close($conn);
 ?>
 
-
-<!DOCTYPE html>
+!DOCTYPE html>
 <html>
 <head>
     <title>Production Plan Editor</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
         }
 
         h3 {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 60px;
+            background-color: #2ecc71;
+            color: #000000;
+          
+        }
+        .cargo-loading-date {
+        color: #800000; 
+        font-weight: bold;/* Change this color to the desired color */
         }
         h6 {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 0px;
+            background-color: #3498db;
+            color: #fff;
+            padding: 5px;
         }
+        h5 {
+    text-align: center;
+    margin-top: 0px;
+    background-color: #3495db;
+    color: #000000;
+    padding: 5px;
+    font-size: 18px; /* Change 'word' to an appropriate size value */
+}
+
         .container {
             max-width: 800px;
             margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         form {
@@ -239,7 +278,7 @@ mysqli_close($conn);
         button[type="submit"] {
             padding: 8px 20px;
             font-size: 16px;
-            background-color: #4CAF50;
+            background-color: #2ecc71;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -260,7 +299,7 @@ mysqli_close($conn);
         }
 
         th {
-            background-color: #4CAF50;
+            background-color: #3498db;
             color: #fff;
         }
 
@@ -280,42 +319,23 @@ mysqli_close($conn);
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #4CAF50;
+            background-color: #2ecc71;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
 
-        /* Colorful design */
-        h3 , button[type="submit"], button[name="submit"] {
-            background-color: #2196F3;
-        }
-        h6 {
-            background-color: #2196F3;
-        }
-        th {
-            background-color: #2196F3;
+        /* Added styling for the Total To Be Produced Amount */
+        .total-to-be-produced {
+            background-color: #e74c3c;
+            color: #FFFF00;
+            text-align: center;
+            padding: px;
+            margin-top: 20px;
         }
 
-        tr:nth-child(even) {
-            background-color: #E3F2FD;
-        }
-
-        select[name^="press_"] {
-            background-color: #BBDEFB;
-            color: #000;
-        }
-
-        select[name^="mold_"] {
-            background-color: #64B5F6;
-            color: #fff;
-        }
-
-        select[name^="cavity_"] {
-            background-color: #1976D2;
-            color: #fff;
-        }
+        
     </style>
 </head>
 <body>

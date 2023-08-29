@@ -112,7 +112,7 @@
         </div>
     </div>
     <div class="header">
-    <h1>Please Wait......</h1>
+    <h1>Please Wait.............</h1>
    
     </div>
    
