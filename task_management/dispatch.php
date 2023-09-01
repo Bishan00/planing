@@ -91,6 +91,15 @@
                     $amount = $data[14]; // Assuming the amount is in the third column
                     $erpNumber = $data[4];
 
+
+                    
+            // Insert data into a database table (adjust table and column names accordingly)
+            $sqlInsert = "INSERT INTO imported_data (icode, amount, erp) VALUES (?, ?, ?)";
+            $stmtInsert = $conn->prepare($sqlInsert);
+            $stmtInsert->bind_param("sis", $icode, $amount, $erpNumber);
+            $stmtInsert->execute();
+
+
                     // Update cstock based on icode for realstock table
                     $sqlRealStock = "UPDATE realstock SET cstock = cstock - ? WHERE icode = ?";
                     $stmtRealStock = $conn->prepare($sqlRealStock);
@@ -108,7 +117,9 @@
         $stmtDeleteWorder = $conn->prepare($sqlDeleteWorder);
         $stmtDeleteWorder->bind_param("s", $erpNumber);
         $stmtDeleteWorder->execute();
-                    
+            
+        
+        
 
                     
 

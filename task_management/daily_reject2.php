@@ -103,7 +103,7 @@
                     $stmtStock->execute();
 
                     // Insert data into another_table
-                 $sqlInsert = "INSERT INTO daily_reject (icode, amount) VALUES (?, ?)";
+                 $sqlInsert = "INSERT INTO template (icode, amount) VALUES (?, ?)";
                  $stmtInsert = $conn->prepare($sqlInsert);
                   $stmtInsert->bind_param("si", $icode, $amount);
                   $stmtInsert->execute();

@@ -7,7 +7,66 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Funda Of Web IT</title>
-</head>
+</head><style>
+    body {
+        background-color: #f0f5fe;
+        color: #333;
+        font-family: Arial, sans-serif;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #ffffff;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .table th {
+        background-color: #007bff;
+        color: #ffffff;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+    }
+
+    .table-bordered thead th,
+    .table-bordered thead td {
+        border-bottom-width: 2px;
+    }
+
+    .table-bordered tbody + tbody {
+        border-top: 2px solid #dee2e6;
+    }
+
+    .header th,
+    .header td {
+        font-weight: bold;
+    }
+
+    .header th {
+        background-color: #0056b3;
+        color: #ffffff;
+    }
+</style>
+
 <body>
 
     <div class="container">
@@ -60,7 +119,7 @@
                             if(isset($_GET['search']) && !empty($_GET['search']))
                             {
                                 $filtervalues = $_GET['search'];
-                                $query = "SELECT * FROM worder WHERE CONCAT(erp,Customer) LIKE '%$filtervalues%' ";
+                                $query = "SELECT * FROM worder WHERE CONCAT(erp) LIKE '%$filtervalues%' ";
                                 $query_run = mysqli_query($con, $query);
 
                                 if(mysqli_num_rows($query_run) > 0)

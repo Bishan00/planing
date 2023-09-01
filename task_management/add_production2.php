@@ -1,101 +1,131 @@
-<?php
-include './includes/admin_header.php';
-?>
-<!--------------------
-START - Breadcrumbs
--------------------->
-<ul class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><span>alert</span></li>
-</ul>
-<!--------------------
-END - Breadcrumbs
--------------------->
-<div class="content-panel-toggler"><i class="os-icon os-icon-grid-squares-22"></i><span>Sidebar</span></div>
-<div class="content-i">
-    <div class="content-box">
-        <div class="element-wrapper">
-            <div class="element-box">
-                <div class="row">
-                    <div class="col-md-6">
-            
-                    <head>
-    <title>Item Details</title>
-    
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Import Excel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
+<body>
+    <div class="container">
+        <h1>Import Daily Production Report</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="excel_file">
+            <input type="submit" value="Import">
+        </form>
 
+        <?php
+        // Include the PhpSpreadsheet library
+        require 'vendor/autoload.php'; // Path to PhpSpreadsheet autoload
+        use PhpOffice\PhpSpreadsheet\IOFactory;
 
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["excel_file"])) {
+            $uploadedFile = $_FILES["excel_file"]["tmp_name"];
 
-<?php
-    if (isset($_POST['submit'])) {
-        $icode = $_POST['icode'];
+            // Create a new connection to your MySQL database
+            $conn = new mysqli("localhost", "root", "", "task_management");
 
-        // Connect to MySQL database
-        $conn = mysqli_connect("localhost", "root", "", "task_management");
-
-        // Check connection
-        if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
-
-        // Fetch item details from the 'items' table
-        $sql = "SELECT icode, t_size, brand, col, fit, rim, fweight FROM worder WHERE icode = '$icode'";
-        $result = mysqli_query($conn, $sql);
-
-        if ($result) {
-            if (mysqli_num_rows($result) > 0) {
-                $row = mysqli_fetch_assoc($result);
-
-                // Display the fetched item details
-                
-                echo '<form method="POST" action="production_store.php">';
-
-                echo '<div class="form-group"><label for="date">Date:</label>';
-                echo '<input type="date" class="form-control"id="date" name="date"><br>';
-
-                echo '<div class="form-group"><label for="shift">shift:</label>';
-               echo' <select name="shift" id="shift" required>
-                <option value="DAY A">DAY A</option>
-                <option value="NIGHT B">NIGHT A</option>
-                <option value="DAY B">DAY B</option>
-                <!-- Add more options as needed -->
-            </select>';
-
-                echo '<div class="form-group"><label for="icode">icode</label>';
-                echo '<input type="text" class="form-control" name="icode" id="icode" value="' . $row['icode'] . '" required><br>';
-                echo '<label for="t_size">Tire Size:</label>';
-                echo '<input type="text" name="t_size" id="t_size" value="' . $row['t_size'] . '" required><br>';
-                echo '<label for="brand">Brand:</label>';
-                echo '<input type="text" name="brand" id="brand" value="' . $row['brand'] . '" required><br>';
-
-                echo '<label for="fit">FIT:</label>';
-                echo '<input type="text" name="fit" id="fit" value="' . $row['fit'] . '" required><br>';
-
-                echo '<label for="col">Color:</label>';
-                echo '<input type="text" name="col" id="col" value="' . $row['col'] . '" required><br>';
-                
-                echo '<label for="rim">RIM:</label>';
-                echo '<input type="text" name="rim" id="rim" value="' . $row['rim'] . '" required><br>';
-
-                echo '<label for="fweight">fweight:</label>';
-                echo '<input type="text" name="fweight" id="fweight" value="' . $row['fweight'] . '" required><br>';
-
-
-                echo '<label for="cstock">Production:</label>';
-                echo '<input type="text" name="cstock" id="cstock" required><br>';
-                
-                echo '<input type="hidden" name="icode" value="' . $icode . '">';
-                echo '<input type="submit" name="submit" value="Submit">';
-                echo '</form>';
-            } else {
-                echo 'Item not found!';
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
             }
-        } else {
-            echo "Error: " . mysqli_error($conn);
-        }
 
-        mysqli_close($conn);
-    }
-    ?> 
-                          
-            
+            // Load the Excel file using PhpSpreadsheet
+            $spreadsheet = IOFactory::load($uploadedFile);
+            $worksheet = $spreadsheet->getActiveSheet();
+
+            foreach ($worksheet->getRowIterator() as $row) {
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(FALSE);
+
+                $data = [];
+                foreach ($cellIterator as $cell) {
+                    $data[] = $cell->getValue();
+                }
+                if (!empty($data)) {
+                    $icode = $data[0];
+                    $amount = $data[2]; // Assuming the amount is in the third column
+                
+                    // Update cstock based on icode for realstock table
+                    $sqlRealStock = "UPDATE realstock SET cstock = cstock + ? WHERE icode = ?";
+                    $stmtRealStock = $conn->prepare($sqlRealStock);
+                    $stmtRealStock->bind_param("is", $amount, $icode);
+                    $stmtRealStock->execute();
+                
+                    // Update stock based on icode for stock table
+                    $sqlStock = "UPDATE stock SET cstock = cstock + ? WHERE icode = ?";
+                    $stmtStock = $conn->prepare($sqlStock);
+                    $stmtStock->bind_param("is", $amount, $icode);
+                    $stmtStock->execute();
+
+                    
+                    // Insert data into the new table
+                    $insertSQL = "INSERT INTO template (icode, amount) VALUES (?, ?)";
+                    $stmt = $conn->prepare($insertSQL);
+                    $stmt->bind_param("is", $icode, $amount);
+                    $stmt->execute();
+
+
+                }
+            }
+
+            $conn->close();
+
+            echo '<div class="result">';
+            echo '<h2>Import Result:</h2>';
+            echo '<p>Data imported successfully!</p>';
+            echo '</div>';
+
+           
+
+            header("Location: daily_production3.php");
+            exit();
+        }
+        ?>
+    </div>
+</body>
+</html>

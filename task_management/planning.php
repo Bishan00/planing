@@ -212,7 +212,7 @@ echo "<h5>Total To Be Produced Amount: $totalPositiveAmount</h5>";
 mysqli_close($conn);
 ?>
 
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Production Plan Editor</title>

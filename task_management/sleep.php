@@ -25,7 +25,7 @@
         .loading-logo {
             width: 100px; /* Adjust size as needed */
             height: 100px; /* Adjust size as needed */
-            animation: spin 2s linear infinite;
+            animation: spin 5s linear infinite;
         }
 
         @keyframes spin {
@@ -68,6 +68,18 @@
             background-color: #333;
             color: #fff;
         }
+
+
+        /* New blinking animation */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Apply blinking animation to the h1 element */
+        .header h1 {
+            animation: blink 2s infinite;
+        }
     </style>
     
     <script>
@@ -75,7 +87,7 @@
         var targetPage = "deleteall.php";
         
         // Set the time (in milliseconds) you want the delay before redirection
-        var delayMilliseconds = 0.1; // Change this value to the desired delay
+        var delayMilliseconds = 0.000000000001; // Change this value to the desired delay
         
         // Function to perform the redirection
         function redirectToTargetPage() {
@@ -97,11 +109,11 @@
 
 <div class="loading">
         <div class="loading-overlay">
-            <img class="loading-logo" src="loading-logo2.png" alt="Loading...">
+            
         </div>
     </div>
     <div class="header">
-    <h1>Please Wait...........</h1>
+    <h1>Please Wait...........</h1><img class="loading-logo" src="loading-logo2.png" alt="Loading...">
    
     </div>
    

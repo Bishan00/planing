@@ -75,14 +75,12 @@ if ($result->num_rows > 0) {
                 <th>ID</th>
                 <th>Code</th>
                 <th>Amount</th>
-                <th>Date</th>
             </tr>";
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
                 <td>".$row["id"]."</td>
                 <td>".$row["icode"]."</td>
                 <td>".$row["amount"]."</td>
-                <td>".$row["dates_c"]."</td>
               </tr>";
     }
     echo "</table>";

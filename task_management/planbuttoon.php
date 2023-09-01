@@ -56,6 +56,13 @@ if (isset($_POST['button5'])) {
     header("Location: check_indi.php");
     exit();
 }
+
+if (isset($_POST['button6'])) {
+    // Code to execute when Button 3 is clicked
+    // Redirect to the desired page
+    header("Location: check_indi3.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -96,6 +103,7 @@ if (isset($_POST['button5'])) {
         <input type="submit" name="button3" value="Individual Work orders">
         <input type="submit" name="button4" value="Work Order range">
         <input type="submit" name="button5" value="Individual date">
+        <input type="submit" name="button6" value="All date">
     </form>
 </body>
 </html>
