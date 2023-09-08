@@ -37,6 +37,10 @@
                 // Delete all data from the merge table
                 $deleteStockSql = "DELETE FROM merged_data";
                 $conn->query($deleteStockSql);
+
+                // Delete all data from the merge table
+                $deleteStockSql = "DELETE FROM match_table";
+                $conn->query($deleteStockSql);
         
                  // Delete all data from the stock table
                  $deleteStockSql = "DELETE FROM tobeplan1";

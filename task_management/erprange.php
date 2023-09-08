@@ -212,10 +212,31 @@ echo "<th><br>Total Tobe Sum: $totalTobeSum</th>";
                 echo "<th>Total Tobe</th>"; // New column for Total Tobe
                 echo "<th>Total Requirement</th>"; // New column for Total Requirement
 
-                // Display the ERP numbers horizontally
+                // Display the ref numbers horizontally
                 foreach ($erpNumbers as $erp) {
-                    echo "<th>ERP Number: $erp</th>";
+                  //  echo "<th>ERP Number: $erp</th>";
+                    // Retrieve the reference for the current ERP number
+                    $referenceSql = "SELECT ref FROM worder WHERE erp = '$erp'";
+                    $referenceResult = mysqli_query($conn, $referenceSql);
+                
+                    if ($referenceResult && mysqli_num_rows($referenceResult) > 0) {
+                        $referenceRow = mysqli_fetch_assoc($referenceResult);
+                        $reference = $referenceRow['ref'];
+                
+                        // Display the reference as a header for the current ERP number
+                        echo "<th> $reference</th>";
+                    } else {
+                        echo "Error retrieving reference for ERP number $erp: " . mysqli_error($conn);
+                    }
                 }
+                
+                echo "</tr>";
+
+                
+
+               
+           
+           
 
                 echo "</tr>";
 

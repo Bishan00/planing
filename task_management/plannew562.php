@@ -85,10 +85,10 @@ if (mysqli_num_rows($result) > 0) {
         mysqli_query($conn, $sql);
     }
 
-    echo "Production plan generated successfully!";
+   // echo "Production plan generated successfully!";
 } else {
-    echo "No tires found in the database.";
-}
+    //echo "No tires found in the database.";
+}//
 
 // Close the database connection
 mysqli_close($conn);

@@ -20,6 +20,10 @@ if (mysqli_connect_errno()) {
 $deletetobe = "DELETE FROM merged_data";
 mysqli_query($connection, $deletetobe);
 
+// Delete records from the quick_plan table
+$deletetobe = "DELETE FROM match_table";
+mysqli_query($connection, $deletetobe);
+
 // Close the database connection
 mysqli_close($connection);
 

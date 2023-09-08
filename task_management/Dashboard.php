@@ -6,33 +6,6 @@ include './includes/data_base_save_update.php';
 include 'includes/App_Code.php';
 $AppCodeObj=new App_Code();
 
-// found work
-
-$msg = '';
-$Genrate = new App_Code();
-$appC0de = new databaseSave();
-if (isset($_GET['UserID']) && isset($_GET['Status'])) {
-
-    $userID = $_GET['UserID'];
-    $Inactive = $_GET['Status'];
-    $msg = $Inactive;
-    if ($Inactive == '1') {
-
-        $query = "UPDATE `user_details` SET `Inactive`='0' WHERE User_ID='$userID'";
-        $Active_User = mysqli_query($connection, $query);
-        if (!$Active_User) {
-            die('QUERY FAILD' . mysqli_error($connection));
-        }
-    } else if ($Inactive == '0') {
-        //   echo $Inactive;
-        $query = "UPDATE `user_details` SET `Inactive`='1' WHERE User_ID='$userID'";
-        $deactive_User = mysqli_query($connection, $query);
-        if (!$deactive_User) {
-            die('QUERY FAILD' . mysqli_error($connection));
-        }
-    }
-    //  header("location:./admin/retailer_account_list.php");
-}
 
 ?>
 <!--------------------

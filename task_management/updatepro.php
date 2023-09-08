@@ -24,7 +24,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $conn->close();
-header("Location: plannew562.php");
+header("Location: sleep3.php");
 exit();
 ?>
 

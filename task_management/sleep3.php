@@ -86,7 +86,7 @@
 
     <script>
         // Specify the target page you want to redirect to
-        var targetPage = "deleteall.php";
+        var targetPage = "plannew562.php";
         
         // Set the time (in milliseconds) you want the delay before redirection
         var delayMilliseconds = 10; // Change this value to the desired delay
@@ -122,4 +122,3 @@
   
 </body>
 </html>
-

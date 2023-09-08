@@ -47,7 +47,7 @@ if ($result->num_rows > 0) {
 
 // Close the connection
 $conn->close();
-header("Location: inddelete2.php");
+header("Location: match.php");
 exit();
 
 ?>
