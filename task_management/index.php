@@ -1,43 +1,48 @@
 <?php include 'includes/db.php';
 
-
 session_start();
 $chck_Active_User = '';
+
 if (isset($_POST['login'])) {
     $uemail = mysqli_real_escape_string($connection, $_POST['User_nm']);
-    $pass = mysqli_real_escape_string($connection, $_POST['Paswd']);
-    $sql = "select * from emp_login where user_id = '$uemail' and pswd = '$pass'";
+    $pass = $_POST['Paswd']; // Don't escape the password, you'll hash it
+    $sql = "SELECT * FROM emp_login WHERE user_id = '$uemail'";
     $q = mysqli_query($connection, $sql);
     $row = mysqli_fetch_array($q);
     $count = mysqli_num_rows($q);
 
     if ($count > 0) {
-        $_SESSION['user'] = $row['id'];
-        $_SESSION['emp_name'] = $row['emp_name'];
-        $_SESSION['emp_pro'] = $row['emp_pro'];
-        $_SESSION['User_type'] = $row['user_role'];
-        //$_SESSION['User_type']=$row['user_role'];
-        //$_SESSION['User_type']=$row['user_role'];
+        // Verify the entered password against the hashed password from the database
+        if (password_verify($pass, $row['pswd'])) {
+            $_SESSION['user'] = $row['id'];
+            $_SESSION['emp_name'] = $row['emp_name'];
+            $_SESSION['emp_pro'] = $row['emp_pro'];
+            $_SESSION['User_type'] = $row['user_role'];
 
-
-        $chck_Active_User = $row['status'];
-        if ($chck_Active_User == '0') {
-            echo "<script>alert('your account is currently deactivated.');  window.location.href='../login.php';</script>";
+            $chck_Active_User = $row['status'];
+            if ($chck_Active_User == '0') {
+                echo "<script>alert('Your account is currently deactivated.'); window.location.href='../login.php';</script>";
+            } else {
+                echo "<script>alert('Login Successful'); window.location.href='dashboard.php';</script>";
+            }
         } else {
-            echo "<script>alert ('Login Successfull');
-       window.location.href='dashboard.php';
-       </script>";
+            ?>
+            <script>
+                alert('Incorrect password');
+                window.location.href = "<?php echo $_SERVER['HTTP_REFERER'] ?>";
+            </script>
+            <?php
         }
-    } else { ?>
+    } else {
+        ?>
         <script>
-            alert('Failed to login');
+            alert('User not found');
             window.location.href = "<?php echo $_SERVER['HTTP_REFERER'] ?>";
         </script>
-<?php
+        <?php
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -69,7 +74,6 @@ if (isset($_POST['login'])) {
             <span class="breadcrumb-item">
                 <?php
                 $qry = mysqli_query($connection, "SELECT * FROM news_and_update where news_type='alert' order by created desc") or die("select query fail" . mysqli_error());
-                //  $stateData = $AppCodeObj->select_state();
                 while ($row = mysqli_fetch_assoc($qry)) {
                     $news_title = $row['news_title'];
                 ?>
@@ -77,23 +81,17 @@ if (isset($_POST['login'])) {
                     <a href="#" style="color:#fff;font-size: 18px;"><?php echo $news_title; ?>&nbsp;</a>
                 <?php } ?>
             </span>
-
-
         </marquee>
     </div>
     <div class="all-wrapper menu-side with-pattern">
         <div class="auth-box-w">
-            <div class="logo-w"><a href="#">
-      
-               <img style="width: 100%;height: auto;" alt="" src="img/download"> 
-            </a></div>
+            <div class="logo-w">
+                <a href="#">
+                    <img style="width: 100%;height: auto;" alt="" src="img/download">
+                </a>
+            </div>
             <h4 class="auth-header">Login</h4>
             <form action="#" method="post">
-                <!--                <div class="form-group">
-                    <label for="">User Type</label>
-                    <input class="form-control" name="User_nm" placeholder="Enter your username" type="text">
-                    <div class="pre-icon os-icon os-icon-users"></div>
-                </div>-->
                 <div class="form-group">
                     <label for="">Username</label>
                     <input class="form-control" name="User_nm" placeholder="Enter your username" type="text">
@@ -106,11 +104,7 @@ if (isset($_POST['login'])) {
                 </div>
                 <div class="buttons-w">
                     <input name="login" type="submit" value="Log me in" class="btn btn-primary">
-                    <!--                    <div class="form-check-inline"><label class="form-check-label">
-                            <input name="checkPSWDREM" class="form-check-input" type="checkbox">Remember Me</label>
-                    </div>-->
                 </div>
-
             </form>
         </div>
     </div>

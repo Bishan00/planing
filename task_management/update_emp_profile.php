@@ -15,8 +15,8 @@ if (isset($_POST['update'])) {
     $emailid = $_POST['emailid'];
     $mobile = $_POST['mobile'];
     //$profile = $_POST['profile'];
-    $userid = $_POST['userid'];
-    $pswd = $_POST['pswd'];
+  //  $userid = $_POST['user_id'];
+    //$pswd = $_POST['pswd'];
        $query1 = "select * from emp_login where id=" . $emp_id . "";
         $select_userprofile_image1 = mysqli_query($connection, $query1);
         while ($row1 = mysqli_fetch_array($select_userprofile_image1)) {

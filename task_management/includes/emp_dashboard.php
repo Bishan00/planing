@@ -104,12 +104,17 @@ if ($result = mysqli_query($connection, $retailer_account)) {
                             </div>
 
                             <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="emp_assign_task_list_cancel.php">
-                                    <div class="label">Cancel Task</div>
-                                    <div class="value"><?php echo $cancel_task; ?></div>
-                               </a>
+                                <a class="element-box el-tablo" href="get_reject.php">
+                                <div id="myDIV">Daily Reject List</div>
+                       
+                                </a>
                             </div>
-
+                            <div class="col-sm-4 col-xxxl-3">
+                                <a class="element-box el-tablo" href="press_list.php">
+                                <div id="myDIV"> Mould Changung List</div>
+                       
+                                </a>
+                            </div>
 
                     
                         </div>
