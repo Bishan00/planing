@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -17,7 +17,7 @@ $result = $conn->query($query);
 
 if ($result->num_rows > 0) {
     // Create connection to a new database
-    $newDbname = "task_management";
+    $newDbname = "planatir_task_management";
     $newConn = new mysqli($servername, $username, $password, $newDbname);
 
     // Check connection to the new database

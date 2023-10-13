@@ -1,9 +1,9 @@
 <?php
 
 $host = 'localhost'; // The hostname of the database server (e.g., 'localhost')
-$username = 'root'; // The username to access the database
-$password = ''; // The password to access the database
-$database = 'task_management'; // The name of the database
+$username = 'planatir_task_management'; // The username to access the database
+$password = 'Bishan@1919'; // The password to access the database
+$database = 'planatir_task_management'; // The name of the database
 
 // Create a connection
 $connection = mysqli_connect($host, $username, $password, $database);

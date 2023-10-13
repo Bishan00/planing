@@ -1,7 +1,7 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Establish database connection
-    $conn = mysqli_connect("localhost", "root", "", "task_management");
+    $conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
     // Retrieve the ERP ID from the form submission
     $erp = isset($_POST['erp']) ? $_POST['erp'] : '';

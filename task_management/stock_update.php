@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["excel_file"])) {
     $uploadedFile = $_FILES["excel_file"]["tmp_name"];
 
     // Create a new connection to your MySQL database
-    $conn = new mysqli("localhost", "root", "", "task_management");
+    $conn = new mysqli("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);

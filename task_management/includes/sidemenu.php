@@ -235,7 +235,7 @@
                     ?>
                            <ul class="main-menu" style="height: 840px;">
                         <li class="">
-                            <a href="Dashboard.php">
+                            <a href="dashboard.php">
                                 <div class="icon-w">
                                     <div class="os-icon os-icon-layout"></div>
                                 </div><span>Dashboard</span></a>

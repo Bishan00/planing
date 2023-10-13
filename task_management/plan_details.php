@@ -1,6 +1,6 @@
 <?php
 // Establish database connection (same as in the original file)
-$conn = mysqli_connect("localhost", "root", "", "task_management");
+$conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
 // Check if the connection is successful (same as in the original file)
 if (!$conn) {

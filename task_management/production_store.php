@@ -1,7 +1,7 @@
 <?php
 
 // Connect to the database
-$conn = mysqli_connect("localhost", "root", "", "task_management");
+$conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
 if (isset($_POST['submit'])) {
     $icode = $_POST['icode'];
@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
     
 
   // Connect to MySQL database
-  $conn = mysqli_connect("localhost", "root", "", "task_management");
+  $conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
   // Check connection
   if (!$conn) {

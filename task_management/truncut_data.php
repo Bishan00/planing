@@ -1,14 +1,14 @@
 <?php
 $sourceServername = "localhost";
-$sourceUsername = "root";
-$sourcePassword = "";
-$sourceDatabase = "task_management";
+$sourceUsername = "planatir_task_management";
+$sourcePassword = "Bishan@1919";
+$sourceDatabase = "planatir_task_management";
 $sourceTable = "tobeplan1";
 
 $destinationServername = "localhost";
-$destinationUsername = "root";
-$destinationPassword = "";
-$destinationDatabase = "task_management";
+$destinationUsername = "planatir_task_management";
+$destinationPassword = "Bishan@1919";
+$destinationDatabase = "planatir_task_management";
 $destinationTable = "tobeplan";
 
 // Create a connection to the source database

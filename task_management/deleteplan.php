@@ -87,9 +87,9 @@ include './includes/admin_header.php';
         <?php
         // MySQL database credentials
         $host = 'localhost';
-        $username = 'root';
-        $password = '';
-        $database = 'task_management';
+        $username = 'planatir_task_management';
+        $password = 'Bishan@1919';
+        $database = 'planatir_task_management';
 
         // Create connection
         $conn = new mysqli($host, $username, $password, $database);
@@ -132,7 +132,10 @@ include './includes/admin_header.php';
                  // Delete all data from the stock table
                  $deleteStockSql = "DELETE FROM tobeplan1";
                  $conn->query($deleteStockSql);
-         
+
+         // Delete all data from the stock table
+         $deleteStockSql = "DELETE FROM old_process";
+         $conn->query($deleteStockSql);
 
                 // Commit the transaction if all queries are successful
                 $conn->commit();

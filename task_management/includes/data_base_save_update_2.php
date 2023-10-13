@@ -15,7 +15,7 @@ class databaseSave {
         $str='';
       // $this->$user_ID = $user_ID;
         $UID=$user_ID;
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $query = "SELECT * FROM `user_details` where User_ID='$UID'";
         $select_User_details = mysqli_query($connection, $query);
         while ($row = mysqli_fetch_assoc($select_User_details)) {
@@ -35,7 +35,7 @@ class databaseSave {
         $download_file_temp = $_FILES['download_file']['tmp_name'];
         move_uploaded_file($download_file_temp, "download/$download_file");
         $query = "INSERT INTO " . $this->table_name . "(`download_name`, `download_file`) VALUES ('$dname','$download_file')";
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_download_file = mysqli_query($connection, $query);
         if (!$insert_download_file) {
             die('QUERY FAILD' . mysqli_error($connection));
@@ -49,7 +49,7 @@ class databaseSave {
         $Remark = $_POST['Remark'];
         $this->table_name = $tableNM;
         $query = "INSERT INTO `news_and_update`(`news_title`, `remark`,created,news_type) VALUES ('$news','$Remark',now(),'alert')";
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('QUERY FAILD alert' . mysqli_error($connection));
@@ -66,7 +66,7 @@ class databaseSave {
         $acno = $_POST['acno'];
         $acHN=$_POST['acHN'];
         $Query = "INSERT INTO " . $this->table_name . "(`bank_name`, `ifscf_code`, `acno`, `acHN`, `createOn`) VALUES ('$bname','$ifsc','$acno','$acHN',now())";
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_bank_details = mysqli_query($connection, $Query);
         if (!$insert_bank_details) {
             die('QUERY FAILD' . mysqli_error($connection));
@@ -180,7 +180,7 @@ class databaseSave {
 
 //        print_r($sql_query);
 //        die();
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_data_retailer = mysqli_query($connection, $sql_query);
         if (!$insert_data_retailer) {
             die('QUERY FAILD retaler Account Create' . mysqli_error($connection));
@@ -286,7 +286,7 @@ class databaseSave {
         }
 
 
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $query1 = "select * from user_details where User_ID=" . $userid . "";
         $select_userprofile_image1 = mysqli_query($connection, $query1);
         while ($row1 = mysqli_fetch_array($select_userprofile_image1)) {
@@ -360,7 +360,7 @@ class databaseSave {
         $remark = $_POST['Remark'];
         $this->table_name = $tableNM;
         $query = "INSERT INTO `service_mst`(`service_nm`, `remark`, `created`) VALUES ('$serviceNM','$remark',now())";
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('QUERY FAILD' . mysqli_error($connection));
@@ -377,7 +377,7 @@ class databaseSave {
         move_uploaded_file($adsIMG_temp, "adsimg/$adsIMG");
         $this->table_name = $tableNM;
         $query = "INSERT INTO `advertiesment`(`title`, `descr`, `image`, `created`) VALUES ('$title','$desc','$adsIMG',now())";
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('QUERY FAILD' . mysqli_error($connection));
@@ -393,7 +393,7 @@ class databaseSave {
         $Remark = $_POST['Remark'];
         $this->table_name = $tableNM;
         $query = "INSERT INTO `news_and_update`(`news_title`, `remark`,created,news_type) VALUES ('$news','$Remark',now(),'news_update')";
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('QUERY FAILD' . mysqli_error($connection));
@@ -508,7 +508,7 @@ $panprice=$_POST['panprice'];
         $sql_query.= "'1', "; 
         $sql_query.= "'$panprice')";
         // $sql_query.= "'$pincode',";
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_data_retailer = mysqli_query($connection, $sql_query);
         if (!$insert_data_retailer) {
             die('QUERY FAILD' . mysqli_error($connection));
@@ -521,7 +521,7 @@ $panprice=$_POST['panprice'];
     }
         function retailer_pan_card_price($tableNM) {
         $empID = $_SESSION['user'];
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $this->table_name = $tableNM;
         $user_id = $_POST['user_id'];
         $pan_price = $_POST['pan_price'];
@@ -633,7 +633,7 @@ function imageResize($imageResourceId,$width,$height) {
             $image->saveToFile('pan_img/' . $Pancard_img_back); //Save image
         }
         
-        $connection = mysqli_connect('localhost', 'root', '', 'global_touch');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $query1 = "select * from user_details where User_ID=" . $userid . "";
         $select_userprofile_image1 = mysqli_query($connection, $query1);
         while ($row1 = mysqli_fetch_array($select_userprofile_image1)) {

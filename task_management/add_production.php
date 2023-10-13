@@ -17,9 +17,9 @@
 
 <?php
 $hostname = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'task_management';
+$username = 'planatir_task_management';
+$password = 'Bishan@1919';
+$database = 'planatir_task_management';
 
 $connection = new mysqli($hostname, $username, $password, $database);
 
@@ -43,10 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Redirect to another page after successful insertion
         header("Location: add_production2.php");
         exit();
-    } else {
-        echo "Error inserting date: " . $connection->error;
-    }
+    } 
 }
 
-$connection->close();
-?>

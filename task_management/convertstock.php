@@ -52,9 +52,9 @@
 <?php
 // Establish a connection to the MySQL database
 $servername = "localhost";
-$username = "root";
-$password = "";
-$database = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$database = "planatir_task_management";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
@@ -65,21 +65,36 @@ if ($conn->connect_error) {
 
 // Check if the "Copy Data" button is clicked
 if (isset($_POST['copy_data'])) {
+    // Check if there is data in the "stock" table
+    $checkQuery = "SELECT COUNT(*) as count FROM stock";
+    $result = $conn->query($checkQuery);
+    
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $rowCount = $row['count'];
+        
+        if ($rowCount > 0) {
+            // Handle the case where there is data in the "stock" table
+            // You can redirect or display a message as needed
+            header("Location: subtract.php");
+            exit();
+        }
+    }
+
     // Copy data from "realstock" table to "stock" table
     $copyQuery = "INSERT INTO stock SELECT * FROM realstock";
     
     if ($conn->query($copyQuery) === TRUE) {
-        echo "Data copied successfully.";
-
-        header("Location: subtract.php");
-    exit();
-    } else {
-        echo "Error copying data: " . $conn->error;
+        // Data copied successfully, redirect to "subtract.php"
         header("Location: subtract.php");
         exit();
+    } else {
+        // Handle any errors that occur during the data copy operation
+        echo "Error: " . $conn->error;
     }
 }
 
 // Close the database connection
 $conn->close();
 ?>
+

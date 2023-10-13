@@ -1,13 +1,13 @@
 <?php
 $sourceServername = "localhost";
-$sourceUsername = "root";
-$sourcePassword = "";
-$sourceDbname = "task_management";
+$sourceUsername = "planatir_task_management";
+$sourcePassword = "Bishan@1919";
+$sourceDbname = "planatir_task_management";
 
 $destinationServername = "localhost";
-$destinationUsername = "root";
-$destinationPassword = "";
-$destinationDbname = "task_management";
+$destinationUsername = "planatir_task_management";
+$destinationPassword = "Bishan@1919";
+$destinationDbname = "planatir_task_management";
 
 // Create source and destination connections
 $sourceConn = new mysqli($sourceServername, $sourceUsername, $sourcePassword, $sourceDbname);

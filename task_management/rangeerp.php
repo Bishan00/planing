@@ -113,7 +113,7 @@
     // Check if the form is submitted with the ERP range
     if (isset($_GET['start_erp']) && isset($_GET['end_erp'])) {
         // Establish database connection
-        $conn = mysqli_connect("localhost", "root", "", "task_management");
+        $conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
         // Check if the connection is successful
         if (!$conn) {

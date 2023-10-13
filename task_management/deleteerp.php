@@ -56,9 +56,9 @@ if (isset($_POST['erp'])) {
 
     // Database connection settings
     $servername = "localhost"; // Change this to your MySQL server address
-    $username = "root"; // Change this to your MySQL username
-    $password = ""; // Change this to your MySQL password
-    $dbname = "task_management";    // Change this to your database name
+    $username = "planatir_task_management"; // Change this to your MySQL username
+    $password = "Bishan@1919"; // Change this to your MySQL password
+    $dbname = "planatir_task_management";    // Change this to your database name
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);

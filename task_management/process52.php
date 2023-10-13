@@ -9,9 +9,9 @@
 <body>
 <?php
 $host = 'localhost';
-$dbname = 'task_management';
-$username = 'root';
-$password = '';
+$dbname = 'planatir_task_management';
+$username = 'planatir_task_management';
+$password = 'Bishan@1919';
 
 try {
     // Connect to the database

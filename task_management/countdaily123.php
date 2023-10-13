@@ -1,9 +1,9 @@
 <?php
 // Database connection parameters
 $host = 'localhost';
-$dbName = 'task_management';
-$username = 'root';
-$password = '';
+$dbName = 'planatir_task_management';
+$username = 'planatir_task_management';
+$password = 'Bishan@1919';
 
 // Create a new PDO instance
 $pdo = new PDO("mysql:host=$host;dbname=$dbName;charset=utf8mb4", $username, $password);

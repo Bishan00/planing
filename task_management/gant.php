@@ -17,7 +17,7 @@
 
 <?php
 // Replace with your database connection code
-$mysqli = new mysqli("localhost", "root", "", "task_management");
+$mysqli = new mysqli("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
 // Check connection
 if ($mysqli->connect_error) {

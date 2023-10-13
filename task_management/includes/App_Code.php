@@ -49,7 +49,7 @@ class App_Code {
      
        function getName($ID) {
         //    echo '<script>alert("Hello");</script>';
-       $con = mysqli_connect("localhost", "root", "", "task_management") or die(mysqli_connect_error());
+       $con = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management") or die(mysqli_connect_error());
         $UserRGID = $ID;
 
         $client = "select * from emp_login where id='$UserRGID'";

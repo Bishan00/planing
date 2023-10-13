@@ -1,9 +1,9 @@
 <?php
 // Replace with your actual database connection details
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -21,15 +21,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get user input for ERP number
     $erp_to_delete = $_POST["erp"];
 
-    // Delete related data based on the provided ERP number
-    $sql = "DELETE FROM `wcopy` WHERE `erp` = '$erp_to_delete'";
+    // Delete data from the `old_process` table based on the provided ERP number
+    $sql_old_process = "DELETE FROM `old_process` WHERE `erp` = '$erp_to_delete'";
 
-    if ($conn->query($sql) === TRUE) {
-        $success_message = "Related data for ERP number $erp_to_delete deleted successfully.";
-        // Redirect to the next page after successful delete
+    // Delete data from the `wcopy` table based on the provided ERP number
+    $sql_wcopy = "DELETE FROM `wcopy` WHERE `erp` = '$erp_to_delete'";
+
+    // Perform both deletions in a transaction to ensure data consistency
+    $conn->begin_transaction();
+
+    if ($conn->query($sql_old_process) === TRUE && $conn->query($sql_wcopy) === TRUE) {
+        $conn->commit();
+        $success_message = "Data from both old_process and wcopy tables for ERP number $erp_to_delete deleted successfully.";
         header("Location: convertstockR.php");
         exit();
     } else {
+        $conn->rollback();
         $error_message = "Error deleting data: " . $conn->error;
     }
 }
@@ -59,3 +66,9 @@ $conn->close();
     </form>
 </body>
 </html>
+
+
+
+
+
+

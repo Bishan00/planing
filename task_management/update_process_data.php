@@ -1,6 +1,6 @@
 <?php
 // Establish database connection
-$conn = mysqli_connect("localhost", "root", "", "task_management");
+$conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
 // Retrieve all unique icodes from the production_plan table
 $sql = "SELECT DISTINCT icode FROM production_plan";

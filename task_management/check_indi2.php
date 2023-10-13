@@ -64,9 +64,9 @@ if (isset($_POST["export_excel"])) {
     $selected_start_date = $_POST["start_date"];
 
     $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "task_management";
+    $username = "planatir_task_management";
+    $password = "Bishan@1919";
+    $dbname = "planatir_task_management";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 

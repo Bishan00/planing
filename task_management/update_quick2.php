@@ -1,9 +1,9 @@
 <?php
 // Step 1: Connect to MySQL database
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -24,6 +24,6 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $conn->close();
-header("Location: process52.php");
+header("Location: sleep4.php");
 exit();
 ?>

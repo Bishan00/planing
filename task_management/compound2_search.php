@@ -51,9 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Replace these variables with your database credentials
     $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "task_management";
+    $username = "planatir_task_management";
+    $password = "Bishan@1919";
+    $database = "planatir_task_management";
 
     // Create a connection to the MySQL database
     $conn = new mysqli($servername, $username, $password, $database);

@@ -2,9 +2,9 @@
 include './includes/admin_header.php';
 
 $hostname = "localhost";
-$username = "root";
-$password = "";
-$database = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$database = "planatir_task_management";
 
 // Create a connection
 $conn = new mysqli($hostname, $username, $password, $database);

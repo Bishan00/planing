@@ -1,9 +1,12 @@
 <?php
+// Enable error reporting and display errors
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'task_management';
+$username = 'planatir_task_management';
+$password = 'Bishan@1919';
+$database = 'planatir_task_management';
 
 $connection = mysqli_connect($host, $username, $password, $database);
 
@@ -12,9 +15,7 @@ if (mysqli_connect_errno()) {
 }
 
 
-// Delete records from different tables
-$deleteProductionPlan = "DELETE FROM new_table1";
-mysqli_query($connection, $deleteProductionPlan);
+
 
 $deleteTireCavity = "DELETE FROM new_table2";
 mysqli_query($connection, $deleteTireCavity);

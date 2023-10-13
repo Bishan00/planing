@@ -60,7 +60,7 @@
             <!-- Populate the dropdown menu with ERP numbers from your database -->
             <?php
             // Establish database connection
-            $conn = mysqli_connect("localhost", "root", "", "task_management");
+            $conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
             // Check if the connection is successful
             if (!$conn) {
@@ -119,7 +119,7 @@
         
 
         // Establish database connection
-        $conn = mysqli_connect("localhost", "root", "", "task_management");
+        $conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
         // Check if the connection is successful
         if (!$conn) {

@@ -1,131 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Import Excel</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        input[type="file"] {
-            margin-bottom: 10px;
-        }
-
-        input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        .result {
-            margin-top: 20px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Import Daily Production Report</h1>
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="excel_file">
-            <input type="submit" value="Import">
-        </form>
-
-        <?php
-        // Include the PhpSpreadsheet library
-        require 'vendor/autoload.php'; // Path to PhpSpreadsheet autoload
-        use PhpOffice\PhpSpreadsheet\IOFactory;
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["excel_file"])) {
-            $uploadedFile = $_FILES["excel_file"]["tmp_name"];
-
-            // Create a new connection to your MySQL database
-            $conn = new mysqli("localhost", "root", "", "task_management");
-
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
-            // Load the Excel file using PhpSpreadsheet
-            $spreadsheet = IOFactory::load($uploadedFile);
-            $worksheet = $spreadsheet->getActiveSheet();
-
-            foreach ($worksheet->getRowIterator() as $row) {
-                $cellIterator = $row->getCellIterator();
-                $cellIterator->setIterateOnlyExistingCells(FALSE);
-
-                $data = [];
-                foreach ($cellIterator as $cell) {
-                    $data[] = $cell->getValue();
-                }
-                if (!empty($data)) {
-                    $icode = $data[0];
-                    $amount = $data[2]; // Assuming the amount is in the third column
-                
-                    // Update cstock based on icode for realstock table
-                    $sqlRealStock = "UPDATE realstock SET cstock = cstock + ? WHERE icode = ?";
-                    $stmtRealStock = $conn->prepare($sqlRealStock);
-                    $stmtRealStock->bind_param("is", $amount, $icode);
-                    $stmtRealStock->execute();
-                
-                    // Update stock based on icode for stock table
-                    $sqlStock = "UPDATE stock SET cstock = cstock + ? WHERE icode = ?";
-                    $stmtStock = $conn->prepare($sqlStock);
-                    $stmtStock->bind_param("is", $amount, $icode);
-                    $stmtStock->execute();
-
-                    
-                    // Insert data into the new table
-                    $insertSQL = "INSERT INTO template (icode, amount) VALUES (?, ?)";
-                    $stmt = $conn->prepare($insertSQL);
-                    $stmt->bind_param("is", $icode, $amount);
-                    $stmt->execute();
 
 
-                }
-            }
 
-            $conn->close();
+<?php
+// Database connection parameters
+$servername = "localhost"; // Change to your MySQL server hostname
+$username = "planatir_task_management"; // Change to your MySQL username
+$password = "Bishan@1919"; // Change to your MySQL password
+$database = "planatir_task_management"; // Change to your MySQL database name
 
-            echo '<div class="result">';
-            echo '<h2>Import Result:</h2>';
-            echo '<p>Data imported successfully!</p>';
-            echo '</div>';
+// Create a database connection
+$connection = mysqli_connect($servername, $username, $password, $database);
 
-           
+// Check the connection
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-            header("Location: daily_production3.php");
-            exit();
-        }
-        ?>
-    </div>
-</body>
-</html>
+// Define the template table and realstock table names
+$templateTable = 'template';
+$realstockTable = 'realstock';
+
+// Update cstock in the realstock table based on icode from the template table
+$query = "UPDATE $realstockTable r
+          JOIN $templateTable t ON r.icode = t.icode
+          SET r.cstock = r.cstock + t.cstock";
+
+$result = mysqli_query($connection, $query);
+
+if ($result) {
+    echo "cstock updated successfully in the realstock table.";
+} else {
+    echo "Error updating cstock: " . mysqli_error($connection);
+}
+
+// Close the database connection
+mysqli_close($connection);
+?>
+
+

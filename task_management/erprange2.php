@@ -80,7 +80,7 @@
 
     <?php
     // Establish database connection
-    $conn = mysqli_connect("localhost", "root", "", "task_management");
+    $conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
     // Check if the connection is successful
     if (!$conn) {
@@ -122,6 +122,9 @@
                     }
                     $workOrders[$icode][$erp]['new'] = $new;
                 }
+
+
+                
 // Display the production plan details in a table
 echo "<table class='production-table'>";
 echo "<tr><th>Tire ID</th>";
@@ -137,7 +140,18 @@ echo "<th>Total Requirement</th>";
 // Display the ERP numbers horizontally
 while ($erpRow = mysqli_fetch_assoc($erpResult)) {
     $erp = $erpRow['erp'];
-    echo "<th>ERP Number: $erp</th>";
+    $referenceSql = "SELECT ref FROM worder WHERE erp = '$erp'";
+    $referenceResult = mysqli_query($conn, $referenceSql);
+
+    if ($referenceResult && mysqli_num_rows($referenceResult) > 0) {
+        $referenceRow = mysqli_fetch_assoc($referenceResult);
+        $reference = $referenceRow['ref'];
+
+        // Display the reference as a header for the current ERP number
+        echo "<th> $reference</th>";
+    } else {
+        echo "Error retrieving reference for ERP number $erp: " . mysqli_error($conn);
+    }
 }
 
 echo "</tr>";

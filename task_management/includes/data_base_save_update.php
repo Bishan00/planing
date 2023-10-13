@@ -15,7 +15,7 @@ class databaseSave {
         $str='';
       // $this->$user_ID = $user_ID;
         $UID=$user_ID;
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $query = "SELECT * FROM `user_details` where User_ID='$UID'";
         $select_User_details = mysqli_query($connection, $query);
         while ($row = mysqli_fetch_assoc($select_User_details)) {
@@ -36,7 +36,7 @@ class databaseSave {
         $download_file_temp = $_FILES['download_file']['tmp_name'];
         move_uploaded_file($download_file_temp, "download/$download_file");
         $query = "INSERT INTO " . $this->table_name . "(`download_name`, `download_file`,empID) VALUES ('$dname','$download_file','$emp_id')";
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_download_file = mysqli_query($connection, $query);
         if (!$insert_download_file) {
             die('QUERY FAILD' . mysqli_error($connection));
@@ -51,7 +51,7 @@ class databaseSave {
         $plan = $_POST['plan'];
         $this->table_name = $tableNM;
         $query = "INSERT INTO compound_planning(date, Ctype, plan) VALUES ('$date','$Ctype','$plan')";
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('QUERY FAILD alert' . mysqli_error($connection));
@@ -67,7 +67,7 @@ class databaseSave {
    
         $this->table_name = $tableNM;
         $query = "INSERT INTO work_order(datetime,erp) VALUES ('$date','$erp')";
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('please enter correct no');
@@ -76,7 +76,7 @@ class databaseSave {
         }
     }
     function addw($tableNM) {
-        $db = mysqli_connect('localhost','root','','task_management');
+        $db = mysqli_connect('localhost','planatir_task_management','Bishan@1919','planatir_task_management');
         $query="SELECT * FROM worder";
         $row = mysqli_query($db,$query);
     }
@@ -94,7 +94,7 @@ class databaseSave {
         $this->table_name = $tableNM;
         $query = "INSERT INTO stock(icode,t_size,brand,col,fit,rim,cons,fweight,ptv,cbm,kgs,cstock)
          VALUES ('$icode','$t_size','$brand','$col','$fit','$rim','$cons','$fweight','$ptv','$cbm','$kgs','$cstock')";
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('QUERY FAILD alert' . mysqli_error($connection));
@@ -109,7 +109,7 @@ class databaseSave {
         $corder = $_POST['corder'];
         $this->table_name = $tableNM;
         $query = "INSERT INTO torder(Ctype, corder) VALUES ('$Ctype','$corder')";
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('QUERY FAILD alert' . mysqli_error($connection));
@@ -150,7 +150,7 @@ class databaseSave {
        $this->table_name = $tableNM;
      
         $query = "INSERT INTO bom(pid, Description,Tsize,brand,type,colour,rwidth,comweight,tweight,withsteel,bead,finishweight,sbtype,sbweight,beadtype,Nbead,ptype,pweight,btype,bweight,bontype,bonweight,ctype,cweight,threat,thweight) VALUES ('$pid','$Description','$Tsize', '$brand','$type','$colour', '$rwidth', '$comweight', '$tweight','$withsteel','$bead','$finishweight','$sbtype','$sbweight', '$beadtype', '$Nbead', '$ptype','$pweight','$btype','$bweight','$bontype','$bonweight','$ctype','$cweight','$threat','$thweight')";
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('QUERY FAILD alert' . mysqli_error($connection));
@@ -165,7 +165,7 @@ class databaseSave {
         $Remark = $_POST['Remark'];
         $this->table_name = $tableNM;
         $query = "INSERT INTO `news_and_update`(`news_title`, `remark`,created,news_type) VALUES ('$news','$Remark',now(),'alert')";
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_service = mysqli_query($connection, $query);
         if (!$insert_service) {
             die('QUERY FAILD alert' . mysqli_error($connection));
@@ -183,7 +183,7 @@ class databaseSave {
         $acno = $_POST['acno'];
         $acHN=$_POST['acHN'];
         $Query = "INSERT INTO " . $this->table_name . "(`bank_name`, `ifscf_code`, `acno`, `acHN`, `createOn`, empID) VALUES ('$bname','$ifsc','$acno','$acHN',now(),'$emp_id')";
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_bank_details = mysqli_query($connection, $Query);
         if (!$insert_bank_details) {
             die('QUERY FAILD' . mysqli_error($connection));
@@ -201,7 +201,7 @@ class databaseSave {
        // $Query = "INSERT INTO " . $this->table_name . "(`bank_name`, `ifscf_code`, `acno`, `acHN`, `createOn`) VALUES ('$bname','$ifsc','$acno','$acHN',now())";
       
         $query="UPDATE `bank_details` SET `bank_name`='$bname',`ifscf_code`='$ifsc',`acno`='$acno',`acHN`='$acHN' WHERE id='$id' ";
-        $connection = mysqli_connect('localhost', 'root', '', 'task_management');
+        $connection = mysqli_connect('localhost', 'planatir_task_management', 'Bishan@1919', 'planatir_task_management');
         $insert_bank_details = mysqli_query($connection, $query);
         if (!$insert_bank_details) {
             die('QUERY FAILD' . mysqli_error($connection));

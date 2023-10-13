@@ -59,9 +59,9 @@
     // Assuming you have already established a MySQL database connection
 
     $servername = "localhost"; // Replace with your MySQL server name
-    $username = "root"; // Replace with your MySQL username
-    $password = ""; // Replace with your MySQL password
-    $dbname = "task_management"; // Replace with your MySQL database name
+    $username = "planatir_task_management"; // Replace with your MySQL username
+    $password = "Bishan@1919"; // Replace with your MySQL password
+    $dbname = "planatir_task_management"; // Replace with your MySQL database name
 
     // Create a new PDO instance
     try {

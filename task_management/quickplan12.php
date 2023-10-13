@@ -1,9 +1,9 @@
 <?php
 // Database connection parameters
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -117,6 +117,6 @@ if (!empty($quick_plan_values)) {
 // Close the database connection
 $conn->close();
 
-header("Location: quickplan22.php");
+header("Location: quick_update1912.php");
 exit();
 ?>

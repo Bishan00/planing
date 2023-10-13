@@ -9,9 +9,9 @@
 <body>
 <?php
 $host = 'localhost';
-$dbname = 'task_management';
-$username = 'root';
-$password = '';
+$dbname = 'planatir_task_management';
+$username = 'planatir_task_management';
+$password = 'Bishan@1919';
 
 try {
     // Connect to the database
@@ -132,13 +132,76 @@ try {
         }
     }
 
-    // Redirect to another page after the data is inserted successfully
-    header("Location: plannew45.php");
-    exit(); // Make sure to add this exit() to stop further execution
 
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
+
+$servername = "localhost";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Update ERP numbers
+$sqlUpdateERP = "
+    UPDATE process p
+    JOIN production_plan pp ON p.icode = pp.icode
+    SET p.erp = pp.erp
+";
+
+if ($conn->query($sqlUpdateERP) === TRUE) {
+    echo "ERP numbers updated successfully<br>";
+} else {
+    echo "Error updating ERP numbers: " . $conn->error . "<br>";
+}
+
+// SQL query to select rows from the 'process' table ordered by 'icode' and 'id'
+$sqlSelect = "SELECT * FROM process ORDER BY icode, id";
+
+$result = $conn->query($sqlSelect);
+
+$current_icode = null; // Variable to keep track of the current 'icode' value
+$counter = 0; // Counter for numbering rows within each group
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $icode = $row['icode'];
+
+        // Check if 'icode' value has changed
+        if ($icode != $current_icode) {
+            // Display a header for the new group
+            echo "<h2>Group $icode</h2>";
+            $current_icode = $icode;
+
+            // Reset the counter for the new group
+            $counter = 0;
+        }
+
+        // Increment the counter and display it
+        $counter++;
+        echo "<p>{$counter}. {$row['mold_name']}</p>";
+
+        // Update the 'serial' column in the database
+        $serial = $counter;
+        $updateSql = "UPDATE process SET serial = $serial WHERE id = {$row['id']}";
+        $conn->query($updateSql);
+    }
+} else {
+    echo "0 results";
+}
+
+// Close the database connection
+$conn->close();
+
+    //Redirect to another page after the data is inserted successfully
+   header("Location: plannew45.php");
+    exit(); // Make sure to add this exit() to stop further execution
 ?>
 </body>
 </html>

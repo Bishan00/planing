@@ -88,7 +88,7 @@
     </form>
     <?php
     // Establish database connection
-    $conn = mysqli_connect("localhost", "root", "", "task_management");
+    $conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
     // Check if the connection is successful
     if (!$conn) {
@@ -199,15 +199,13 @@ $totalTobeSum = array_sum($tobeTotals);
 // Display the sum of all "Total Tobe" values above the "Total Tobe" column
 echo "<th><br>Total Tobe Sum: $totalTobeSum</th>";
 
-
-                // Display the production plan details in a table
-                echo "<table class='production-table'>";
-                echo "<tr><th>Tire ID</th>";
-               //echo "<th>Description</th>";
-                //echo "<th>Brand</th>";
-                //echo "<th>Color</th>";
-               // echo "<th>Curing Time</th>";
-                //echo "<th>Curing Group</th>";
+echo "<table class='production-table'>";
+echo "<tr><th>Tire ID</th>";
+echo "<th>Description</th>";
+echo "<th>Brand</th>";
+echo "<th>Color</th>";
+echo "<th>Curing Time</th>";
+echo "<th>Curing Group</th>";
                 echo "<th>Stock on Hand</th>";
                 echo "<th>Total Tobe</th>"; // New column for Total Tobe
                 echo "<th>Total Requirement</th>"; // New column for Total Requirement
@@ -234,12 +232,6 @@ echo "<th><br>Total Tobe Sum: $totalTobeSum</th>";
 
                 
 
-               
-           
-           
-
-                echo "</tr>";
-
                 // Display the work order data vertically
                 foreach ($workOrders as $icode => $workOrderData) {
                     echo "<tr>";
@@ -254,18 +246,18 @@ echo "<th><br>Total Tobe Sum: $totalTobeSum</th>";
 
                     if ($selectPressResult) {
                         $selectPressRow = mysqli_fetch_assoc($selectPressResult);
-                     //  $brand = $selectPressRow['brand'];
-                       // $color = $selectPressRow['col'];
-                       // $curingTime = $selectPressRow['curing_id'];
-                        //$curingGroup = $selectPressRow['curing_group'];
-                        //$description = $selectPressRow['description'];
+                      $brand = $selectPressRow['brand'];
+                        $color = $selectPressRow['col'];
+                       $curingTime = $selectPressRow['curing_id'];
+                        $curingGroup = $selectPressRow['curing_group'];
+                        $description = $selectPressRow['description'];
 
-                        // Display the tire description, brand, color, curing time, and curing group in separate columns
-                       // echo "<td>$description</td>";
-                      // echo "<td>$brand</td>";
-                        //echo "<td>$color</td>";
-                        //echo "<td>$curingTime</td>";
-                      //  echo "<td>$curingGroup</td>";
+                        //Display the tire description, brand, color, curing time, and curing group in separate columns
+                     echo "<td>$description</td>";
+                      echo "<td>$brand</td>";
+                        echo "<td>$color</td>";
+                        echo "<td>$curingTime</td>";
+                      echo "<td>$curingGroup</td>";
 
                         // Retrieve the suitable amount of cstock from the realstock table
                         $realStockSql = "SELECT cstock FROM realstock WHERE icode = '$icode'";

@@ -1,9 +1,9 @@
 <?php
 // Database connection settings
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management"; // Change this to your new database name
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management"; // Change this to your new database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

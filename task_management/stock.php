@@ -60,7 +60,7 @@
 		</tr>
                             <tbody>
                                 <?php 
-                                    $con = mysqli_connect("localhost","root","","task_management");
+                                    $con = mysqli_connect("localhost","planatir_task_management","Bishan@1919","planatir_task_management");
 
                                  
                                     

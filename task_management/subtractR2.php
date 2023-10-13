@@ -1,9 +1,9 @@
 <?php
 // Replace these variables with your actual database information
 $hostname = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'task_management';
+$username = 'planatir_task_management';
+$password = 'Bishan@1919';
+$database = 'planatir_task_management';
 
 try {
     $pdo = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);

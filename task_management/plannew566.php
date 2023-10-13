@@ -1,9 +1,9 @@
 <?php
 // Replace these variables with your actual MySQL database credentials
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management"; // Change this to the name of your plannew database
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management"; // Change this to the name of your plannew database
 
 // Connect to MySQL
 $conn = new mysqli($servername, $username, $password, $dbname);

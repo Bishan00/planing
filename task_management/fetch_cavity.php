@@ -1,8 +1,8 @@
 <?php
 $hostname = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'task_management';
+$username = 'planatir_task_management';
+$password = 'Bishan@1919';
+$database = 'planatir_task_management';
 
 $connection = mysqli_connect($hostname, $username, $password, $database);
 

@@ -1,9 +1,9 @@
 <?php
 // Source database connection
 $sourceHost = 'localhost';
-$sourceUsername = 'root';
-$sourcePassword = '';
-$sourceDatabase = 'task_management';
+$sourceUsername = 'planatir_task_management';
+$sourcePassword = 'Bishan@1919';
+$sourceDatabase = 'planatir_task_management';
 
 $sourceConnection = new mysqli($sourceHost, $sourceUsername, $sourcePassword, $sourceDatabase);
 if ($sourceConnection->connect_error) {
@@ -12,9 +12,9 @@ if ($sourceConnection->connect_error) {
 
 // Destination database connection
 $destHost = 'localhost';
-$destUsername = 'root';
-$destPassword = '';
-$destDatabase = 'task_management';
+$destUsername = 'planatir_task_management';
+$destPassword = 'Bishan@1919';
+$destDatabase = 'planatir_task_management';
 
 $destConnection = new mysqli($destHost, $destUsername, $destPassword, $destDatabase);
 if ($destConnection->connect_error) {

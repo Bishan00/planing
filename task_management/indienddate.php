@@ -1,9 +1,9 @@
 <?php
 // Replace with your actual database credentials
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
 
 // Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);

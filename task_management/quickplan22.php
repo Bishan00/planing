@@ -1,9 +1,14 @@
 <?php
+
+// Enable error reporting for debugging purposes
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Database connection parameters
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

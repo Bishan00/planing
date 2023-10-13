@@ -76,7 +76,7 @@
                                                 $erp = $_POST['erp'];
                                                 
                                                 // Create a database connection
-                                                $con = mysqli_connect("localhost", "root", "", "task_management");
+                                                $con = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
                                                 // Prepare the query to retrieve tire information based on the work order ID
                                                 $query = "SELECT * FROM worder WHERE erp = '$erp'";

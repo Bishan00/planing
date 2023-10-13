@@ -58,7 +58,7 @@ if ($result = mysqli_query($connection, $retailer_account)) {
 <head>
 <style>
 body {
-  background-color:#E7E9EB;
+  background-color: #E78584;
 }
 #myDIV {
   height:30px;
@@ -118,7 +118,7 @@ body {
                                 </a>
                             </div>
                             <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="press_list.php">
+                                <a class="element-box el-tablo" href="match2.php">
                                 <div id="myDIV"> Mould Changung List</div>
                        
                                 </a>

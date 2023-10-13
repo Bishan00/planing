@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
     $cstock = $_POST['cstock'];
 
     // Connect to MySQL database
-    $conn = mysqli_connect("localhost", "root", "", "task_management");
+    $conn = mysqli_connect("localhost", "planatir_task_management", "Bishan@1919", "planatir_task_management");
 
     // Check connection
     if (!$conn) {

@@ -48,7 +48,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #f0f0f9;
             margin: 0;
             padding: 0;
         }
@@ -91,7 +91,7 @@
         var targetPage = "testingbis.php";
         
         // Set the time (in milliseconds) you want the delay before redirection
-        var delayMilliseconds = 10; // Change this value to the desired delay
+        var delayMilliseconds = 0.000000000000000000000000000000000001; // Change this value to the desired delay
         
         // Function to perform the redirection
         function redirectToTargetPage() {

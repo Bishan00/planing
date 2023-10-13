@@ -1,9 +1,14 @@
 <?php
+
+
+// Enable error reporting for debugging (remove in production)
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 // Database connection parameters
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -12,6 +17,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+
+// Set a longer timeout for the MySQL connection (e.g., 5 minutes)
+mysqli_options($conn, MYSQLI_OPT_CONNECT_TIMEOUT, 600);
+
 $sql = "
     SELECT tp.icode, tp.tobe, ti.time_taken, tm.mold_id, m.availability_date AS mold_avail_date, tc.cavity_id, c.availability_date AS cavity_avail_date
     FROM tobeplan tp
@@ -107,16 +117,12 @@ $quick_plan_values = rtrim($quick_plan_values, ',');
 if (!empty($quick_plan_values)) {
     $insert_sql = "INSERT INTO quick_plan (icode, mold_id, cavity_id) VALUES " . $quick_plan_values;
 
-    if ($conn->query($insert_sql) === TRUE) {
-        echo "Data inserted into the quick_plan table successfully.";
-    } else {
-        echo "Error inserting data into the quick_plan table: " . $conn->error;
-    }
+   
 }
 
 // Close the database connection
 $conn->close();
 
-header("Location: quickplan2.php");
+header("Location: quick_update19.php");
 exit();
-?>
+?>  

@@ -1,9 +1,9 @@
 <?php
 // Replace with your database connection details
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
 
 // Create a database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -14,15 +14,15 @@ if ($conn->connect_error) {
 }
 
 // SQL query to select distinct mold IDs, cavity IDs, and the first start date
-$sql = "SELECT DISTINCT mold_id, cavity_id, MIN(start_date) AS first_start_date
+$sql = "SELECT DISTINCT  mold_id, icode, cavity_id, MIN(start_date) AS first_start_date
         FROM merged_data
-        GROUP BY mold_id, cavity_id";
+        GROUP BY mold_id, cavity_id"; 
 
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // Prepare an INSERT statement for the destination table
-    $insertSql = "INSERT INTO match_table (mold_id, cavity_id, first_start_date, press_id, press_name) VALUES (?, ?, ?, ?, ?)";
+    $insertSql = "INSERT INTO match_table (mold_id, icode, cavity_id, first_start_date, press_id, press_name) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($insertSql);
 
     if (!$stmt) {
@@ -33,6 +33,7 @@ if ($result->num_rows > 0) {
         $moldId = $row["mold_id"];
         $cavityId = $row["cavity_id"];
         $firstStartDate = $row["first_start_date"];
+        $icode=$row["icode"];
 
         // Retrieve press_id from the press_cavity table based on cavity_id
         $pressSql = "SELECT press_id FROM press_cavity WHERE cavity_id = $cavityId";
@@ -47,7 +48,7 @@ if ($result->num_rows > 0) {
         $pressName = $pressNameRow["press_name"];
 
         // Insert the data into the destination table
-        $stmt->bind_param("iissi", $moldId, $cavityId, $firstStartDate, $pressId, $pressName);
+        $stmt->bind_param("iiissi", $moldId, $icode, $cavityId, $firstStartDate, $pressId, $pressName);
         if (!$stmt->execute()) {
             die("Error inserting data: " . $stmt->error);
         }

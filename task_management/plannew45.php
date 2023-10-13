@@ -67,22 +67,14 @@ th {
   background-color: #f2f2f2;
 }
 
-/* Custom styled select box */
-.select-box {
-  position: relative;
-  display: inline-block;
-  margin: 5px 0;
-  width: 100%;
-}
 
 .select-box select {
-  width: 100%;
+  
   padding: 12px;
   border: 2px solid #3498db;
   border-radius: 5px;
   background-color: #fff;
-  appearance: none; /* Remove default arrow for Chrome/Safari/Edge */
-  -moz-appearance: none; /* Remove default arrow for Firefox */
+  
   text-indent: 1px;
   text-overflow: '';
   font-size: 16px;
@@ -91,47 +83,7 @@ th {
   cursor: pointer;
 }
 
-.select-box select:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-}
 
-.select-box::after {
-  content: '\25BC';
-  font-size: 20px;
-  color: #3498db;
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-}
-
-.select-box label {
-  display: block;
-  margin-top: 10px;
-  color: #666;
-}
-
-.select-box label span {
-  color: #ff0000;
-}
-
-/* Hover effect for options */
-.select-box select option:hover {
-  background-color: #3498db;
-  color: #fff;
-}
-
-/* Selected option style */
-.select-box select option[selected] {
-  background-color: #3498db;
-  color: #fff;
-}
-
-/* Disabled option style */
-.select-box select option[disabled] {
-  color: #999;
-}
 
 /* Styling for the update button */
 .update-button {
@@ -190,9 +142,9 @@ color: blue;
 
     <?php
     $hostname = 'localhost';
-    $username = 'root';
-    $password = '';
-    $database = 'task_management';
+    $username = 'planatir_task_management';
+    $password = 'Bishan@1919';
+    $database = 'planatir_task_management';
 
     $connection = mysqli_connect($hostname, $username, $password, $database);
 
@@ -201,61 +153,81 @@ color: blue;
     }
 
     function displayProcessData($connection)
-{
-    $selectQuery = "SELECT p.icode, p.tires_per_mold, p.mold_name, p.cavity_name, m.availability_date
-                    FROM `process` p
-                    LEFT JOIN `mold` m ON p.mold_name = m.mold_name";
-    $result = mysqli_query($connection, $selectQuery);
+    {
+        $selectQuery = "SELECT p.icode, p.tires_per_mold, p.mold_name, p.cavity_name, t.description
+                        FROM `process` p
+                        LEFT JOIN `mold` m ON p.mold_name = m.mold_name
+                        LEFT JOIN `tire` t ON p.icode = t.icode";
+        $result = mysqli_query($connection, $selectQuery);
 
-    if (mysqli_num_rows($result) > 0) {
-        echo "<table>
-                <tr>
-                    <th>ICODE</th>
-                    <th>Tires per Mold</th>
-                    <th>Mold Name</th>
-                    <th>Mold Availability</th>
-                    <th>Cavity Name</th>
-                </tr>";
+        if (mysqli_num_rows($result) > 0) {
+            echo "<table>
+                    <tr>
+                        <th>ICODE</th>
+                        <th>Description</th> 
+                        <th>Tires per Mold</th>
+                        <th>Mold Name</th>
+                        
+                        <th>Cavity Name</th>
 
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>
-                    <td>{$row['icode']}</td>
-                    <td>{$row['tires_per_mold']}</td>
-                    <td>{$row['mold_name']}</td>
-                    <td>{$row['availability_date']}</td>";
+                    </tr>";
 
-            // Fetch the available cavities for the specific icode from the tire_cavity table
-            $tireCavityQuery = "SELECT cavity_name, availability_date FROM cavity WHERE cavity_name IN (SELECT cavity_name FROM production_plan WHERE icode = '{$row['icode']}')";
-            $tireCavityResult = mysqli_query($connection, $tireCavityQuery);
-            $cavities = array();
-            while ($tireCavityRow = mysqli_fetch_assoc($tireCavityResult)) {
-                $cavities[] = $tireCavityRow;
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>
+                        <td>{$row['icode']}</td>
+                        <td>{$row['description']}</td>
+                        <td>{$row['tires_per_mold']}</td>";
+
+                // Display select box for Mold Name
+                echo "<td class='select-box'>";
+                echo "<select name='mold_select[{$row['icode']}]' onchange='updateData(\"{$row['icode']}\", this.value, \"{$row['cavity_name']}\", true)'>";
+                echo "<option value=''>-- Select Mold Name --</option>";
+
+                // Fetch all mold names
+                $moldNamesQuery = "SELECT mold_name FROM `mold`";
+                $moldNamesResult = mysqli_query($connection, $moldNamesQuery);
+                while ($moldRow = mysqli_fetch_assoc($moldNamesResult)) {
+                    $selected = $moldRow['mold_name'] === $row['mold_name'] ? 'selected' : '';
+                    echo "<option value='{$moldRow['mold_name']}' {$selected}>{$moldRow['mold_name']}</option>";
+                }
+
+                echo "</select>";
+                echo "</td>";
+
+                
+
+                // Display select box for Cavity Name
+                echo "<td class='select-box'>";
+                echo "<select name='cavity_select[{$row['icode']}]' onchange='updateData(\"{$row['icode']}\", \"{$row['mold_name']}\", this.value, false)'>";
+                echo "<option value=''>-- Select Cavity Name --</option>";
+
+                // Fetch the available cavities for the specific icode from the tire_cavity table
+                $tireCavityQuery = "SELECT cavity_name, availability_date FROM cavity WHERE cavity_name IN (SELECT cavity_name FROM production_plan WHERE icode = '{$row['icode']}')";
+                $tireCavityResult = mysqli_query($connection, $tireCavityQuery);
+                $cavities = array();
+                while ($tireCavityRow = mysqli_fetch_assoc($tireCavityResult)) {
+                    $cavities[] = $tireCavityRow;
+                }
+
+                foreach ($cavities as $cavity) {
+                    $selected = $cavity['cavity_name'] === $row['cavity_name'] ? 'selected' : '';
+                    $cavityId = getCavityIdFromCavityName($connection, $cavity['cavity_name']);
+                    $highlightClass = isCavityIdInPlanNewTable($connection, $cavityId) ? 'highlight' : '';
+                    echo "<option value='{$cavity['cavity_name']}' {$selected} class='{$highlightClass}'>{$cavity['cavity_name']} (Availability Date: {$cavity['availability_date']})</option>";
+                }
+
+                echo "</select>";
+                echo "</td>";
+
+                echo "</tr>";
             }
-
-            // Display select box for Cavity Name
-            echo "<td class='select-box'>";
-            echo "<select name='cavity_select[{$row['icode']}]' onchange='updateData(\"{$row['icode']}\", \"{$row['mold_name']}\", this.value, false)'>";
-            echo "<option value=''>-- Select Cavity Name --</option>";
-
-            foreach ($cavities as $cavity) {
-                $selected = $cavity['cavity_name'] === $row['cavity_name'] ? 'selected' : '';
-                $cavityId = getCavityIdFromCavityName($connection, $cavity['cavity_name']);
-                $highlightClass = isCavityIdInPlanNewTable($connection, $cavityId) ? 'highlight' : '';
-                echo "<option value='{$cavity['cavity_name']}' {$selected} class='{$highlightClass}'>{$cavity['cavity_name']} (Availability Date: {$cavity['availability_date']})</option>";
-            }
-
-            echo "</select>";
-            echo "</td>";
-
-            echo "</tr>";
+            echo "</table>";
+        } else {
+            echo "No records found.";
         }
-        echo "</table>";
-    } else {
-        echo "No records found.";
-    }
 
-    mysqli_free_result($result);
-}
+        mysqli_free_result($result);
+    }
 
     function getCavityIdFromCavityName($connection, $cavityName)
     {
@@ -294,6 +266,7 @@ color: blue;
             data.append("moldName", moldName);
             data.append("cavity", cavity);
             data.append("isMold", isMold);
+            
 
             // Send the AJAX request
             xhr.open("POST", "update_data.php", true);

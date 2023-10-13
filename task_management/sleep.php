@@ -89,7 +89,7 @@
         var targetPage = "deleteall.php";
         
         // Set the time (in milliseconds) you want the delay before redirection
-        var delayMilliseconds = 10; // Change this value to the desired delay
+        var delayMilliseconds = 0.00000000000000000000000000000000000000000000000001; // Change this value to the desired delay
         
         // Function to perform the redirection
         function redirectToTargetPage() {

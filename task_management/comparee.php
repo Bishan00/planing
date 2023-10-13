@@ -38,9 +38,9 @@
                         <?php
                         // Establish a connection to the MySQL database
                         $servername = "localhost";
-                        $username = "root";
-                        $password = "";
-                        $database = "task_management";
+                        $username = "planatir_task_management";
+                        $password = "Bishan@1919";
+                        $database = "planatir_task_management";
 
                         $conn = mysqli_connect($servername, $username, $password, $database);
 

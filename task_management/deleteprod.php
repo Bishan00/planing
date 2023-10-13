@@ -1,9 +1,9 @@
 <?php
 // Establish a connection to the MySQL database
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "task_management";
+$username = "planatir_task_management";
+$password = "Bishan@1919";
+$dbname = "planatir_task_management";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);

@@ -44,9 +44,9 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Database configuration
     $servername = "localhost"; // Replace with your database server name or IP address
-    $username = "root";        // Replace with your database username
-    $password = "";            // Replace with your database password
-    $dbname = "task_management"; // Replace with your database name
+    $username = "planatir_task_management";        // Replace with your database username
+    $password = "Bishan@1919";            // Replace with your database password
+    $dbname = "planatir_task_management"; // Replace with your database name
 
     // Data from the form
     $emp_code = $_POST["emp_code"];

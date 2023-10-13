@@ -14,7 +14,7 @@ if (isset($_POST['import'])) {
         $foo = $excel->parser->getField(); 
 
         $count = 1;
-        $db = mysqli_connect('localhost','root','','task_management');
+        $db = mysqli_connect('localhost','planatir_task_management','Bishan@1919','planatir_task_management');
 
         while (count($foo) > $count) {
             $date = $foo[$count][0];
