@@ -1,5 +1,5 @@
 <?php
-include './includes/admin_header.php';
+//include './includes/admin_header.php';
 include './includes/data_base_save_update.php';
 include 'includes/App_Code.php';
 

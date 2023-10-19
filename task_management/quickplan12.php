@@ -1,4 +1,11 @@
 <?php
+// Enable error reporting for debugging purposes
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Increase MySQL connection timeout
+ini_set('mysql.connect_timeout', 300); // Set to 5 minutes (adjust as needed)
+
 // Database connection parameters
 $servername = "localhost";
 $username = "planatir_task_management";
@@ -11,6 +18,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+
+    // Increase max execution time and memory limit
+ini_set('max_execution_time', 3000); // Set to 5 minutes (adjust as needed)
+ini_set('memory_limit', '256M'); // Adjust as needed
+
 }
 $sql = "
     SELECT tp.icode, tp.tobe, ti.time_taken, tm.mold_id, m.availability_date AS mold_avail_date, tc.cavity_id, c.availability_date AS cavity_avail_date

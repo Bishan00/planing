@@ -15,9 +15,6 @@ if (mysqli_connect_errno()) {
 
 
 
-// Delete records from the tire_cavity table
-$deleteTireCavity = "DELETE FROM dates";
-mysqli_query($connection, $deleteTireCavity);
 
 // Delete records from the tire_cavity table
 $deleteTireCavity = "DELETE FROM template";

@@ -117,6 +117,6 @@ if (!empty($quick_plan_values)) {
 // Close the database connection
 $conn->close();
 
-header("Location: quickplan22.php");
+header("Location: sleep5.php");
 exit();
 ?>

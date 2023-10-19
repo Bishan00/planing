@@ -1,9 +1,5 @@
 <?php
-
-// Enable error reporting for debugging purposes
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+function generateProductionSchedule() {
 // Database connection parameters
 $servername = "localhost";
 $username = "planatir_task_management";
@@ -17,6 +13,8 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+
 
 // Retrieve the data from the necessary tables
 $sql = "
@@ -32,12 +30,13 @@ $sql = "
     JOIN icode_group ig ON tp.icode = ig.icode
     ORDER BY tc.id;
 ";
+
 $result = $conn->query($sql);
 
-// Handle query execution error
 if (!$result) {
     die("Query failed: " . $conn->error);
 }
+
 
 // Create an array to store the tire information
 $tires = array();
@@ -140,15 +139,16 @@ $quick_plan_values = rtrim($quick_plan_values, ',');
 if (!empty($quick_plan_values)) {
     $insert_sql = "INSERT INTO quick_plan2 (icode, mold_id, cavity_id) VALUES " . $quick_plan_values;
 
-    if ($conn->query($insert_sql) === TRUE) {
-        //echo "Data inserted into the quick_plan table successfully.";
-    } else {
-       // echo "Error inserting data into the quick_plan table: " . $conn->error;
-    }
+    
 }
 
 // Close the database connection
 $conn->close();
+}
+
+
+// Call the function to generate the production schedule
+generateProductionSchedule();
 
 header("Location: quickplan_update2.php");
 exit();

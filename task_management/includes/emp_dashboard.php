@@ -1,130 +1,64 @@
+<style>
+    .custom-card {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        margin-top: 100px;
+    }
+
+    .card-title {
+        font-size: 24px;
+        color: #333;
+    }
+
+    .card-description {
+        font-size: 16px;
+        color: #666;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px; /* Adjust margin-top to move buttons down */
+    }
+</style>
+
 <div class="row">
-            <div class="col-sm-12">
-                <div class="row">
-                <div class="col-md-8">
-                <div class="element-wrapper">
-                    <div class="element-actions">
-<?php 
-$retailer_account = "SELECT id FROM emp_login where user_role='admin' ";
-$Total_emp = 0;
-if ($result = mysqli_query($connection, $retailer_account)) {
-    $Total_emp = mysqli_num_rows($result);
-}
-
-$retailer_account = "SELECT id FROM emp_login where user_role='admin' and status='1' ";
-$Active_emp = 0;
-if ($result = mysqli_query($connection, $retailer_account)) {
-    $Active_emp = mysqli_num_rows($result);
-}
-
-$retailer_account = "SELECT id FROM emp_login where user_role='admin' and status='0' ";
-$Deactive_emp = 0;
-if ($result = mysqli_query($connection, $retailer_account)) {
-    $Deactive_emp = mysqli_num_rows($result);
-}
-  $emp_id=  $_SESSION['user'];
-$retailer_account = "SELECT task_id FROM assign_task where emp_id='$emp_id'";
-$Total_task = 0;
-if ($result = mysqli_query($connection, $retailer_account)) {
-    $Total_task = mysqli_num_rows($result);
-}
-
-$retailer_account = "SELECT task_id FROM assign_task where status='Open' and  emp_id='$emp_id'";
-$open_task = 0;
-if ($result = mysqli_query($connection, $retailer_account)) {
-    $open_task = mysqli_num_rows($result);
-}
-
-
-$retailer_account = "SELECT task_id FROM assign_task where status='WIP' and  emp_id='$emp_id'";
-$WIP_task = 0;
-if ($result = mysqli_query($connection, $retailer_account)) {
-    $WIP_task = mysqli_num_rows($result);
-}
-
-$retailer_account = "SELECT task_id FROM assign_task where status='Close' and  emp_id='$emp_id'";
-$close_task = 0;
-if ($result = mysqli_query($connection, $retailer_account)) {
-    $close_task = mysqli_num_rows($result);
-}
-
-$retailer_account = "SELECT task_id FROM assign_task where status='Cancel' and  emp_id='$emp_id'";
-$cancel_task = 0;
-if ($result = mysqli_query($connection, $retailer_account)) {
-    $cancel_task = mysqli_num_rows($result);
-}
-?>
-                    </div>
-                    <h6 class="element-header">Dashboard</h6>
-                    <div class="element-content">
-                        <div class="row">
-<!--                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="#">
-                                    <div class="label">Total Employee</div>
-                                    <div class="value"><?php echo $Total_emp; ?></div>
- </a>
-                            </div>
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="#">
-                                    <div class="label">Active Employee</div>
-                                    <div class="value"><?php echo $Active_emp; ?></div>
-                                                                                        <div class="trending trending-down-basic"><span>9%</span><i class="os-icon os-icon-arrow-down"></i></div>
-                                </a>
-                            </div>
-
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="#">
-                                    <div class="label">Deactivate Employee</div>
-                                    <div class="value"><?php echo $Deactive_emp; ?></div>
-                                </a>
-                            </div>-->
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="emp_assign_task_list.php">
-                                    <div class="label">Total Task</div>
-                                    <div class="value"><?php echo $Total_task; ?></div>
- </a>
-                            </div>
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="emp_assign_task_list_open.php">
-                                    <div class="label">Open Task</div>
-                                    <div class="value"><?php echo $open_task; ?></div>
- </a>
-                            </div>
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="emp_assign_task_list_close.php">
-                                    <div class="label">Close Task</div>
-                                    <div class="value"><?php echo $close_task; ?></div>
- </a>
-                            </div>
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="emp_assign_task_list_wip.php">
-                                    <div class="label">WIP Task</div>
-                                    <div class="value"><?php echo $WIP_task; ?></div>
-                               </a>
-                            </div>
-
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="get_reject.php">
-                                <div id="myDIV">Daily Reject List</div>
-                       
-                                </a>
-                            </div>
-                            <div class="col-sm-4 col-xxxl-3">
-                                <a class="element-box el-tablo" href="press_list.php">
-                                <div id="myDIV"> Mould Changung List</div>
-                       
-                                </a>
-                            </div>
-
-                    
-                        </div>
-                    </div>
-                </div>
-          </div> 
-                <div class="col-md-4">
-                      <!--------------------
-
-                </div>
+    <div class="col-md-6">
+        <div class="custom-card" style="background-image: url('your-image-url.jpg');">
+            <div class="card-content">
+                <h5 class="card-title">Daily Production</h5>
+                <p class="card-description">View Daily Production Data</p>
+                <a href="daily_production.php" class="btn btn-primary">Go</a>
+                
             </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="custom-card" style="background-image: url('your-image-url.jpg');">
+            <div class="card-content">
+                <h5 class="card-title">Add Daily Production</h5>
+                <p class="card-description">Add New Daily Production</p>
+                <a href="add_production.php" class="btn btn-primary">Go</a>
+           
             </div>
-        </div>    
+        </div>
+    </div>
+</div>

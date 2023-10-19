@@ -72,17 +72,19 @@ if ($result->num_rows > 0) {
     
     echo "<table>
             <tr>
-                <th>ID</th>
+                
                 <th>Code</th>
-                <th>Amount</th>
+                <th>Number of tire</th>
                 <th>Date</th>
+                <th>Shift</th>
             </tr>";
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
-                <td>".$row["id"]."</td>
+              
                 <td>".$row["icode"]."</td>
-                <td>".$row["amount"]."</td>
-                <td>".$row["dates_c"]."</td>
+                <td>".$row["cstock"]."</td>
+                <td>".$row["date"]."</td>
+                <td>".$row["shift"]."</td>
               </tr>";
     }
     echo "</table>";

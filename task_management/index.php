@@ -59,61 +59,123 @@ if (isset($_POST['login'])) {
 
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title> Admin Login</title>
-    <meta charset="utf-8">
-    <meta content="ie=edge" http-equiv="x-ua-compatible">
-    <meta content="template language" name="keywords">
-    <meta content="Tamerlan Soziev" name="author">
-    <meta content="Admin dashboard html template" name="description">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <link href="favicon.png" rel="shortcut icon">
-    <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="//fast.fonts.net/cssapi/487b73f1-c2d1-43db-8526-db577e4c822b.css" rel="stylesheet" type="text/css">
-    <link href="bower_components/select2/dist/css/select2.min.css" rel="stylesheet">
-    <link href="bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-    <link href="bower_components/dropzone/dist/dropzone.css" rel="stylesheet">
-    <link href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
-    <link href="bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" rel="stylesheet">
-    <link href="bower_components/slick-carousel/slick/slick.css" rel="stylesheet">
-    <link href="css/main.css?version=4.4.1" rel="stylesheet">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            background-image: url('atire2.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #000000;
+            color: #000000;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .auth-box-w {
+            background: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .auth-box-w .auth-header {
+            color: #F28018;
+            font-size: 24px;
+        }
+
+        .form-group label {
+            color: #000000;
+            font-size: 16px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group-addon {
+            background-color: #F28018;
+            color: #ffffff;
+            border: 1px solid #F28018;
+            border-radius: 5px;
+            padding: 10px 15px;
+        }
+
+        .form-control {
+            border: 1px solid #F28018;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #F28018;
+            border: 1px solid #F28018;
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #000000;
+        }
+
+        .auth-header {
+            color: #F28018;
+        }
+
+        .row {
+            background-color: #000000;
+            color: #F28018;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .row a {
+            color: #F28018;
+            text-decoration: none;
+        }
+
+        .row a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body class="auth-wrapper">
-    <div class="row" style="background-color: #3867d6;color:red;padding: 10px;">
-        <marquee direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-            <span class="breadcrumb-item">
-                <?php
-                $qry = mysqli_query($connection, "SELECT * FROM news_and_update where news_type='alert' order by created desc") or die("select query fail" . mysqli_error());
-                while ($row = mysqli_fetch_assoc($qry)) {
-                    $news_title = $row['news_title'];
-                ?>
-
-                    <a href="#" style="color:#fff;font-size: 18px;"><?php echo $news_title; ?>&nbsp;</a>
-                <?php } ?>
-            </span>
-        </marquee>
-    </div>
+<body>
     <div class="all-wrapper menu-side with-pattern">
         <div class="auth-box-w">
             <div class="logo-w">
                 <a href="#">
-                    <img style="width: 100%;height: auto;" alt="" src="img/download">
+                    <img style="width: auto; height: auto;" alt="" src="atire.png">
                 </a>
             </div>
             <h4 class="auth-header">Login</h4>
             <form action="#" method="post">
                 <div class="form-group">
-                    <label for="">Username</label>
-                    <input class="form-control" name="User_nm" placeholder="Enter your username" type="text">
-                    <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+                    <label for="User_nm">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input class="form-control" name="User_nm" id="User_nm" placeholder="Enter your username" type="text">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="">Password</label>
-                    <input class="form-control" name="Paswd" placeholder="Enter your password" type="password">
-                    <div class="pre-icon os-icon os-icon-fingerprint"></div>
+                    <label for="Paswd">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input class="form-control" name="Paswd" id="Paswd" placeholder="Enter your password" type="password">
+                    </div>
                 </div>
                 <div class="buttons-w">
                     <input name="login" type="submit" value="Log me in" class="btn btn-primary">
@@ -121,7 +183,7 @@ if (isset($_POST['login'])) {
             </form>
         </div>
     </div>
+   
 </body>
 
 </html>
-

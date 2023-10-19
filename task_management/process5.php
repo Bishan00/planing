@@ -185,7 +185,7 @@ if ($result->num_rows > 0) {
 
         // Increment the counter and display it
         $counter++;
-        echo "<p>{$counter}. {$row['mold_name']}</p>";
+        echo "<p>{$counter}. {$row['mold_name']}</p>"; // Replace 'column_name' with your actual column names
 
         // Update the 'serial' column in the database
         $serial = $counter;
